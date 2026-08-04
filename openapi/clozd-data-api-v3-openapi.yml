@@ -1,0 +1,2281 @@
+info:
+  contact:
+    email: support@clozd.com
+  description: Documentation on how to utilize the Clozd Data API.
+  license:
+    name: Public API v3.0
+    url: ''
+  termsOfService: https://www.clozd.com/privacy/terms-of-use
+  title: Clozd Data API
+  version: v3.0
+openapi: 3.0.3
+paths:
+  /programs:
+    get:
+      description: 'Get a paginated list of programs associated with the organization for the provided API token. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).'
+      summary: Get list of programs
+      operationId: get-programs-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful get operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfPrograms'
+              example:
+                success: true
+                message: Successfully retrieved program data.
+                links:
+                  self: https://app.clozd.com/public-api/v3/programs?limit=2&offset=0
+                  prev: null
+                  next: https://app.clozd.com/public-api/v3/programs?limit=2&offset=2
+                  first: https://app.clozd.com/public-api/v3/programs?limit=2&offset=0
+                  last: https://app.clozd.com/public-api/v3/programs?limit=2&offset=2
+                count: 2
+                total: 4
+                data:
+                - clozd_program_id: c0cc3cd8-4566-4ffd-8125-bec22cf06e47
+                  clozd_program_name: Enterprise Win-Loss Program
+                  clozd_program_type: win-loss
+                - clozd_program_id: 2427ee0e-fc37-4537-ae83-b648d5a7c7f5
+                  clozd_program_name: Customer Experience Research
+                  clozd_program_type: qualitative-research
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: Failed operation (Forbidden)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+      tags:
+      - /programs
+      parameters:
+      - description: Limit for paging (min:1, max:1000)
+        in: query
+        name: limit
+        required: false
+        schema:
+          description: Limit for paging (min:1, max:1000)
+          default: 1000
+          example: 100
+          minimum: 1
+          maximum: 1000
+          format: int64
+          type: integer
+        example: 100
+      - description: Offset for paging (min:0, max:100000)
+        in: query
+        name: offset
+        required: false
+        schema:
+          description: Offset for paging (min:0, max:100000)
+          default: 0
+          example: 100
+          minimum: 0
+          maximum: 100000
+          format: int64
+          type: integer
+        example: 200
+  /programs/{program_id}/competitors:
+    get:
+      description: "Get a paginated list of competitors for a program (optionally with deals and responses referenced by competitors). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app."
+      summary: Get list of competitors
+      operationId: get-competitors-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful get operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfCompetitorsWithDeals'
+              example:
+                success: true
+                message: Successfully retrieved competitor data.
+                links:
+                  self: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=4
+                  prev: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=2
+                  next: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=6
+                  first: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=0
+                  last: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=12
+                count: 2
+                total: 13
+                data:
+                - clozd_competitor_id: aef18e08-cbc0-4d86-9013-c74564de2960
+                  clozd_competitor_name: ACME, Inc.
+                  clozd_competitor_domain: acme.com
+                  clozd_update_date: '2022-04-09T18:57:08.485Z'
+                  clozd_competitor_deals:
+                  - clozd_deal_id: ec672b7a-f7c9-4d95-b6a0-82b562876a7f
+                    clozd_competitor_responses:
+                    - 08d86887-2cbf-4a54-a73b-4101bdd96aab
+                  - clozd_deal_id: fc41f67e-3050-492e-a0f2-957870ccfb18
+                    clozd_competitor_responses:
+                    - b24619b4-0283-4b9b-9340-130fe7e2cead
+                    - 8b1aa294-ee82-4264-a885-64521847b9d1
+                - clozd_competitor_id: 934e1861-d942-41e9-98a2-b07f20af93aa
+                  clozd_competitor_name: FUNCO, Inc.
+                  clozd_competitor_domain: fun.co
+                  clozd_update_date: '2022-04-08T18:57:08.485Z'
+                  clozd_competitor_deals:
+                  - clozd_deal_id: 7d0b27cf-e6d4-495b-b0c7-e46110976c85
+                    clozd_competitor_responses:
+                    - 39e0e3ae-cde5-4043-be09-7fa2d329337f
+                - clozd_competitor_id: 934e1861-d942-41e9-98a2-b07f20af93aa
+                  clozd_competitor_name: DONECO, Inc.
+                  clozd_competitor_domain: done.co
+                  clozd_update_date: '2022-04-07T18:57:08.485Z'
+                  clozd_competitor_deals: []
+                - clozd_competitor_name: unknown
+                  clozd_competitor_deals:
+                  - clozd_deal_id: 74d05a49-dcf8-4bf1-83eb-da97179f55e2
+                    clozd_competitor_responses:
+                    - eb47fe87-fe31-4785-80a4-2d086c643d27
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: Failed operation (Forbidden)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+      tags:
+      - /programs/:program_id/competitors
+      parameters:
+      - description: Limit for paging (min:1, max:1000)
+        in: query
+        name: limit
+        required: false
+        schema:
+          description: Limit for paging (min:1, max:1000)
+          default: 1000
+          example: 100
+          minimum: 1
+          maximum: 1000
+          format: int64
+          type: integer
+        example: 100
+      - description: Offset for paging (min:0, max:100000)
+        in: query
+        name: offset
+        required: false
+        schema:
+          description: Offset for paging (min:0, max:100000)
+          default: 0
+          example: 100
+          minimum: 0
+          maximum: 100000
+          format: int64
+          type: integer
+        example: 200
+      - description: 'Specifies type of data to include with competitor. NOTE: Cannot include ''responses'' without also including ''deals''. (maxItems:2)'
+        in: query
+        name: include
+        required: false
+        explode: true
+        schema:
+          description: 'Specifies type of data to include with competitor. NOTE: Cannot include ''responses'' without also including ''deals''. (maxItems:2)'
+          default: []
+          maxItems: 2
+          nullable: true
+          type: array
+          items:
+            description: Type of data to include with competitor.
+            enum:
+            - deals
+            - responses
+            - ''
+            type: string
+        example:
+        - deals
+        - responses
+      - description: Returns only competitors updated since the date and time specified. Specifying this parameter will enable periodic query of incremental changes since the last pull (instead of always having to pull all competitors). (max:25 chars, ISO8601 date-time format)
+        in: query
+        name: filter
+        required: false
+        style: deepObject
+        explode: true
+        schema:
+          description: 'Returns only competitors updated since the date and time specified. See clozd_update_date. NOTE: Specifying this parameter will enable periodic query of incremental changes since last pull (instead of always having to pull all competitors). (max:25 chars, ISO8601 date-time format)'
+          type: object
+          properties:
+            competitor_updated_since:
+              description: Updated since date
+              format: date-time
+              maxLength: 25
+              type: string
+              minLength: 16
+      - description: Clozd program ID (min:36 chars, max:36 chars)
+        in: path
+        name: program_id
+        required: true
+        schema:
+          description: Clozd program ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: 2427ee0e-fc37-4537-ae83-b648d5a7c7f5
+  /programs/{program_id}/deals/{deal_id}:
+    get:
+      description: "Get a specific deal with details (basic fields, extra fields, optional custom metadata fields, participants, products, published feedback responses, and full feedback transcript). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app. \n - :deal_id is required, see /programs/:program_id/deals to get a paginated list of program deals."
+      summary: Get deal with details
+      operationId: get-deal-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful get operation
+          content:
+            application/json:
+              schema:
+                description: Success response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Success message
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/DealFull'
+                example:
+                  success: true
+                  message: Successfully retrieved deal details
+                  data:
+                    clozd_deal_id: f9437462-7e03-4bcc-a4db-84fc0dba4d01
+                    clozd_share_link: https://app.clozd.com/share/deals/f9437462-7e03-4bcc-a4db-84fc0dba4d01
+                    clozd_insight_gems:
+                    - type: expansion
+                      created_by_type: user
+                      reason: null
+                      created_at: '2026-07-01T12:00:00.000Z'
+                      notification_date: null
+                    clozd_external_id: '0000001'
+                    clozd_organization_domain: acme.com
+                    clozd_organization_name: ACME, Inc.
+                    clozd_deal_name: ACME, Inc.
+                    clozd_industry: SaaS
+                    clozd_amount: 10000
+                    clozd_currency: USD
+                    clozd_outcome: loss
+                    clozd_outcome_type: churn
+                    clozd_closed_date: '2022-01-09T18:57:08.485Z'
+                    clozd_created_date: '2022-03-09T18:57:08.485Z'
+                    clozd_lead_source: SDR
+                    clozd_segment: B2B
+                    clozd_region: East
+                    clozd_headcount: 12
+                    clozd_revenue: 10000
+                    clozd_sales_rep_name: Sales Rep
+                    clozd_sales_rep_email: rep@sales.com
+                    clozd_products:
+                    - Flagship
+                    clozd_participants:
+                    - clozd_participant_id: 7624ba11-291a-450b-9781-dda5977321ba
+                      clozd_participant_external_id: '0000002'
+                      clozd_participant_first_name: First
+                      clozd_participant_last_name: Last
+                      clozd_participant_email: participant@email.com
+                      clozd_participant_type: buyer
+                      clozd_participant_is_primary: true
+                      clozd_participant_phone: 888-111-2222
+                      clozd_participant_title: Chief Buyer
+                      clozd_participant_role: Buying Agent
+                    clozd_responses:
+                    - clozd_response_id: d2c7ffae-2be7-4d4c-b081-2c6153c105f5
+                      clozd_response_participant:
+                        clozd_participant_id: 7624ba11-291a-450b-9781-dda5977321ba
+                        clozd_participant_external_id: '0000002'
+                        clozd_participant_first_name: First
+                        clozd_participant_last_name: Last
+                        clozd_participant_email: participant@email.com
+                        clozd_participant_type: buyer
+                        clozd_participant_is_primary: true
+                        clozd_participant_phone: 888-111-2222
+                        clozd_participant_title: Chief Buyer
+                        clozd_participant_role: Buying Agent
+                      clozd_channel: buyer interview
+                      clozd_decision: lost to competitor
+                      clozd_primary_competitor:
+                        clozd_competitor_id: 8b3079b0-8a01-44e3-a829-f85caad04317
+                        clozd_competitor_name: BigCo, Inc.
+                        clozd_competitor_domain: big.co
+                      clozd_publish_date: '2022-04-09T18:57:08.485Z'
+                      clozd_summary: ACME chose BigCo over MyCo because they felt it offered totally comparable features for only one-third the cost. BigCo had the strongest sales experience and would have been the first choice, but was removed from consideration because the price was so much higher than competitors.
+                      clozd_drivers:
+                      - clozd_category_name: Pricing, Value & Packaging
+                        clozd_driver_name: Perceived Value Relative to Price
+                        clozd_driver_rating: -1
+                        clozd_driver_quotes:
+                        - MyCo's pricing is just wildly higher than every [other vendor] I spoke to, with the exception of TheirCo. [HereCo] is maybe a third of what [MyCo] was quoting us . . . There was really just no way to justify that massive premium.
+                      - clozd_category_name: Sales
+                        clozd_driver_name: Trust & Professionalism
+                        clozd_driver_rating: 1
+                        clozd_driver_quotes:
+                        - '[MyCo''s biggest strength] was that the people I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to. Every scenario I posed, they had handled before. [MyCo''s] website really gives you a good sense of security and that they know what they''re doing. I mean, everybody I dealt with over there was fantastic.'
+                      clozd_tags:
+                      - tag_category_id: a9c27012-cef4-4655-8a8a-08a1dec87171
+                        tag_category: User Interface
+                        tag_id: 74bee386-4198-42ef-8af1-6334d303362a
+                        tag_name: Feedback
+                        tag_type: manual
+                        thread_id: c60de976-53e0-4232-bad4-e1ab87ba61e6
+                        quote: not very user friendly.
+                      - tag_category_id: a9c27012-cef4-4655-8a8a-08a1dec87171
+                        tag_category: Business Strategy
+                        tag_id: 74bee386-4198-42ef-8af1-6334d303362a
+                        tag_name: Direction
+                        tag_type: manual
+                        thread_id: 45601e8d-7367-4fe5-a533-08cf8b2395eb
+                        quote: we did not want to go the direction of a PEO
+                      - tag_category_id: 923e9fbe-2830-45a7-8b0b-ae2f05cb28d7
+                        tag_category: Feature Capability
+                        tag_id: ab753b8c-ba60-4532-8e08-f414a9a7d64c
+                        tag_name: Expertise
+                        tag_type: manual
+                        thread_id: 03ff92e1-af06-4a44-abab-b780107e8135
+                        quote: ' their specialty is really that PEO side, which if we really needed it, that''s that would be the direction we would have gone in.'
+                      clozd_update_date: '2022-04-09T18:57:08.485Z'
+                      clozd_transcript:
+                      - clozd_section: Overview & Origination
+                        clozd_dialogue:
+                        - clozd_question: What was your company's final decision?
+                          clozd_answer: We decided not to purchase MyCo.
+                        - clozd_question: How did you first hear about MyCo?
+                          clozd_answer: I'm pretty sure I just Googled for secure hosting providers, service providers, those sorts of terms.
+                      - clozd_section: Product Offering
+                        clozd_dialogue:
+                        - clozd_question: Did MyCo's service justify any type of premium compared to other vendors?
+                          clozd_answer: I definitely have confidence, just based on who I spoke to and all the stuff that they laid out that they do, but I wouldn't say that they're markedly better than their competitors.
+                        - clozd_question: Did MyCo offer any outsourcing in terms of who manages your service?
+                          clozd_answer: So, MyCo basically is the same exact thing except it's their own infrastructure. So, they're not using AWS. They have their own data centers and their own servers.
+                      - clozd_section: Conclusion
+                        clozd_dialogue:
+                        - clozd_question: What is MyCo's biggest strength that makes them stand out against their competitors?
+                          clozd_answer: Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.
+                        - clozd_question: Is there anything else MyCo should know about your experience?
+                          clozd_answer: No, I think that is all. I hope this was helpful.
+                      clozd_survey_questions:
+                      - clozd_question: What is MyCo's biggest strength that makes them stand out against their competitors?
+                        clozd_answer: Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.
+                      - clozd_question: What areas would you like improved?
+                        clozd_answer: Support;Website;Pricing
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: Failed operation (Forbidden)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+      tags:
+      - /programs/:program_id/deals/:deal_id
+      parameters:
+      - description: 'Specifies type of data to include with deal. NOTE: Cannot include ''transcripts'', ''surveyQuestions, or ''tags'' without also including ''feedback'' (maxItems:7)'
+        in: query
+        name: include
+        required: false
+        explode: true
+        schema:
+          description: 'Specifies type of data to include with deal. NOTE: Cannot include ''transcripts'', ''surveyQuestions'', or ''tags'' without also including ''feedback'' (maxItems:7)'
+          default:
+          - customFields
+          - participants
+          - products
+          - feedback
+          maxItems: 7
+          nullable: true
+          type: array
+          items:
+            description: Parameter without description.
+            enum:
+            - customFields
+            - participants
+            - products
+            - feedback
+            - transcripts
+            - tags
+            - surveyQuestions
+            - ''
+            type: string
+        example:
+        - customFields
+        - participants
+        - products
+      - description: Clozd program ID (min:36 chars, max:36 chars)
+        in: path
+        name: program_id
+        required: true
+        schema:
+          description: Clozd program ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: 760c040c-5dda-41e8-85ff-ef8f411d39d5
+      - description: Clozd deal ID (min:36 chars, max:36 chars)
+        in: path
+        name: deal_id
+        required: true
+        schema:
+          description: Clozd deal ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: f9437462-7e03-4bcc-a4db-84fc0dba4d01
+  /programs/{program_id}/deals:
+    get:
+      description: "Get a paginated list of deals with basic fields and share link (if there is published feedback). See /programs/:program_id/deals/:deal_id endpoint to get a specific deal with details. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app."
+      summary: Get list of Clozd program deals
+      operationId: get-deals-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful get operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfDealsWithResponses'
+              example:
+                success: true
+                message: Successfully retrieved deal data.
+                links:
+                  self: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/deals?limit=2&offset=4
+                  prev: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/deals?limit=2&offset=2
+                  next: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/deals?limit=2&offset=6
+                  first: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/deals?limit=2&offset=0
+                  last: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/deals?limit=2&offset=12
+                count: 2
+                total: 13
+                data:
+                - clozd_deal_id: aef18e08-cbc0-4d86-9013-c74564de2960
+                  clozd_external_id: '0000001'
+                  clozd_deal_name: ACME, Inc.
+                  clozd_organization_name: ACME, Inc.
+                  clozd_organization_domain: acme.com
+                  clozd_share_link: https://app.clozd.com/share/deals/aef18e08-cbc0-4d86-9013-c74564de2960
+                  clozd_insight_gems:
+                  - type: at_risk
+                    created_by_type: ai
+                    reason: No buyer engagement in the last 30 days.
+                    created_at: '2026-07-01T12:00:00.000Z'
+                    notification_date: '2026-07-01T12:00:00.000Z'
+                  clozd_industry: SaaS
+                  clozd_amount: 10000
+                  clozd_currency: USD
+                  clozd_outcome: loss
+                  clozd_outcome_type: churn
+                  clozd_closed_date: '2022-01-09T18:57:08.485Z'
+                  clozd_created_date: '2022-03-09T18:57:08.485Z'
+                  clozd_lead_source: SDR
+                  clozd_segment: B2B
+                  clozd_region: East
+                  clozd_headcount: 12
+                  clozd_revenue: 10000
+                  clozd_sales_rep_name: Sales Rep
+                  clozd_sales_rep_email: rep@sales.com
+                  clozd_products:
+                  - Flagship
+                  clozd_responses:
+                  - clozd_response_id: d2c7ffae-2be7-4d4c-b081-2c6153c105f5
+                    clozd_response_participant:
+                      clozd_participant_id: 7624ba11-291a-450b-9781-dda5977321ba
+                      clozd_participant_external_id: '0000002'
+                      clozd_participant_first_name: First
+                      clozd_participant_last_name: Last
+                      clozd_participant_email: participant@email.com
+                      clozd_participant_type: buyer
+                      clozd_participant_is_primary: true
+                      clozd_participant_phone: 888-111-2222
+                      clozd_participant_title: Chief Buyer
+                      clozd_participant_role: Buying Agent
+                    clozd_channel: buyer interview
+                    clozd_decision: lost to competitor
+                    clozd_primary_competitor:
+                      clozd_competitor_id: 8b3079b0-8a01-44e3-a829-f85caad04317
+                      clozd_competitor_name: BigCo, Inc.
+                      clozd_competitor_domain: big.co
+                    clozd_publish_date: '2022-04-09T18:57:08.485Z'
+                    clozd_summary: ACME chose BigCo over MyCo because they felt it offered totally comparable features for only one-third the cost. BigCo had the strongest sales experience and would have been the first choice, but was removed from consideration because the price was so much higher than competitors.
+                    clozd_drivers:
+                    - clozd_category_name: Pricing, Value & Packaging
+                      clozd_driver_name: Perceived Value Relative to Price
+                      clozd_driver_rating: -1
+                      clozd_driver_quotes:
+                      - MyCo's pricing is just wildly higher than every [other vendor] I spoke to, with the exception of TheirCo. [HereCo] is maybe a third of what [MyCo] was quoting us . . . There was really just no way to justify that massive premium.
+                    - clozd_category_name: Sales
+                      clozd_driver_name: Trust & Professionalism
+                      clozd_driver_rating: 1
+                      clozd_driver_quotes:
+                      - '[MyCo''s biggest strength] was that the people I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to. Every scenario I posed, they had handled before. [MyCo''s] website really gives you a good sense of security and that they know what they''re doing. I mean, everybody I dealt with over there was fantastic.'
+                    clozd_survey_questions:
+                    - clozd_question: What is MyCo's biggest strength that makes them stand out against their competitors?
+                      clozd_answer: Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.
+                    - clozd_question: What areas would you like improved?
+                      clozd_answer: Support;Website;Pricing
+                    clozd_update_date: '2022-04-09T18:57:08.485Z'
+                - clozd_deal_id: 934e1861-d942-41e9-98a2-b07f20af93aa
+                  clozd_external_id: '0000002'
+                  clozd_deal_name: FUNCO, Inc.
+                  clozd_organization_name: FUNCO, Inc.
+                  clozd_organization_domain: funco.com
+                  clozd_industry: SaaS
+                  clozd_amount: 20000
+                  clozd_currency: USD
+                  clozd_outcome: win
+                  clozd_outcome_type: new business
+                  clozd_closed_date: '2022-01-09T18:57:08.485Z'
+                  clozd_created_date: '2022-03-09T18:57:08.485Z'
+                  clozd_lead_source: event
+                  clozd_segment: B2B
+                  clozd_region: West
+                  clozd_headcount: 44
+                  clozd_revenue: 20000
+                  clozd_sales_rep_name: Sales Rep
+                  clozd_sales_rep_email: rep@sales.com
+                  clozd_products:
+                  - Great Product
+                  - Another Great Product
+                  clozd_responses:
+                  - clozd_response_id: 273039e7-f980-4348-ad62-cf819f97cdd4
+                    clozd_response_participant:
+                      clozd_participant_id: 8d29f492-eb16-4748-bd13-fae8118e27ab
+                      clozd_participant_external_id: '0000003'
+                      clozd_participant_first_name: First2
+                      clozd_participant_last_name: Last2
+                      clozd_participant_email: participant2@email.com
+                      clozd_participant_type: buyer
+                      clozd_participant_is_primary: true
+                      clozd_participant_phone: 888-111-2222
+                      clozd_participant_title: Chief Buyer
+                      clozd_participant_role: Buying Agent
+                    clozd_channel: buyer interview
+                    clozd_decision: won
+                    clozd_primary_competitor:
+                      clozd_competitor_id: 18c2ee16-cdcc-493d-8f40-0f8114aedd06
+                      clozd_competitor_name: SmallCo, Inc.
+                      clozd_competitor_domain: small.co
+                    clozd_publish_date: '2022-04-09T18:57:08.485Z'
+                    clozd_summary: FUNCO chose SmallCo over TheirCo because they felt it offered totally comparable features for only one-third the cost. SmallCo had the strongest sales experience and would have been the first choice, but was removed from consideration because the price was so much higher than competitors.
+                    clozd_drivers:
+                    - clozd_category_name: Pricing, Value & Packaging
+                      clozd_driver_name: Perceived Value Relative to Price
+                      clozd_driver_rating: 2
+                      clozd_driver_quotes:
+                      - TheirCo's pricing is just much lower than every [other vendor] I spoke to, with the exception of MyCo. [HereCo] is maybe twice of what [MyCo] was quoting us . . . It was really a no brainer.
+                    - clozd_category_name: Sales
+                      clozd_driver_name: Trust & Professionalism
+                      clozd_driver_rating: 1
+                      clozd_driver_quotes:
+                      - '[TheirCo''s biggest strength] was that the people I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to. Every scenario I posed, they had handled before. [TheirCo''s] website really gives you a good sense of security and that they know what they''re doing. I mean, everybody I dealt with over there was fantastic.'
+                    clozd_survey_questions:
+                    - clozd_question: What is MyCo's biggest strength that makes them stand out against their competitors?
+                      clozd_answer: Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.
+                    - clozd_question: What areas would you like improved?
+                      clozd_answer: Support;Website;Pricing
+                    clozd_update_date: '2022-04-09T18:57:08.485Z'
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: Failed operation (Forbidden)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+      tags:
+      - /programs/:program_id/deals
+      parameters:
+      - description: Limit for paging (min:1, max:1000)
+        in: query
+        name: limit
+        required: false
+        schema:
+          description: Limit for paging (min:1, max:1000)
+          default: 1000
+          example: 100
+          minimum: 1
+          maximum: 1000
+          format: int64
+          type: integer
+        example: 100
+      - description: Offset for paging (min:0, max:100000)
+        in: query
+        name: offset
+        required: false
+        schema:
+          description: Offset for paging (min:0, max:100000)
+          default: 0
+          example: 100
+          minimum: 0
+          maximum: 100000
+          format: int64
+          type: integer
+        example: 200
+      - description: 'Specifies type of data to include with deal. NOTE: Cannot include ''surveyQuestions'' or ''tags'' without also including ''feedback'' (maxItems:5)'
+        in: query
+        name: include
+        required: false
+        explode: true
+        schema:
+          description: 'Specifies type of data to include with deal. NOTE: Cannot include ''surveyQuestions'' or ''tags'' without also including ''feedback'' (maxItems:5)'
+          default: []
+          maxItems: 5
+          nullable: true
+          type: array
+          items:
+            description: Parameter without description.
+            enum:
+            - customFields
+            - products
+            - feedback
+            - tags
+            - surveyQuestions
+            - ''
+            type: string
+        example:
+        - customFields
+        - products
+        - feedback
+      - description: 'Returns only deals with published feedback that have been published or updated since the date and time specified. See clozd_publish_date and clozd_update_date. NOTE: Specifying this parameter will by definition filter out deals which have no published feedback. It will also enable periodic query of incremental changes since last pull (instead of always having to pull all deals). (max:25 chars, ISO8601 date-time format)'
+        in: query
+        name: filter
+        required: false
+        style: deepObject
+        explode: true
+        schema:
+          description: 'Returns only deals with published feedback that have been published or updated since the date and time specified. See clozd_publish_date and clozd_update_date. NOTE: Specifying this parameter will by definition filter out deals which have no published feedback. It will also enable periodic query of incremental changes since last pull (instead of always having to pull all deals). (max:25 chars, ISO8601 date-time format)'
+          type: object
+          properties:
+            feedback_published_since:
+              description: Published since date
+              format: date-time
+              maxLength: 25
+              type: string
+              minLength: 16
+            feedback_updated_since:
+              description: Updated since date
+              format: date-time
+              maxLength: 25
+              type: string
+              minLength: 16
+            clozd_insight_gems:
+              description: 'Comma-separated list of insight gem types to filter by; returns deals having any of the listed flags. Allowed values: at_risk, win_back, expansion. Available on API v3+.'
+              type: string
+      - description: Clozd program ID (min:36 chars, max:36 chars)
+        in: path
+        name: program_id
+        required: true
+        schema:
+          description: Clozd program ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: 2427ee0e-fc37-4537-ae83-b648d5a7c7f5
+    post:
+      description: "Create or update 1 to many deals and 0 to many participants associated with the deal. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application). The body of the post request will follow the schema below. If an attribute is required or a wrong value type is provided the POST request will be rolled back and rejected. \n - Program id is required, you can get the program id from the settings page within the Clozd app. \n - Custom fields are acceptable. The key name must match the name of the field name created in Clozd app exactly. \n - Participants are included within the deal object \n - Names of properties and display names are not always the same"
+      summary: Create or update Clozd deal and participant data
+      operationId: post-deals-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful create or update operation
+          content:
+            application/json:
+              schema:
+                description: Success response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Success message
+                    type: string
+                  data:
+                    description: Data
+                    type: object
+                    properties:
+                      result:
+                        description: Result
+                        type: string
+                example:
+                  success: true
+                  message: Successfully imported deal data.
+                  data:
+                    result: 'Created Deals: 1 Updated Deals: 0'
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+              examples:
+                BadRequest:
+                  $ref: '#/components/examples/BadRequest'
+                MissingParameters:
+                  $ref: '#/components/examples/MissingParameters'
+                IdNotMatch:
+                  $ref: '#/components/examples/IdNotMatch'
+                NotDefinedField:
+                  $ref: '#/components/examples/NotDefinedField'
+                RequiredFieldMissing:
+                  $ref: '#/components/examples/RequiredFieldMissing'
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: Failed operation (Forbidden)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+      tags:
+      - /programs/:program_id/deals
+      parameters:
+      - description: Clozd program ID (min:36 chars, max:36 chars)
+        in: path
+        name: program_id
+        required: true
+        schema:
+          description: Clozd program ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: 2427ee0e-fc37-4537-ae83-b648d5a7c7f5
+      requestBody:
+        description: Deal data to import to Clozd Platform
+        required: true
+        content:
+          application/json:
+            schema:
+              description: Deal data to import to Clozd Platform
+              type: object
+              properties:
+                import_name:
+                  description: The name of your import, defaults to 'Clozd Data API' if nothing provided
+                  type: string
+                all_deals:
+                  description: Array of deal objects for importing (minItems:1, maxItems:1000)
+                  minItems: 1
+                  maxItems: 1000
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/DealWithParticipants'
+            example:
+              import_name: 2022 Deals Import
+              all_deals:
+              - clozd_amount: 10000
+                clozd_closed_date: '2022-01-09T18:57:08.485Z'
+                clozd_created_date: '2022-03-09T18:57:08.485Z'
+                clozd_currency: USD
+                clozd_deal_name: ACME, Inc.
+                clozd_external_id: '0000001'
+                clozd_headcount: 12
+                clozd_industry: SAAS
+                clozd_lead_source: SDR
+                clozd_organization_domain: acme.com
+                clozd_organization_name: ACME, Inc.
+                clozd_outcome: win
+                clozd_outcome_type: churn
+                clozd_products:
+                - Flagship
+                clozd_region: East
+                clozd_revenue: 10000
+                clozd_sales_rep_email: rep@sales.com
+                clozd_sales_rep_name: Sales Rep
+                clozd_participants:
+                - clozd_participant_external_id: '0000002'
+                  clozd_participant_first_name: First
+                  clozd_participant_last_name: Last
+                  clozd_participant_email: participant@email.com
+                  clozd_participant_type: buyer
+                  clozd_participant_is_primary: true
+                  clozd_participant_phone: 888-111-2222
+                  clozd_participant_title: Chief Buyer
+                  clozd_participant_role: Buying Agent
+  /programs/{program_id}/touchpoints/{touchpoint_id}:
+    get:
+      description: "Get a specific touchpoint with details (basic fields, extra fields, optional custom metadata fields, participants, published feedback responses, and full feedback transcript). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app. \n - :touchpoint_id is required, see /programs/:program_id/touchpoints to get a paginated list of program touchpoints. \n\n**NOTE**: this endpoint is only usable for program types other than 'win-loss'."
+      summary: Get touchpoint with details
+      operationId: get-touchpoint-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful get operation
+          content:
+            application/json:
+              schema:
+                description: Success response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Success message
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/TouchpointFull'
+                example:
+                  success: true
+                  message: Successfully retrieved touchpoint details
+                  data:
+                    clozd_touchpoint_id: f9437462-7e03-4bcc-a4db-84fc0dba4d01
+                    clozd_share_link: https://app.clozd.com/share/deals/f9437462-7e03-4bcc-a4db-84fc0dba4d01
+                    clozd_external_id: '0000001'
+                    clozd_organization_domain: acme.com
+                    clozd_organization_name: ACME, Inc.
+                    clozd_touchpoint_name: ACME, Inc.
+                    clozd_industry: SaaS
+                    clozd_currency: USD
+                    clozd_closed_date: '2022-01-09T18:57:08.485Z'
+                    clozd_created_date: '2022-03-09T18:57:08.485Z'
+                    clozd_segment: B2B
+                    clozd_region: East
+                    clozd_headcount: 12
+                    clozd_revenue: 10000
+                    clozd_owner_name: Sales Rep
+                    clozd_owner_email: rep@sales.com
+                    clozd_participants:
+                    - clozd_participant_id: 7624ba11-291a-450b-9781-dda5977321ba
+                      clozd_participant_external_id: '0000002'
+                      clozd_participant_first_name: First
+                      clozd_participant_last_name: Last
+                      clozd_participant_email: participant@email.com
+                      clozd_participant_type: buyer
+                      clozd_participant_is_primary: true
+                      clozd_participant_phone: 888-111-2222
+                      clozd_participant_title: Chief Buyer
+                      clozd_participant_role: Buying Agent
+                    clozd_responses:
+                    - clozd_response_id: d2c7ffae-2be7-4d4c-b081-2c6153c105f5
+                      clozd_response_participant:
+                        clozd_participant_id: 7624ba11-291a-450b-9781-dda5977321ba
+                        clozd_participant_external_id: '0000002'
+                        clozd_participant_first_name: First
+                        clozd_participant_last_name: Last
+                        clozd_participant_email: participant@email.com
+                        clozd_participant_type: buyer
+                        clozd_participant_is_primary: true
+                        clozd_participant_phone: 888-111-2222
+                        clozd_participant_title: Chief Buyer
+                        clozd_participant_role: Buying Agent
+                      clozd_channel: buyer interview
+                      clozd_publish_date: '2022-04-09T18:57:08.485Z'
+                      clozd_summary: ACME chose BigCo over MyCo because they felt it offered totally comparable features for only one-third the cost. BigCo had the strongest sales experience and would have been the first choice, but was removed from consideration because the price was so much higher than competitors.
+                      clozd_themes:
+                      - clozd_category_name: Pricing, Value & Packaging
+                        clozd_theme_name: Perceived Value Relative to Price
+                        clozd_theme_rating: -1
+                        clozd_theme_quotes:
+                        - MyCo's pricing is just wildly higher than every [other vendor] I spoke to, with the exception of TheirCo. [HereCo] is maybe a third of what [MyCo] was quoting us . . . There was really just no way to justify that massive premium.
+                      - clozd_category_name: Sales
+                        clozd_theme_name: Trust & Professionalism
+                        clozd_theme_rating: 1
+                        clozd_theme_quotes:
+                        - '[MyCo''s biggest strength] was that the people I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to. Every scenario I posed, they had handled before. [MyCo''s] website really gives you a good sense of security and that they know what they''re doing. I mean, everybody I dealt with over there was fantastic.'
+                      clozd_tags:
+                      - tag_category_id: a9c27012-cef4-4655-8a8a-08a1dec87171
+                        tag_category: User Interface
+                        tag_id: 74bee386-4198-42ef-8af1-6334d303362a
+                        tag_name: Feedback
+                        tag_type: manual
+                        thread_id: c60de976-53e0-4232-bad4-e1ab87ba61e6
+                        quote: not very user friendly.
+                      - tag_category_id: a9c27012-cef4-4655-8a8a-08a1dec87171
+                        tag_category: Business Strategy
+                        tag_id: 74bee386-4198-42ef-8af1-6334d303362a
+                        tag_name: Direction
+                        tag_type: manual
+                        thread_id: 45601e8d-7367-4fe5-a533-08cf8b2395eb
+                        quote: we did not want to go the direction of a PEO
+                      - tag_category_id: 923e9fbe-2830-45a7-8b0b-ae2f05cb28d7
+                        tag_category: Feature Capability
+                        tag_id: ab753b8c-ba60-4532-8e08-f414a9a7d64c
+                        tag_name: Expertise
+                        tag_type: manual
+                        thread_id: 03ff92e1-af06-4a44-abab-b780107e8135
+                        quote: ' their specialty is really that PEO side, which if we really needed it, that''s that would be the direction we would have gone in.'
+                      clozd_update_date: '2022-04-09T18:57:08.485Z'
+                      clozd_transcript:
+                      - clozd_section: Overview & Origination
+                        clozd_dialogue:
+                        - clozd_question: What was your company's final decision?
+                          clozd_answer: We decided not to purchase MyCo.
+                        - clozd_question: How did you first hear about MyCo?
+                          clozd_answer: I'm pretty sure I just Googled for secure hosting providers, service providers, those sorts of terms.
+                      - clozd_section: Product Offering
+                        clozd_dialogue:
+                        - clozd_question: Did MyCo's service justify any type of premium compared to other vendors?
+                          clozd_answer: I definitely have confidence, just based on who I spoke to and all the stuff that they laid out that they do, but I wouldn't say that they're markedly better than their competitors.
+                        - clozd_question: Did MyCo offer any outsourcing in terms of who manages your service?
+                          clozd_answer: So, MyCo basically is the same exact thing except it's their own infrastructure. So, they're not using AWS. They have their own data centers and their own servers.
+                      - clozd_section: Conclusion
+                        clozd_dialogue:
+                        - clozd_question: What is MyCo's biggest strength that makes them stand out against their competitors?
+                          clozd_answer: Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.
+                        - clozd_question: Is there anything else MyCo should know about your experience?
+                          clozd_answer: No, I think that is all. I hope this was helpful.
+                      clozd_survey_questions:
+                      - clozd_question: What is MyCo's biggest strength that makes them stand out against their competitors?
+                        clozd_answer: Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.
+                      - clozd_question: What areas would you like improved?
+                        clozd_answer: Support;Website;Pricing
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: Failed operation (Forbidden)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        '404':
+          description: Failed operation (Not Found)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+      tags:
+      - /programs/:program_id/touchpoints/:touchpoint_id
+      parameters:
+      - description: 'Specifies type of data to include with touchpoint. NOTE: Cannot include ''transcripts'', ''surveyQuestions, or ''tags'' without also including ''feedback'' (maxItems:6)'
+        in: query
+        name: include
+        required: false
+        explode: true
+        schema:
+          description: 'Specifies type of data to include with touchpoint. NOTE: Cannot include ''transcripts'', ''surveyQuestions'', or ''tags'' without also including ''feedback'' (maxItems:6)'
+          default:
+          - customFields
+          - participants
+          - feedback
+          maxItems: 6
+          nullable: true
+          type: array
+          items:
+            description: Parameter without description.
+            enum:
+            - customFields
+            - participants
+            - feedback
+            - transcripts
+            - tags
+            - surveyQuestions
+            - ''
+            type: string
+        example:
+        - customFields
+        - participants
+      - description: Clozd program ID (min:36 chars, max:36 chars)
+        in: path
+        name: program_id
+        required: true
+        schema:
+          description: Clozd program ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: 760c040c-5dda-41e8-85ff-ef8f411d39d5
+      - description: Clozd touchpoint ID (min:36 chars, max:36 chars)
+        in: path
+        name: touchpoint_id
+        required: true
+        schema:
+          description: Clozd touchpoint ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: f9437462-7e03-4bcc-a4db-84fc0dba4d01
+  /programs/{program_id}/touchpoints:
+    get:
+      description: "Get a paginated list of touchpoints with basic fields and share link (if there is published feedback). See /programs/:program_id/touchpoints/:touchpoint_id endpoint to get a specific touchpoint with details. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app. \n\n**NOTE**: this endpoint is only usable for program types other than 'win-loss'."
+      summary: Get list of Clozd program touchpoints
+      operationId: get-touchpoints-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful get operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfTouchpointsWithResponses'
+              example:
+                success: true
+                message: Successfully retrieved touchpoint data.
+                links:
+                  self: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/touchpoints?limit=2&offset=4
+                  prev: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/touchpoints?limit=2&offset=2
+                  next: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/touchpoints?limit=2&offset=6
+                  first: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/touchpoints?limit=2&offset=0
+                  last: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/touchpoints?limit=2&offset=12
+                count: 2
+                total: 13
+                data:
+                - clozd_touchpoint_id: aef18e08-cbc0-4d86-9013-c74564de2960
+                  clozd_external_id: '0000001'
+                  clozd_touchpoint_name: ACME, Inc.
+                  clozd_organization_name: ACME, Inc.
+                  clozd_organization_domain: acme.com
+                  clozd_share_link: https://app.clozd.com/share/deals/aef18e08-cbc0-4d86-9013-c74564de2960
+                  clozd_industry: SaaS
+                  clozd_currency: USD
+                  clozd_created_date: '2022-03-09T18:57:08.485Z'
+                  clozd_segment: B2B
+                  clozd_region: East
+                  clozd_headcount: 12
+                  clozd_revenue: 10000
+                  clozd_owner_name: Sales Rep
+                  clozd_owner_email: rep@sales.com
+                  clozd_responses:
+                  - clozd_response_id: d2c7ffae-2be7-4d4c-b081-2c6153c105f5
+                    clozd_response_participant:
+                      clozd_participant_id: 7624ba11-291a-450b-9781-dda5977321ba
+                      clozd_participant_external_id: '0000002'
+                      clozd_participant_first_name: First
+                      clozd_participant_last_name: Last
+                      clozd_participant_email: participant@email.com
+                      clozd_participant_type: buyer
+                      clozd_participant_is_primary: true
+                      clozd_participant_phone: 888-111-2222
+                      clozd_participant_title: Chief Buyer
+                      clozd_participant_role: Buying Agent
+                    clozd_channel: buyer interview
+                    clozd_publish_date: '2022-04-09T18:57:08.485Z'
+                    clozd_summary: ACME chose BigCo over MyCo because they felt it offered totally comparable features for only one-third the cost. BigCo had the strongest sales experience and would have been the first choice, but was removed from consideration because the price was so much higher than competitors.
+                    clozd_themes:
+                    - clozd_category_name: Pricing, Value & Packaging
+                      clozd_theme_name: Perceived Value Relative to Price
+                      clozd_theme_rating: -1
+                      clozd_theme_quotes:
+                      - MyCo's pricing is just wildly higher than every [other vendor] I spoke to, with the exception of TheirCo. [HereCo] is maybe a third of what [MyCo] was quoting us . . . There was really just no way to justify that massive premium.
+                    - clozd_category_name: Sales
+                      clozd_theme_name: Trust & Professionalism
+                      clozd_theme_rating: 1
+                      clozd_theme_quotes:
+                      - '[MyCo''s biggest strength] was that the people I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to. Every scenario I posed, they had handled before. [MyCo''s] website really gives you a good sense of security and that they know what they''re doing. I mean, everybody I dealt with over there was fantastic.'
+                    clozd_survey_questions:
+                    - clozd_question: What is MyCo's biggest strength that makes them stand out against their competitors?
+                      clozd_answer: Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.
+                    - clozd_question: What areas would you like improved?
+                      clozd_answer: Support;Website;Pricing
+                    clozd_update_date: '2022-04-09T18:57:08.485Z'
+                - clozd_touchpoint_id: 934e1861-d942-41e9-98a2-b07f20af93aa
+                  clozd_external_id: '0000002'
+                  clozd_touchpoint_name: FUNCO, Inc.
+                  clozd_organization_name: FUNCO, Inc.
+                  clozd_organization_domain: funco.com
+                  clozd_industry: SaaS
+                  clozd_currency: USD
+                  clozd_created_date: '2022-03-09T18:57:08.485Z'
+                  clozd_segment: B2B
+                  clozd_region: West
+                  clozd_headcount: 44
+                  clozd_revenue: 20000
+                  clozd_owner_name: Sales Rep
+                  clozd_owner_email: rep@sales.com
+                  clozd_responses:
+                  - clozd_response_id: 273039e7-f980-4348-ad62-cf819f97cdd4
+                    clozd_response_participant:
+                      clozd_participant_id: 8d29f492-eb16-4748-bd13-fae8118e27ab
+                      clozd_participant_external_id: '0000003'
+                      clozd_participant_first_name: First2
+                      clozd_participant_last_name: Last2
+                      clozd_participant_email: participant2@email.com
+                      clozd_participant_type: buyer
+                      clozd_participant_is_primary: true
+                      clozd_participant_phone: 888-111-2222
+                      clozd_participant_title: Chief Buyer
+                      clozd_participant_role: Buying Agent
+                    clozd_channel: buyer interview
+                    clozd_publish_date: '2022-04-09T18:57:08.485Z'
+                    clozd_summary: FUNCO chose SmallCo over TheirCo because they felt it offered totally comparable features for only one-third the cost. SmallCo had the strongest sales experience and would have been the first choice, but was removed from consideration because the price was so much higher than competitors.
+                    clozd_themes:
+                    - clozd_category_name: Pricing, Value & Packaging
+                      clozd_theme_name: Perceived Value Relative to Price
+                      clozd_theme_rating: 2
+                      clozd_theme_quotes:
+                      - TheirCo's pricing is just much lower than every [other vendor] I spoke to, with the exception of MyCo. [HereCo] is maybe twice of what [MyCo] was quoting us . . . It was really a no brainer.
+                    - clozd_category_name: Sales
+                      clozd_theme_name: Trust & Professionalism
+                      clozd_theme_rating: 1
+                      clozd_theme_quotes:
+                      - '[TheirCo''s biggest strength] was that the people I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to. Every scenario I posed, they had handled before. [TheirCo''s] website really gives you a good sense of security and that they know what they''re doing. I mean, everybody I dealt with over there was fantastic.'
+                    clozd_survey_questions:
+                    - clozd_question: What is MyCo's biggest strength that makes them stand out against their competitors?
+                      clozd_answer: Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.
+                    - clozd_question: What areas would you like improved?
+                      clozd_answer: Support;Website;Pricing
+                    clozd_update_date: '2022-04-09T18:57:08.485Z'
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: Failed operation (Forbidden)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+      tags:
+      - /programs/:program_id/touchpoints
+      parameters:
+      - description: Limit for paging (min:1, max:1000)
+        in: query
+        name: limit
+        required: false
+        schema:
+          description: Limit for paging (min:1, max:1000)
+          default: 1000
+          example: 100
+          minimum: 1
+          maximum: 1000
+          format: int64
+          type: integer
+        example: 100
+      - description: Offset for paging (min:0, max:100000)
+        in: query
+        name: offset
+        required: false
+        schema:
+          description: Offset for paging (min:0, max:100000)
+          default: 0
+          example: 100
+          minimum: 0
+          maximum: 100000
+          format: int64
+          type: integer
+        example: 200
+      - description: 'Specifies type of data to include with touchpoint. NOTE: Cannot include ''surveyQuestions'' or ''tags'' without also including ''feedback'' (maxItems:5)'
+        in: query
+        name: include
+        required: false
+        explode: true
+        schema:
+          description: 'Specifies type of data to include with touchpoint. NOTE: Cannot include ''surveyQuestions'' or ''tags'' without also including ''feedback'' (maxItems:5)'
+          default: []
+          maxItems: 5
+          nullable: true
+          type: array
+          items:
+            description: Parameter without description.
+            enum:
+            - customFields
+            - feedback
+            - tags
+            - surveyQuestions
+            - ''
+            type: string
+        example:
+        - customFields
+        - feedback
+      - description: 'Returns only touchpoints with published feedback that have been published or updated since the date and time specified. See clozd_publish_date and clozd_update_date. NOTE: Specifying this parameter will by definition filter out touchpoints which have no published feedback. It will also enable periodic query of incremental changes since last pull (instead of always having to pull all touchpoints). (max:25 chars, ISO8601 date-time format)'
+        in: query
+        name: filter
+        required: false
+        style: deepObject
+        explode: true
+        schema:
+          description: 'Returns only touchpoints with published feedback that have been published or updated since the date and time specified. See clozd_publish_date and clozd_update_date. NOTE: Specifying this parameter will by definition filter out touchpoints which have no published feedback. It will also enable periodic query of incremental changes since last pull (instead of always having to pull all touchpoints). (max:25 chars, ISO8601 date-time format)'
+          type: object
+          properties:
+            feedback_published_since:
+              description: Published since date
+              format: date-time
+              maxLength: 25
+              type: string
+              minLength: 16
+            feedback_updated_since:
+              description: Updated since date
+              format: date-time
+              maxLength: 25
+              type: string
+              minLength: 16
+      - description: Clozd program ID (min:36 chars, max:36 chars)
+        in: path
+        name: program_id
+        required: true
+        schema:
+          description: Clozd program ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: 2427ee0e-fc37-4537-ae83-b648d5a7c7f5
+    post:
+      description: "Create or update 1 to many touchpoints and 0 to many participants associated with the touchpoint. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application). The body of the post request will follow the schema below. If an attribute is required or a wrong value type is provided the POST request will be rolled back and rejected. \n - Program id is required, you can get the program id from the settings page within the Clozd app. \n - Custom fields are acceptable. The key name must match the name of the field name created in Clozd app exactly. \n - Participants are included within the touchpoint object \n - Names of properties and display names are not always the same\n\n**NOTE**: this endpoint is only usable for program types other than 'win-loss'."
+      summary: Create or update Clozd touchpoint and participant data
+      operationId: post-touchpoints-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful create or update operation
+          content:
+            application/json:
+              schema:
+                description: Success response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Success message
+                    type: string
+                  data:
+                    description: Data
+                    type: object
+                    properties:
+                      result:
+                        description: Result
+                        type: string
+                example:
+                  success: true
+                  message: Successfully imported touchpoint data.
+                  data:
+                    result: 'Created Touchpoints: 1 Updated Touchpoints: 0'
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+              examples:
+                BadRequest:
+                  $ref: '#/components/examples/BadRequest'
+                MissingParameters:
+                  $ref: '#/components/examples/MissingParameters'
+                IdNotMatch:
+                  $ref: '#/components/examples/IdNotMatch'
+                NotDefinedField:
+                  $ref: '#/components/examples/NotDefinedField'
+                RequiredFieldMissing:
+                  $ref: '#/components/examples/RequiredFieldMissing'
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: Failed operation (Forbidden)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+      tags:
+      - /programs/:program_id/touchpoints
+      parameters:
+      - description: Clozd program ID (min:36 chars, max:36 chars)
+        in: path
+        name: program_id
+        required: true
+        schema:
+          description: Clozd program ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: 2427ee0e-fc37-4537-ae83-b648d5a7c7f5
+      requestBody:
+        description: Touchpoint data to import to Clozd Platform
+        required: true
+        content:
+          application/json:
+            schema:
+              description: Touchpoint data to import to Clozd Platform
+              type: object
+              properties:
+                import_name:
+                  description: The name of your import, defaults to 'Clozd Data API' if nothing provided
+                  type: string
+                touchpoints:
+                  description: Array of touchpoint objects for importing (minItems:1, maxItems:1000)
+                  minItems: 1
+                  maxItems: 1000
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/TouchpointWithParticipants'
+            example:
+              import_name: 2022 Touchpoints Import
+              touchpoints:
+              - clozd_created_date: '2022-03-09T18:57:08.485Z'
+                clozd_currency: USD
+                clozd_touchpoint_name: ACME, Inc.
+                clozd_external_id: '0000001'
+                clozd_headcount: 12
+                clozd_industry: SAAS
+                clozd_organization_domain: acme.com
+                clozd_organization_name: ACME, Inc.
+                clozd_region: East
+                clozd_revenue: 10000
+                clozd_owner_email: rep@sales.com
+                clozd_owner_name: Sales Rep
+                clozd_participants:
+                - clozd_participant_external_id: '0000002'
+                  clozd_participant_first_name: First
+                  clozd_participant_last_name: Last
+                  clozd_participant_email: participant@email.com
+                  clozd_participant_type: buyer
+                  clozd_participant_is_primary: true
+                  clozd_participant_phone: 888-111-2222
+                  clozd_participant_title: Chief Buyer
+                  clozd_participant_role: Buying Agent
+servers:
+- description: Clozd API v3.0
+  url: https://app.clozd.com/public-api/v3
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-token
+  schemas:
+    Participant:
+      description: An array of participant objects included in the deal under the clozd_participants attribute
+      type: object
+      properties:
+        clozd_participant_id:
+          description: Clozd generated participant id (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_participant_external_id:
+          description: Your id for this participant. This is not generated by Clozd. If you have existing participants with the same external id, they will be updated with the import
+          type: string
+        clozd_participant_first_name:
+          description: First name of participant
+          type: string
+        clozd_participant_last_name:
+          description: Last name of participant
+          type: string
+        clozd_participant_email:
+          description: The email for the participant of the deal
+          format: email
+          type: string
+        clozd_participant_type:
+          description: Specifying if the person is a buyer or a sales participant values are 'buyer' or 'sales'
+          enum:
+          - buyer
+          - sales
+          - internal
+          type: string
+        clozd_participant_is_primary:
+          description: Is the participant the primary participant for the deal
+          type: boolean
+        clozd_participant_phone:
+          description: Phone number for the pariticipant
+          type: string
+        clozd_participant_title:
+          description: Job title of the participant
+          type: string
+        clozd_participant_role:
+          description: The role the participant had in the deal
+          type: string
+      required:
+      - clozd_participant_first_name
+      - clozd_participant_last_name
+      - clozd_participant_email
+      - clozd_participant_type
+    Deal:
+      description: Deal object
+      type: object
+      properties:
+        clozd_deal_name:
+          description: The name of the deal
+          type: string
+        clozd_external_id:
+          description: Your id for this deal. This is not generated by Clozd. If you have existing deals with the same external id, they will be updated with the import
+          type: string
+        clozd_organization_domain:
+          description: 'Deal domain example: clozd.com'
+          type: string
+        clozd_organization_name:
+          description: Clozd organization name (max:250 chars)
+          type: string
+        clozd_deal_id:
+          description: Clozd generated deal id (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_amount:
+          description: This reflects how much the deal was for
+          format: double
+          type: number
+        clozd_closed_date:
+          description: When the deal was closed (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_created_date:
+          description: When the deal was created (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_currency:
+          description: The type of currency used in this deal
+          type: string
+        clozd_headcount:
+          description: Head count for the deal
+          format: int64
+          type: integer
+        clozd_industry:
+          description: Industry from a picklist of values in the Clozd app
+          type: string
+        clozd_lead_source:
+          description: Lead source to the deal
+          type: string
+        clozd_outcome:
+          description: Reflects the outcome of the deal allowed values are 'win' or 'loss'
+          enum:
+          - win
+          - loss
+          type: string
+        clozd_outcome_type:
+          description: What type of deal was the outcome affecting
+          type: string
+        clozd_region:
+          description: Region for the deal, must be a value from the picklist in Clozd app
+          type: string
+        clozd_revenue:
+          description: This is the revenue for the deal
+          format: double
+          type: number
+        clozd_sales_rep_email:
+          description: The email for the sales rep for the deal
+          format: email
+          type: string
+        clozd_sales_rep_name:
+          description: The name of the sales rep for the deal
+          type: string
+        clozd_products:
+          description: 'An array of products, if there is only one product, an array of one ie: [''product'']'
+          type: array
+          items:
+            description: Parameter without description.
+            type: string
+      required:
+      - clozd_organization_name
+      - clozd_outcome
+    DealWithParticipants:
+      allOf:
+      - $ref: '#/components/schemas/Deal'
+      - description: Deal object with response
+        type: object
+        properties:
+          clozd_participants:
+            description: List of participants that belong to the deal (maxItems:1000)
+            maxItems: 1000
+            type: array
+            items:
+              $ref: '#/components/schemas/Participant'
+    DealWithResponses:
+      allOf:
+      - $ref: '#/components/schemas/Deal'
+      - description: Deal object with response
+        type: object
+        properties:
+          clozd_responses:
+            description: List of deal feedback responses
+            type: array
+            items:
+              $ref: '#/components/schemas/Response'
+          clozd_insight_gems:
+            description: Insight gems (AWE flags) on the deal — At-Risk, Win-Back, or Expansion. Read-only; available on API v3+. Empty array when the deal has no active flags.
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  description: Insight gem type
+                  type: string
+                  enum:
+                  - at_risk
+                  - win_back
+                  - expansion
+                created_by_type:
+                  description: 'Provenance of the gem: ai (system-generated), clozd_consultant, user, or null when unclassifiable'
+                  type: string
+                  enum:
+                  - ai
+                  - clozd_consultant
+                  - user
+                  - null
+                  nullable: true
+                reason:
+                  description: Why the gem was applied; null when none was provided
+                  type: string
+                  nullable: true
+                created_at:
+                  description: When the gem was created
+                  type: string
+                  format: date-time
+                notification_date:
+                  description: When the assigned owners will be or were notified to act on the gem; null when no notification is scheduled
+                  type: string
+                  format: date-time
+                  nullable: true
+    DealFull:
+      allOf:
+      - $ref: '#/components/schemas/DealWithParticipants'
+      - description: Deal object with response
+        type: object
+        properties:
+          clozd_responses:
+            description: List of deal feedback responses
+            type: array
+            items:
+              $ref: '#/components/schemas/ResponseWithAll'
+          clozd_insight_gems:
+            description: Insight gems (AWE flags) on the deal — At-Risk, Win-Back, or Expansion. Read-only; available on API v3+. Empty array when the deal has no active flags.
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  description: Insight gem type
+                  type: string
+                  enum:
+                  - at_risk
+                  - win_back
+                  - expansion
+                created_by_type:
+                  description: 'Provenance of the gem: ai (system-generated), clozd_consultant, user, or null when unclassifiable'
+                  type: string
+                  enum:
+                  - ai
+                  - clozd_consultant
+                  - user
+                  - null
+                  nullable: true
+                reason:
+                  description: Why the gem was applied; null when none was provided
+                  type: string
+                  nullable: true
+                created_at:
+                  description: When the gem was created
+                  type: string
+                  format: date-time
+                notification_date:
+                  description: When the assigned owners will be or were notified to act on the gem; null when no notification is scheduled
+                  type: string
+                  format: date-time
+                  nullable: true
+    Touchpoint:
+      description: Touchpoint object
+      type: object
+      properties:
+        clozd_touchpoint_name:
+          description: The name of the touchpoint
+          type: string
+        clozd_external_id:
+          description: Your id for this touchpoint. This is not generated by Clozd. If you have existing touchpoints with the same external id, they will be updated with the import
+          type: string
+        clozd_organization_domain:
+          description: 'Touchpoint domain example: clozd.com'
+          type: string
+        clozd_organization_name:
+          description: Clozd organization name (max:250 chars)
+          type: string
+        clozd_touchpoint_id:
+          description: Clozd generated touchpoint id (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_created_date:
+          description: When the touchpoint was created (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_currency:
+          description: The type of currency used in this touchpoint
+          type: string
+        clozd_headcount:
+          description: Head count for the touchpoint's organization
+          format: int64
+          type: integer
+        clozd_industry:
+          description: Industry from a picklist of values in the Clozd app
+          type: string
+        clozd_region:
+          description: Region for the touchpoint, must be a value from the picklist in Clozd app
+          type: string
+        clozd_revenue:
+          description: This is the revenue for the touchpoint's organization
+          format: double
+          type: number
+        clozd_owner_email:
+          description: The email for the internal owner of the touchpoint
+          format: email
+          type: string
+        clozd_owner_name:
+          description: The name of the internal owner of the touchpoint
+          type: string
+      required:
+      - clozd_organization_name
+    TouchpointWithParticipants:
+      allOf:
+      - $ref: '#/components/schemas/Touchpoint'
+      - description: Touchpoint object with response
+        type: object
+        properties:
+          clozd_participants:
+            description: List of participants that belong to the touchpoint (maxItems:1000)
+            maxItems: 1000
+            type: array
+            items:
+              $ref: '#/components/schemas/Participant'
+    TouchpointWithResponses:
+      allOf:
+      - $ref: '#/components/schemas/Touchpoint'
+      - description: Touchpoint object with response
+        type: object
+        properties:
+          clozd_responses:
+            description: List of touchpoint feedback responses
+            type: array
+            items:
+              $ref: '#/components/schemas/Response'
+    TouchpointFull:
+      allOf:
+      - $ref: '#/components/schemas/TouchpointWithParticipants'
+      - description: Touchpoint object with response
+        type: object
+        properties:
+          clozd_responses:
+            description: List of touchpoint feedback responses
+            type: array
+            items:
+              $ref: '#/components/schemas/TouchpointResponseWithAll'
+    Response:
+      description: Deal feedback response from interview or survey
+      type: object
+      properties:
+        clozd_response_id:
+          description: Clozd generated feedback response identifier (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_response_participant:
+          description: Parameter without description.
+          type: object
+          properties:
+            clozd_participant_id:
+              description: Clozd generated participant id (min:36 chars, max:36 chars)
+              type: string
+              format: uuid
+            clozd_participant_external_id:
+              description: Your id for this participant. This is not generated by Clozd. If you have existing participants with the same external id, they will be updated with the import
+              type: string
+            clozd_participant_first_name:
+              description: First name of participant
+              type: string
+            clozd_participant_last_name:
+              description: Last name of participant
+              type: string
+            clozd_participant_email:
+              description: The email for the participant of the deal
+              format: email
+              type: string
+            clozd_participant_type:
+              description: Specifying if the person is a buyer or a sales participant values are 'buyer' or 'sales'
+              enum:
+              - buyer
+              - sales
+              type: string
+            clozd_participant_is_primary:
+              description: Is the participant the primary participant for the deal
+              type: boolean
+            clozd_participant_phone:
+              description: Phone number for the pariticipant
+              type: string
+            clozd_participant_title:
+              description: Job title of the participant
+              type: string
+            clozd_participant_role:
+              description: The role the participant had in the deal
+              type: string
+        clozd_channel:
+          description: Feedback channel
+          enum:
+          - buyer interview
+          - buyer survey
+          - rep interview
+          - rep survey
+          type: string
+        clozd_decision:
+          description: Decision
+          enum:
+          - lost to competitor
+          - lost to no decision
+          - unknown
+          - won
+          type: string
+        clozd_primary_competitor:
+          $ref: '#/components/schemas/Competitor'
+        clozd_publish_date:
+          description: Date and time the feedback interview or survey was published (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_summary:
+          description: Summary of feedback response
+          type: string
+        clozd_drivers:
+          description: List of decision drivers
+          type: array
+          items:
+            description: Key decision driver
+            type: object
+            properties:
+              clozd_category_name:
+                description: Name of decision driver category
+                type: string
+              clozd_driver_name:
+                description: Name of decision driver
+                type: string
+              clozd_driver_rating:
+                description: 'Decision driver rating (2: Strong Positive, 1: Positive, -1: Negative, -2: Strong Negative)'
+                enum:
+                - 2
+                - 1
+                - -1
+                - -2
+                format: int64
+                type: integer
+              clozd_driver_quotes:
+                description: List of quotes associated with this decision driver
+                type: array
+                items:
+                  description: Buyer or rep quote associated with this decision driver
+                  type: string
+        clozd_update_date:
+          description: Date and time the feedback interview or survey was last updated (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_survey_questions:
+          description: Survey questions
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyQuestion'
+    ResponseWithTranscript:
+      allOf:
+      - $ref: '#/components/schemas/Response'
+      - description: Response with transcript
+        type: object
+        properties:
+          clozd_transcript:
+            description: List of interview transcript sections in sequence
+            type: array
+            items:
+              description: Section of interview transcript
+              type: object
+              properties:
+                clozd_section:
+                  description: Section name
+                  type: string
+                clozd_dialogue:
+                  description: List of question and answer pairs in sequence
+                  type: array
+                  items:
+                    description: Question and answer pair
+                    type: object
+                    properties:
+                      clozd_question:
+                        description: Interview
+                        type: string
+                      clozd_answer:
+                        description: Participant answer
+                        type: string
+    ResponseWithAll:
+      allOf:
+      - $ref: '#/components/schemas/ResponseWithTranscript'
+      - description: Response with survey questions
+        type: object
+        properties:
+          clozd_survey_questions:
+            description: Survey questions
+            type: array
+            items:
+              $ref: '#/components/schemas/SurveyQuestion'
+    TouchpointResponse:
+      description: Touchpoint feedback response from interview or survey
+      type: object
+      properties:
+        clozd_response_id:
+          description: Clozd generated feedback response identifier (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_response_participant:
+          description: Parameter without description.
+          type: object
+          properties:
+            clozd_participant_id:
+              description: Clozd generated participant id (min:36 chars, max:36 chars)
+              type: string
+              format: uuid
+            clozd_participant_external_id:
+              description: Your id for this participant. This is not generated by Clozd. If you have existing participants with the same external id, they will be updated with the import
+              type: string
+            clozd_participant_first_name:
+              description: First name of participant
+              type: string
+            clozd_participant_last_name:
+              description: Last name of participant
+              type: string
+            clozd_participant_email:
+              description: The email for the participant of the deal
+              format: email
+              type: string
+            clozd_participant_type:
+              description: Specifying if the person is a buyer or an internal participant values are 'buyer' or 'internal'
+              enum:
+              - buyer
+              - internal
+              type: string
+            clozd_participant_is_primary:
+              description: Is the participant the primary participant for the deal
+              type: boolean
+            clozd_participant_phone:
+              description: Phone number for the participant
+              type: string
+            clozd_participant_title:
+              description: Job title of the participant
+              type: string
+            clozd_participant_role:
+              description: The role the participant had in the deal
+              type: string
+        clozd_channel:
+          description: Feedback channel
+          enum:
+          - buyer interview
+          - buyer survey
+          - rep interview
+          - rep survey
+          type: string
+        clozd_publish_date:
+          description: Date and time the feedback interview or survey was published (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_summary:
+          description: Summary of feedback response
+          type: string
+        clozd_themes:
+          description: List of themes
+          type: array
+          items:
+            description: Key theme
+            type: object
+            properties:
+              clozd_category_name:
+                description: Name of theme category
+                type: string
+              clozd_theme_name:
+                description: Name of theme
+                type: string
+              clozd_theme_rating:
+                description: 'Theme rating (2: Strong Positive, 1: Positive, -1: Negative, -2: Strong Negative)'
+                enum:
+                - 2
+                - 1
+                - -1
+                - -2
+                format: int64
+                type: integer
+              clozd_theme_quotes:
+                description: List of quotes associated with this theme
+                type: array
+                items:
+                  description: Buyer or rep quote associated with this theme
+                  type: string
+        clozd_update_date:
+          description: Date and time the feedback interview or survey was last updated (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_survey_questions:
+          description: Survey questions
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyQuestion'
+    TouchpointResponseWithTranscript:
+      allOf:
+      - $ref: '#/components/schemas/TouchpointResponse'
+      - description: Response with transcript
+        type: object
+        properties:
+          clozd_transcript:
+            description: List of interview transcript sections in sequence
+            type: array
+            items:
+              description: Section of interview transcript
+              type: object
+              properties:
+                clozd_section:
+                  description: Section name
+                  type: string
+                clozd_dialogue:
+                  description: List of question and answer pairs in sequence
+                  type: array
+                  items:
+                    description: Question and answer pair
+                    type: object
+                    properties:
+                      clozd_question:
+                        description: Interview
+                        type: string
+                      clozd_answer:
+                        description: Participant answer
+                        type: string
+    TouchpointResponseWithAll:
+      allOf:
+      - $ref: '#/components/schemas/TouchpointResponseWithTranscript'
+      - description: Response with survey questions
+        type: object
+        properties:
+          clozd_survey_questions:
+            description: Survey questions
+            type: array
+            items:
+              $ref: '#/components/schemas/SurveyQuestion'
+    SurveyQuestion:
+      description: Survey question
+      type: object
+      properties:
+        clozd_question:
+          description: Survey question
+          type: string
+        clozd_answer:
+          description: Participant answer
+          type: string
+    Competitor:
+      description: Competitor
+      type: object
+      properties:
+        clozd_competitor_name:
+          description: Clozd competitor name (max:250 chars)
+          type: string
+        clozd_competitor_id:
+          description: Clozd generated competitor id. May be undefined when name is "unknown", "none", "other" or manually entered by a survey participant (not yet curated by an admin). (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_competitor_domain:
+          description: Clozd competitor domain
+          type: string
+        clozd_update_date:
+          description: Date and time the competitor was last updated (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+    CompetitorWithDeals:
+      allOf:
+      - $ref: '#/components/schemas/Competitor'
+      - description: Competitor with Deals
+        type: object
+        properties:
+          clozd_competitor_deals:
+            description: List of deal's with feedback referencing competitor
+            type: array
+            items:
+              description: Deal with feedback referencing competitor
+              type: object
+              properties:
+                clozd_deal_id:
+                  description: Clozd generated deal ID of deal with feedback referencing competitor
+                  type: string
+                  format: uuid
+                clozd_competitor_responses:
+                  description: List of Clozd generated response IDs of feedback from deal referencing competitor
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+    Program:
+      description: Program
+      type: object
+      properties:
+        clozd_program_id:
+          description: Clozd generated program id (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_program_name:
+          description: Program name
+          type: string
+        clozd_program_type:
+          description: Program type
+          type: string
+          enum:
+          - win-loss
+          - qualitative-research
+    PagedListResponse:
+      description: Success response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Success message
+          type: string
+        links:
+          description: Absolute path links to paged results
+          type: object
+          properties:
+            self:
+              description: Current page of results
+              type: string
+            prev:
+              description: Previous page of results
+              type: string
+            next:
+              description: Next page of results
+              type: string
+            first:
+              description: First page of results
+              type: string
+            last:
+              description: Last page of results
+              type: string
+        count:
+          description: Number of deals in current page of results
+          format: int64
+          type: integer
+        total:
+          description: Number of total deals in all pages of results
+          format: int64
+          type: integer
+    ListOfCompetitorsWithDeals:
+      allOf:
+      - $ref: '#/components/schemas/PagedListResponse'
+      - description: Competitors
+        type: object
+        properties:
+          data:
+            description: List of competitors
+            type: array
+            items:
+              $ref: '#/components/schemas/CompetitorWithDeals'
+    ListOfPrograms:
+      allOf:
+      - $ref: '#/components/schemas/PagedListResponse'
+      - description: Programs
+        type: object
+        properties:
+          data:
+            description: List of programs
+            type: array
+            items:
+              $ref: '#/components/schemas/Program'
+    ListOfDealsWithResponses:
+      allOf:
+      - $ref: '#/components/schemas/PagedListResponse'
+      - description: Deals
+        type: object
+        properties:
+          data:
+            description: List of deals
+            type: array
+            items:
+              $ref: '#/components/schemas/DealWithResponses'
+    ListOfTouchpointsWithResponses:
+      allOf:
+      - $ref: '#/components/schemas/PagedListResponse'
+      - description: Touchpoints
+        type: object
+        properties:
+          data:
+            description: List of touchpoints
+            type: array
+            items:
+              $ref: '#/components/schemas/TouchpointWithResponses'
+    Unauthorized:
+      description: Unauthorized response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not authorized.
+        errorCode: AUTH005
+        data: {}
+    Forbidden:
+      description: Forbidden response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Forbidden.
+        errorCode: AUTH006
+        data: {}
+    NotFound:
+      description: NotFound response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not Found.
+        errorCode: AUTH007
+        data: {}
+    BadRequest:
+      description: Bad Request response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          additionalProperties: true
+      example:
+        success: false
+        message: Bad Request.
+        errorCode: API009
+        data: {}
+  examples:
+    BadRequest:
+      value:
+        success: false
+        message: Bad Request.
+        errorCode: API009
+        data: {}
+    MissingParameters:
+      value:
+        success: false
+        message: Missing or invalid API parameters.
+        errorCode: API009
+        data:
+          field: clozd_outcome_type
+          value: win
+          possibleValues: '"new business win", "new business loss", "renewal", "churn", "expansion", "upsell", "customer experience"'
+    IdNotMatch:
+      value:
+        success: false
+        message: If a clozd generated id is provided, this indicates you are trying to update an existing record and the id must match an existing id. One of the provided id's does not have any matches.
+        errorCode: API010
+        data:
+          deal_id: a1bb3107-6909-43bd-a669-0ed5c399c783
+    NotDefinedField:
+      value:
+        success: false
+        message: One of the attributes on the deal or participant object does not exist as a field, you can add a field in the app under the configurations section.
+        errorCode: API011
+        data:
+          field: clozd_not_a_field
+    RequiredFieldMissing:
+      value:
+        success: false
+        message: One of the fields that is configured as required is missing.
+        errorCode: API012
+        data:
+          requiredField: clozd_outcome
