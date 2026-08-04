@@ -1,0 +1,160 @@
+generated: '2026-08-04'
+method: generated
+source: openapi/clozd-data-api-v1-openapi.yml, openapi/clozd-data-api-v2-openapi.yml, openapi/clozd-data-api-v3-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 12
+  by_action_class:
+    acting: 4
+    connected: 8
+  by_consequence:
+    write: 4
+    read: 8
+  human_in_the_loop_required: 0
+operations:
+- path: /programs/{program_id}/deals/import
+  method: post
+  operationId: post-deals-op
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /programs/{program_id}/deals/{deal_id}
+  method: get
+  operationId: get-deal-op
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programs/{program_id}/deals
+  method: get
+  operationId: get-deals-op
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programs/{program_id}/deals
+  method: post
+  operationId: post-deals-op
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /programs
+  method: get
+  operationId: get-programs-op
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programs/{program_id}/competitors
+  method: get
+  operationId: get-competitors-op
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programs/{program_id}/deals/{deal_id}
+  method: get
+  operationId: get-deal-op
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programs/{program_id}/deals
+  method: get
+  operationId: get-deals-op
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programs/{program_id}/deals
+  method: post
+  operationId: post-deals-op
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /programs/{program_id}/touchpoints/{touchpoint_id}
+  method: get
+  operationId: get-touchpoint-op
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programs/{program_id}/touchpoints
+  method: get
+  operationId: get-touchpoints-op
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programs/{program_id}/touchpoints
+  method: post
+  operationId: post-touchpoints-op
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required

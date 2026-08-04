@@ -1,0 +1,112 @@
+generated: '2026-08-04'
+method: searched
+source: live probes of the Clozd application, MCP and OAuth hosts
+notes: >-
+  app.clozd.com and mcp.clozd.com are single-page-app hosts that answer HTTP 200 with an HTML shell for
+  most unknown paths, so only responses whose body actually parsed as JSON are recorded as present. Every
+  other row below is an HTML shell (recorded as html-shell) or a real 404.
+hosts:
+- host: https://mcp.clozd.com
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    spec: RFC 9728 OAuth 2.0 Protected Resource Metadata
+    file: clozd-oauth-protected-resource.json
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 200
+    content_type: application/json
+    spec: RFC 9728 OAuth 2.0 Protected Resource Metadata (resource-scoped)
+    file: clozd-oauth-protected-resource-mcp.json
+    discovered_via: >-
+      WWW-Authenticate: Bearer realm="Clozd MCP",
+      resource_metadata="https://mcp.clozd.com/.well-known/oauth-protected-resource/mcp"
+      returned by POST https://mcp.clozd.com/mcp
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    result: html-shell
+  - path: /.well-known/openid-configuration
+    status: 200
+    result: html-shell
+  - path: /.well-known/agent-card.json
+    status: 200
+    result: html-shell
+  - path: /.well-known/agent.json
+    status: 200
+    result: html-shell
+  - path: /.well-known/security.txt
+    status: 200
+    result: html-shell
+- host: https://oauth.clozd.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    spec: OpenID Connect Discovery 1.0
+    file: clozd-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    spec: RFC 8414 OAuth 2.0 Authorization Server Metadata
+    file: clozd-oauth-authorization-server.json
+  - path: /.well-known/jwks.json
+    status: 200
+    content_type: application/json
+    spec: RFC 7517 JSON Web Key Set
+    note: not saved verbatim — signing keys rotate
+- host: https://app.clozd.com
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    note: identical body to the mcp.clozd.com document; points at resource https://mcp.clozd.com
+    file: clozd-oauth-protected-resource.json
+  - path: /.well-known/security.txt
+    status: 200
+    result: html-shell
+  - path: /.well-known/openid-configuration
+    status: 200
+    result: html-shell
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    result: html-shell
+  - path: /.well-known/api-catalog
+    status: 200
+    result: html-shell
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    result: html-shell
+  - path: /.well-known/agent-card.json
+    status: 200
+    result: html-shell
+  - path: /.well-known/agent.json
+    status: 200
+    result: html-shell
+- host: https://www.clozd.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+summary:
+  security_txt: false
+  openid_configuration: true
+  oauth_authorization_server: true
+  oauth_protected_resource: true
+  api_catalog: false
+  ai_plugin: false
+  agent_card: false
+x-evidence:
+  fetched: '2026-08-04'
+  probed_hosts:
+  - www.clozd.com
+  - clozd.com
+  - app.clozd.com
+  - mcp.clozd.com
+  - oauth.clozd.com

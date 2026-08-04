@@ -1,0 +1,96 @@
+generated: '2026-08-04'
+method: searched
+source: https://oauth.clozd.com/.well-known/oauth-authorization-server
+docs: https://help.clozd.com/hc/en-us/articles/49656607624987-Connecting-to-Clozd-via-MCP
+note: >-
+  Clozd's OpenAPI Data API (v1/v2/v3) declares no oauth2 security scheme — it is API-key only — so this
+  artifact is derived entirely from the OAuth 2.0 authorization server that protects the Clozd MCP server.
+  Clozd publishes no per-tool or per-resource scope reference beyond the scopes_supported list below;
+  authorization inside the platform is enforced by role-based access control on the authenticated user and
+  by the program scoping an admin grants, not by fine-grained OAuth scopes.
+applies_to:
+  api: Clozd MCP Server
+  resource: https://mcp.clozd.com/mcp
+schemes:
+- name: Clozd OAuth 2.0 / OIDC
+  issuer: https://oauth.clozd.com
+  source: https://oauth.clozd.com/.well-known/oauth-authorization-server
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://oauth.clozd.com/authorize
+    tokenUrl: https://oauth.clozd.com/token
+    pkce: S256
+  - flow: clientCredentials
+    tokenUrl: https://oauth.clozd.com/token
+  - flow: refreshToken
+    tokenUrl: https://oauth.clozd.com/token
+  endpoints:
+    userinfo: https://oauth.clozd.com/userinfo
+    revocation: https://oauth.clozd.com/revoke
+    introspection: https://oauth.clozd.com/introspect
+    jwks: https://oauth.clozd.com/.well-known/jwks.json
+    dynamic_client_registration: https://oauth.clozd.com/register
+scopes:
+- scope: openid
+  description: OpenID Connect authentication — issues an ID token identifying the Clozd user.
+  standard: OpenID Connect Core 1.0
+  flows:
+  - authorizationCode
+  sources:
+  - https://oauth.clozd.com/.well-known/openid-configuration
+- scope: profile
+  description: Access to the authenticated user's basic profile claims.
+  standard: OpenID Connect Core 1.0
+  flows:
+  - authorizationCode
+  sources:
+  - https://oauth.clozd.com/.well-known/openid-configuration
+- scope: email
+  description: Access to the authenticated user's email address claim.
+  standard: OpenID Connect Core 1.0
+  flows:
+  - authorizationCode
+  sources:
+  - https://oauth.clozd.com/.well-known/openid-configuration
+- scope: offline_access
+  description: >-
+    Issues a refresh token so an MCP client can keep the connection alive without re-prompting the user for
+    interactive login.
+  standard: OpenID Connect Core 1.0
+  flows:
+  - authorizationCode
+  - refreshToken
+  sources:
+  - https://oauth.clozd.com/.well-known/openid-configuration
+- scope: api
+  description: >-
+    Access to the Clozd API/MCP resource. Single coarse-grained resource scope — the data a token can reach
+    is determined by the user's platform role and the programs an admin has scoped to them, not by the
+    scope string.
+  flows:
+  - authorizationCode
+  - clientCredentials
+  sources:
+  - https://oauth.clozd.com/.well-known/oauth-authorization-server
+  - https://mcp.clozd.com/.well-known/oauth-protected-resource/mcp
+granularity:
+  model: coarse
+  per_tool_scopes: false
+  per_resource_scopes: false
+  read_write_split: false
+  note: >-
+    A single `api` scope covers the whole MCP surface. Because every published MCP tool is read-only, the
+    absence of a read/write split does not currently expose write operations to agents, but it also gives a
+    consuming agent no way to request least privilege.
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+  - url: https://oauth.clozd.com/.well-known/oauth-authorization-server
+    http_status: 200
+    content_type: application/json
+  - url: https://oauth.clozd.com/.well-known/openid-configuration
+    http_status: 200
+    content_type: application/json
+  - url: https://mcp.clozd.com/.well-known/oauth-protected-resource/mcp
+    http_status: 200
+    content_type: application/json

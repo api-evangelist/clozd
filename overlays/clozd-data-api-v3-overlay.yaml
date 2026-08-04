@@ -1,0 +1,81 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Clozd Data API v3.0
+  version: 1.0.0
+extends: openapi/clozd-data-api-v3-openapi.yml
+x-generated: '2026-08-04'
+x-method: generated
+x-source: openapi/_original/clozd-public-api-v3.0-openapi-original.json
+x-note: >-
+  Additive only. The harvested Clozd specification is never mutated; these actions record the
+  API Evangelist enrichment findings against it.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-slug: clozd
+      x-apievangelist-api: Clozd Data API v3.0
+      x-apievangelist-harvested-from: https://app.clozd.com/public-api/openapiv3.json
+      x-apievangelist-docs: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+      x-apievangelist-authentication: authentication/clozd-authentication.yml
+      x-apievangelist-conventions: conventions/clozd-conventions.yml
+      x-apievangelist-errors: errors/clozd-problem-types.yml
+      x-apievangelist-lifecycle: lifecycle/clozd-lifecycle.yml
+      x-apievangelist-data-model: data-model/clozd-data-model.yml
+      contact:
+        name: Clozd Support
+        email: support@clozd.com
+        url: https://help.clozd.com/hc/en-us
+  - target: $
+    update:
+      servers:
+        - url: https://app.clozd.com/public-api/v3
+          description: Clozd Data API v3.0
+      externalDocs:
+        description: Clozd API Imports & Exports (help center)
+        url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+  - target: $.paths['/programs'].get
+    update:
+      x-apievangelist-operation-id: get-programs-op
+      x-apievangelist-error-catalog: errors/clozd-problem-types.yml
+      x-apievangelist-safe: true
+  - target: $.paths['/programs/{program_id}/competitors'].get
+    update:
+      x-apievangelist-operation-id: get-competitors-op
+      x-apievangelist-error-catalog: errors/clozd-problem-types.yml
+      x-apievangelist-safe: true
+  - target: $.paths['/programs/{program_id}/deals/{deal_id}'].get
+    update:
+      x-apievangelist-operation-id: get-deal-op
+      x-apievangelist-error-catalog: errors/clozd-problem-types.yml
+      x-apievangelist-safe: true
+  - target: $.paths['/programs/{program_id}/deals'].get
+    update:
+      x-apievangelist-operation-id: get-deals-op
+      x-apievangelist-error-catalog: errors/clozd-problem-types.yml
+      x-apievangelist-safe: true
+  - target: $.paths['/programs/{program_id}/deals'].post
+    update:
+      x-apievangelist-operation-id: post-deals-op
+      x-apievangelist-error-catalog: errors/clozd-problem-types.yml
+      x-apievangelist-idempotency:
+        mechanism: natural-key-upsert
+        key_field: clozd_external_id
+        atomic: true
+  - target: $.paths['/programs/{program_id}/touchpoints/{touchpoint_id}'].get
+    update:
+      x-apievangelist-operation-id: get-touchpoint-op
+      x-apievangelist-error-catalog: errors/clozd-problem-types.yml
+      x-apievangelist-safe: true
+  - target: $.paths['/programs/{program_id}/touchpoints'].get
+    update:
+      x-apievangelist-operation-id: get-touchpoints-op
+      x-apievangelist-error-catalog: errors/clozd-problem-types.yml
+      x-apievangelist-safe: true
+  - target: $.paths['/programs/{program_id}/touchpoints'].post
+    update:
+      x-apievangelist-operation-id: post-touchpoints-op
+      x-apievangelist-error-catalog: errors/clozd-problem-types.yml
+      x-apievangelist-idempotency:
+        mechanism: natural-key-upsert
+        key_field: clozd_external_id
+        atomic: true

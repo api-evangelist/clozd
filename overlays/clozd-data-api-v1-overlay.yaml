@@ -1,0 +1,43 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Clozd Data API v1.0
+  version: 1.0.0
+extends: openapi/clozd-data-api-v1-openapi.yml
+x-generated: '2026-08-04'
+x-method: generated
+x-source: openapi/_original/clozd-public-api-v1.0-openapi-original.json
+x-note: >-
+  Additive only. The harvested Clozd specification is never mutated; these actions record the
+  API Evangelist enrichment findings against it.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-slug: clozd
+      x-apievangelist-api: Clozd Data API v1.0
+      x-apievangelist-harvested-from: https://app.clozd.com/public-api/openapiv1.json
+      x-apievangelist-docs: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
+      x-apievangelist-authentication: authentication/clozd-authentication.yml
+      x-apievangelist-conventions: conventions/clozd-conventions.yml
+      x-apievangelist-errors: errors/clozd-problem-types.yml
+      x-apievangelist-lifecycle: lifecycle/clozd-lifecycle.yml
+      x-apievangelist-data-model: data-model/clozd-data-model.yml
+      contact:
+        name: Clozd Support
+        email: support@clozd.com
+        url: https://help.clozd.com/hc/en-us
+  - target: $
+    update:
+      servers:
+        - url: https://app.clozd.com/public-api/v1
+          description: Clozd Data API v1.0
+      externalDocs:
+        description: Clozd API Imports & Exports (help center)
+        url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+  - target: $.paths['/programs/{program_id}/deals/import'].post
+    update:
+      x-apievangelist-operation-id: post-deals-op
+      x-apievangelist-error-catalog: errors/clozd-problem-types.yml
+      x-apievangelist-idempotency:
+        mechanism: natural-key-upsert
+        key_field: clozd_external_id
+        atomic: true

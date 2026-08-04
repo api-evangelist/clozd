@@ -1,0 +1,16 @@
+{
+    "resource": "https://mcp.clozd.com/mcp",
+    "authorization_servers": [
+        "https://oauth.clozd.com"
+    ],
+    "bearer_methods_supported": [
+        "header"
+    ],
+    "scopes_supported": [
+        "openid",
+        "profile",
+        "email",
+        "offline_access",
+        "api"
+    ]
+}

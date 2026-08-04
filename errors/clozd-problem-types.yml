@@ -1,0 +1,125 @@
+generated: '2026-08-04'
+method: derived
+source: >-
+  openapi/clozd-data-api-v3-openapi.yml, openapi/clozd-data-api-v2-openapi.yml,
+  openapi/clozd-data-api-v1-openapi.yml, plus live anonymous probes of app.clozd.com and mcp.clozd.com
+format: proprietary-envelope
+rfc9457: false
+content_type: application/json
+envelope:
+  fields:
+  - name: success
+    type: boolean
+    value_on_error: false
+  - name: message
+    type: string
+    description: Human-readable error message.
+  - name: errorCode
+    type: string
+    description: Machine-readable Clozd error code. This is the field an agent should branch on.
+  - name: data
+    type: object
+    description: Empty object on error responses.
+  - name: errors
+    type: array
+    description: Present on the MCP surface; observed empty on the anonymous 401.
+  note: >-
+    Clozd does not use application/problem+json and publishes no error-code reference page. The errorCode
+    prefixes below (API*, AUTH*, MCP*) are observed in the OpenAPI examples and in live probe bodies; the
+    full registry is not published.
+problems:
+- status: 400
+  errorCode: API009
+  title: Bad Request
+  message: Bad Request.
+  schema: BadRequest
+  meaning: >-
+    Malformed request, a missing required attribute, or a wrong value type on import. Clozd documents that
+    the whole POST is rolled back and rejected in this case.
+  remediation: Fix the offending attribute and resubmit the whole import payload.
+  source_operations:
+  - openapi/clozd-data-api-v3-openapi.yml#get-programs-op
+  - openapi/clozd-data-api-v3-openapi.yml#get-competitors-op
+  - openapi/clozd-data-api-v3-openapi.yml#get-deals-op
+  - openapi/clozd-data-api-v3-openapi.yml#get-deal-op
+  - openapi/clozd-data-api-v3-openapi.yml#post-deals-op
+  - openapi/clozd-data-api-v3-openapi.yml#get-touchpoints-op
+  - openapi/clozd-data-api-v3-openapi.yml#get-touchpoint-op
+  - openapi/clozd-data-api-v3-openapi.yml#post-touchpoints-op
+- status: 401
+  errorCode: AUTH005
+  title: Unauthorized
+  message: Not authorized.
+  schema: Unauthorized
+  meaning: The x-api-token header is missing, malformed, or not recognized.
+  remediation: >-
+    Send a valid organization access token in the x-api-token header. Tokens are created in the Clozd app
+    Settings screen and are shown only once.
+  source_operations:
+  - openapi/clozd-data-api-v3-openapi.yml#get-programs-op
+  - openapi/clozd-data-api-v3-openapi.yml#get-deals-op
+  - openapi/clozd-data-api-v3-openapi.yml#post-deals-op
+  - openapi/clozd-data-api-v3-openapi.yml#get-touchpoints-op
+- status: 401
+  errorCode: API003
+  title: API Token Required
+  message: API Token Required.
+  meaning: >-
+    No x-api-token header was supplied at all. Distinct from AUTH005, which covers a supplied-but-rejected
+    token.
+  remediation: Supply the x-api-token header.
+  observed:
+    url: https://app.clozd.com/public-api/v3/openapi.json
+    http_status: 401
+    fetched: '2026-08-04'
+  note: Observed live; not present in the published OpenAPI examples.
+- status: 403
+  errorCode: AUTH006
+  title: Forbidden
+  message: Forbidden.
+  schema: Forbidden
+  meaning: >-
+    The token is valid but the organization is not entitled to the requested program or resource — commonly
+    the API Imports setting has not been enabled for the organization.
+  remediation: >-
+    Ask a Clozd Program Manager or support@clozd.com to enable API access, and confirm the program_id
+    belongs to the token's organization.
+  source_operations:
+  - openapi/clozd-data-api-v3-openapi.yml#get-programs-op
+  - openapi/clozd-data-api-v3-openapi.yml#get-competitors-op
+  - openapi/clozd-data-api-v3-openapi.yml#get-deals-op
+  - openapi/clozd-data-api-v3-openapi.yml#post-deals-op
+- status: 404
+  errorCode: AUTH007
+  title: Not Found
+  message: Not Found.
+  schema: NotFound
+  meaning: The referenced record does not exist within the caller's organization.
+  remediation: Verify the touchpoint_id / deal_id, then re-list the collection to obtain a current id.
+  source_operations:
+  - openapi/clozd-data-api-v3-openapi.yml#get-touchpoint-op
+  note: >-
+    Only the single-touchpoint operation declares a 404. get-deal-op does not declare one, so a missing deal
+    id has no documented response shape — a real gap in the contract.
+- status: 401
+  errorCode: MCP001
+  title: MCP authentication failed
+  message: MCP authentication failed.
+  surface: https://mcp.clozd.com/mcp
+  meaning: The MCP request carried no valid OAuth 2.0 bearer token.
+  remediation: >-
+    Complete the OAuth authorization-code + PKCE flow against https://oauth.clozd.com. The 401 carries a
+    WWW-Authenticate header pointing at the RFC 9728 resource metadata document.
+  www_authenticate: >-
+    Bearer realm="Clozd MCP",
+    resource_metadata="https://mcp.clozd.com/.well-known/oauth-protected-resource/mcp"
+  observed:
+    url: https://mcp.clozd.com/mcp
+    http_status: 401
+    fetched: '2026-08-04'
+gaps:
+- No published error-code reference page; the API*/AUTH*/MCP* registries are not documented anywhere public.
+- No 429 response declared on any operation, and no rate-limit documentation.
+- No 5xx responses declared on any operation.
+- No 404 declared on the deal-by-id operation.
+- Not RFC 9457 — no type URI, no problem+json media type.

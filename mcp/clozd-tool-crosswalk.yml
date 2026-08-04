@@ -1,0 +1,183 @@
+generated: '2026-08-04'
+method: derived
+source: mcp/clozd-mcp.yml + openapi/clozd-data-api-v3-openapi.yml
+note: >-
+  Clozd's MCP tools/list is OAuth-gated (HTTP 401, errorCode MCP001), so tools are mapped by published name
+  and description against the v3.0 OpenAPI operationIds rather than by comparing live input schemas.
+  Confidence is set accordingly. The two surfaces are deliberately different projections of the same core:
+  the REST Data API is a record-level import/export surface, while the MCP server is an analytics-and-
+  evidence surface that exposes aggregations (win rates, driver counts, overlap) that the REST API never
+  computes.
+surfaces:
+  openapi:
+    file: openapi/clozd-data-api-v3-openapi.yml
+    base_url: https://app.clozd.com/public-api/v3
+    auth: apiKey header x-api-token
+    gated: false
+    operations: 8
+  mcp:
+    url: https://mcp.clozd.com/mcp
+    auth: oauth2 authorization_code + PKCE via https://oauth.clozd.com
+    gated: true
+    gated_evidence: 'POST /mcp tools/list -> 401 {"errorCode":"MCP001"}'
+    tools: 19
+  graphql:
+    present: false
+crosswalk:
+- tool: get_programs
+  category: programs
+  rest:
+  - get-programs-op
+  binding: rest
+  confidence: high
+  note: Direct equivalent — GET /programs returns clozd_program_id, name and type.
+- tool: get_deals
+  category: deals
+  rest:
+  - get-deals-op
+  binding: rest
+  confidence: high
+  note: >-
+    GET /programs/{program_id}/deals returns the same deal fields the tool advertises (outcome, amount,
+    industry, closed date, sales rep, region) with limit/offset paging.
+- tool: get_competitors
+  category: competitive
+  rest:
+  - get-competitors-op
+  binding: rest
+  confidence: high
+  note: >-
+    GET /programs/{program_id}/competitors returns the competitor list; per-competitor deal counts require
+    include=deals.
+- tool: get_responses
+  category: feedback
+  rest:
+  - get-deals-op
+  - get-deal-op
+  - get-touchpoints-op
+  binding: rest
+  confidence: medium
+  note: >-
+    No standalone /responses collection in REST. Responses are returned nested inside deals and touchpoints
+    via include=feedback (ListOfDealsWithResponses / DealWithResponses).
+- tool: get_response_summaries
+  category: feedback
+  rest:
+  - get-deals-op
+  - get-deal-op
+  binding: rest
+  confidence: medium
+  note: >-
+    Backed by the clozd_summary field on the Response schema, reachable only through include=feedback.
+    The MCP tool exposes it as a first-class collection; REST does not.
+- tool: get_transcripts
+  category: feedback
+  rest:
+  - get-deal-op
+  binding: rest
+  confidence: medium
+  note: >-
+    GET /programs/{program_id}/deals/{deal_id} with include=feedback,transcripts returns DealFull, which
+    carries the full feedback transcript (ResponseWithTranscript). transcripts is only a valid include on
+    the single-record deal and touchpoint operations, so transcript retrieval is per-deal in REST and
+    collection oriented in MCP.
+- tool: get_decision_drivers
+  category: drivers
+  rest:
+  - get-deals-op
+  - get-deal-op
+  binding: rest
+  confidence: low
+  note: >-
+    The clozd_drivers field exists on the Response schema, so raw drivers can be reconstructed from REST,
+    but REST performs no ranking, no mention counts and no sentiment breakdown. The MCP tool returns a
+    pre-aggregated ranking; the mapping is source-of-data, not equivalent output.
+- tool: get_driver_quotes
+  category: drivers
+  rest:
+  - get-deal-op
+  binding: rest
+  confidence: low
+  note: >-
+    Verbatim quotes are reachable only inside transcripts/responses on a single deal; there is no REST
+    query by driver or theme.
+- tool: get_competitor_sentiment_drivers
+  category: competitive
+  rest:
+  - get-competitors-op
+  binding: rest
+  confidence: low
+  note: >-
+    Requires include=deals,responses on the competitors operation and client-side sentiment aggregation;
+    REST returns no sentiment-filtered driver view.
+- tool: get_tags
+  category: metadata
+  rest:
+  - get-deals-op
+  - get-deal-op
+  - get-touchpoints-op
+  binding: rest
+  confidence: low
+  note: >-
+    `tags` is a valid value of the include parameter on the deal and touchpoint operations, so tag values
+    per deal are reachable from REST. There is no /tags collection and no usage counts — the MCP tool's
+    ranked tag list with counts is computed server-side.
+mcp_only:
+- tool: get_decision_driver_categories
+  reason: >-
+    Driver category taxonomy (Product, Pricing, Support …) with aggregated sentiment is computed
+    server-side; no REST operation exposes driver categories.
+- tool: get_decision_driver_category_counts
+  reason: Category-level frequency aggregation; no REST equivalent.
+- tool: get_win_rates
+  category: analytics
+  reason: >-
+    Win-rate calculation with breakdown by dimension (industry, product, sales rep, deal size) is an
+    analytic rollup. REST only returns raw deal outcomes.
+- tool: get_awe_deals
+  reason: >-
+    At-risk / Win-back / Expansion flags are a platform classification not present on the REST Deal schema.
+- tool: get_gong_drivers
+  reason: Gong call-derived drivers; the Gong integration has no REST projection.
+- tool: get_gong_driver_categories
+  reason: Gong driver categories; no REST projection.
+- tool: get_gong_driver_counts
+  reason: Gong driver frequency aggregation; no REST projection.
+- tool: get_gong_driver_category_counts
+  reason: Gong category frequency aggregation; no REST projection.
+- tool: get_gong_driver_overlap
+  reason: >-
+    Cross-source comparison between Gong-detected drivers and Clozd interview drivers; a computed
+    reconciliation with no REST counterpart.
+rest_only:
+- operations:
+  - post-deals-op
+  capability: Deal + participant import (write)
+  note: >-
+    The entire write surface is REST-only. The MCP server is read-only — no import, update or delete tool
+    is published.
+- operations:
+  - post-touchpoints-op
+  capability: Touchpoint + participant import (write)
+- operations:
+  - get-touchpoint-op
+  capability: Single touchpoint with participants and transcripts
+  note: >-
+    No MCP tool addresses touchpoints by name; MCP is deal-centric. get-touchpoints-op is counted as bound
+    only because get_responses and get_tags can read feedback and tags off the touchpoint collection.
+coverage:
+  tools_published: 19
+  tools_bound_to_rest: 10
+  tools_mcp_only: 9
+  rest_operations_total: 8
+  rest_operations_with_a_tool: 5
+  rest_operations_without_a_tool: 3
+  write_operations_exposed_to_agents: 0
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+  - url: https://help.clozd.com/hc/en-us/articles/49656607624987-Connecting-to-Clozd-via-MCP
+    http_status: 200
+    via: help.clozd.com/api/v2/help_center article JSON
+  - url: https://app.clozd.com/public-api/openapiv3.json
+    http_status: 200

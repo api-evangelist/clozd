@@ -1,0 +1,57 @@
+generated: '2026-08-04'
+method: searched
+probe: true
+url: https://trust.clozd.com
+platform: Vanta Trust Center
+title: Clozd Trust Center
+linked_from: https://www.clozd.com/ (footer + product nav, labelled "Security")
+certifications:
+- ISO 27001
+- ISO 27701
+- SOC 2 Type II
+regulatory:
+- GDPR
+- UK GDPR (UK Addendum to the SCCs)
+- Swiss FADP (SCCs modified to align with Swiss law)
+audit_cadence: annual
+data_processing:
+  dpa_offered: true
+  dpa_note: Clozd helps clients implement a Data Processing Agreement with Standard Contractual Clauses.
+  sensitive_data: >-
+    "Clozd does not collect or process any sensitive personal data, as defined by the GDPR, and prohibits
+    its clients from sharing sensitive personal information."
+  ai_disclosure: >-
+    The privacy policy discloses AI-assisted processing — Clozd may use AI tools to assist analysts.
+  childrens_privacy: Services are not directed to children under 16.
+contacts:
+  privacy: privacy@clozd.com
+  security: security@clozd.com
+  support: support@clozd.com
+evidence:
+- source: https://trust.clozd.com
+  http_status: 200
+  kind: live trust center
+  note: >-
+    Vanta-hosted single-page trust report (data-signature-manifest-url on assets.vanta.com). The document
+    list and control detail render client-side behind a signed Vanta API, so the certification list below
+    was corroborated from Clozd's own first-party pages rather than scraped from the trust report.
+- source: https://www.clozd.com/privacy/gdpr
+  http_status: 200
+  keywords:
+  - ISO 27001
+  - SOC 2 Type II
+  - GDPR
+  - Standard Contractual Clauses
+  quote: Clozd is audited annually for ISO 27001 and SOC 2 Type II compliance.
+- source: https://www.clozd.com/privacy/policy
+  http_status: 200
+  keywords:
+  - ISO 27001 and 27701 certified
+  - standard contractual clauses
+  - UK Addendum
+  - privacy@clozd.com
+- source: DNS CAA record for clozd.com
+  kind: dns
+  value: 0 iodef "mailto:security@clozd.com"
+x-evidence:
+  fetched: '2026-08-04'

@@ -1,0 +1,88 @@
+generated: '2026-08-04'
+method: searched
+source: >-
+  https://app.clozd.com/public-api/docs/, openapi/clozd-data-api-v1-openapi.yml,
+  openapi/clozd-data-api-v2-openapi.yml, openapi/clozd-data-api-v3-openapi.yml
+versioning:
+  scheme: uri-path
+  pattern: https://app.clozd.com/public-api/{version}
+  current: v3
+  versions:
+  - version: v1.0
+    base_url: https://app.clozd.com/public-api/v1
+    spec: openapi/clozd-data-api-v1-openapi.yml
+    status: live
+    operations: 1
+    capability: deal + participant import only
+  - version: v2.0
+    base_url: https://app.clozd.com/public-api/v2
+    spec: openapi/clozd-data-api-v2-openapi.yml
+    status: live
+    operations: 3
+    capability: deal import, deal list, deal detail
+  - version: v3.0
+    base_url: https://app.clozd.com/public-api/v3
+    spec: openapi/clozd-data-api-v3-openapi.yml
+    status: live
+    operations: 8
+    capability: programs, competitors, deals, touchpoints (read + import)
+  docs: https://app.clozd.com/public-api/docs/
+  note: >-
+    All three versions are simultaneously live and all three specs are served from the same Swagger UI
+    version picker. Clozd publishes no statement about which older versions are still supported or for how
+    long.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: unknown
+  deprecation_header: unknown
+  deprecated_operations: []
+  note: >-
+    No operation in any of the three specs carries `deprecated: true`, and Clozd publishes no deprecation
+    or sunset policy. v1.0 and v2.0 are functionally superseded by v3.0 but are not marked deprecated in
+    the contract — a consumer has no machine-readable signal to migrate.
+sla:
+  url: null
+  uptime_target: not-published
+status_page:
+  url: null
+  present: false
+  probed:
+  - url: https://status.clozd.com
+    result: DNS does not resolve
+  - url: https://clozd.statuspage.io
+    result: Atlassian Statuspage marketing page — not a Clozd status page
+  - url: https://clozd.instatus.com
+    result: Instatus marketing page — not a Clozd status page
+changelog:
+  url: null
+  present: false
+  note: >-
+    No public API changelog or release-notes page was found on clozd.com, app.clozd.com, or the Zendesk
+    help center (searched for "release notes" and "changelog"). Version history is only inferable from the
+    three concurrently published OpenAPI documents.
+support:
+  email: support@clozd.com
+  help_center: https://help.clozd.com/hc/en-us
+  note: API enablement is gated — an org must ask a Clozd Program Manager or support to turn API Imports on.
+gaps:
+- No deprecation or sunset policy.
+- No status page.
+- No public API changelog or release notes.
+- No published SLA or uptime target.
+- Older versions are live but unmarked, so there is no migration signal in the contract.
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+  - url: https://app.clozd.com/public-api/docs/swagger-ui-init.js
+    http_status: 200
+    note: source of the three published spec URLs
+  - url: https://app.clozd.com/public-api/openapiv1.json
+    http_status: 200
+  - url: https://app.clozd.com/public-api/openapiv2.json
+    http_status: 200
+  - url: https://app.clozd.com/public-api/openapiv3.json
+    http_status: 200
+  - url: https://status.clozd.com
+    http_status: 0
+    note: no DNS

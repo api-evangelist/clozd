@@ -1,23 +1,204 @@
 aid: clozd
 name: Clozd
-description: 'Clozd is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Clozd is a Lehi, Utah based decision-intelligence and win-loss analysis platform that collects structured
+  buyer feedback — through human-led live interviews, AI-assisted Flex interviews, and autonomous Flow
+  interviews — and turns it into decision drivers, competitor sentiment, win rates, and verbatim buyer quotes
+  for sales, marketing, product, and customer-success teams. The platform integrates with Salesforce, HubSpot,
+  Microsoft Dynamics, Gong, Slack, Calendly, Outlook, and Gmail, and exposes two public programmatic surfaces:
+  the versioned Clozd Data API (v1/v2/v3) documented with OpenAPI 3.0.3 and Swagger UI at app.clozd.com for
+  importing deals and participants and exporting programs, deals, touchpoints, responses, transcripts, and
+  competitors; and a hosted, OAuth 2.0 protected Model Context Protocol server at mcp.clozd.com that gives
+  Claude, ChatGPT, Cursor, Copilot, Windsurf, Antigravity, and Gemini CLI direct tool access to the same
+  win-loss data.
+image: https://cdn.prod.website-files.com/602c29edc35660e6c913f956/65a18029f28b360a5bc33674_Group%2011337.png
 url: https://raw.githubusercontent.com/api-evangelist/clozd/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
-specificationVersion: '0.20'
+specificationVersion: '0.21'
 created: '2026-08-02'
-modified: '2026-08-02'
+modified: '2026-08-04'
 tags:
-- Company
-apis: []
+- win-loss-analysis
+- customer-feedback
+- decision-intelligence
+- sales-intelligence
+- market-research
+- competitive-intelligence
+- voice-of-customer
+- revenue-intelligence
+- saas
+- mcp
+- agent-native
+apis:
+- name: Clozd Data API v3.0
+  description: >-
+    Current version of the Clozd public Data API. Read programs, competitors, deals (with participants,
+    products, published feedback responses and full transcripts), and touchpoints; import deals and
+    touchpoints. Offset/limit pagination with self/prev/next/first/last links. Authenticated with an
+    organization API token in the x-api-token header, created from the Settings screen of the Clozd
+    application.
+  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  baseURL: https://app.clozd.com/public-api/v3
+  tags:
+  - win-loss-analysis
+  - customer-feedback
+  - decision-intelligence
+  - competitive-intelligence
+  - voice-of-customer
+  properties:
+  - type: OpenAPI
+    url: openapi/clozd-data-api-v3-openapi.yml
+  - type: Documentation
+    url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  - type: Authentication
+    url: authentication/clozd-authentication.yml
+  - type: Conventions
+    url: conventions/clozd-conventions.yml
+  - type: ErrorCatalog
+    url: errors/clozd-problem-types.yml
+  - type: DataModel
+    url: data-model/clozd-data-model.yml
+  - type: Overlay
+    url: overlays/clozd-data-api-v3-overlay.yaml
+- name: Clozd Data API v2.0
+  description: >-
+    Prior version of the Clozd public Data API. Get a paged list of deals for a program, get a single deal
+    with details, and import deals with participants. Superseded by v3.0, which adds programs, competitors
+    and touchpoints. Authenticated with the x-api-token header.
+  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v2.0
+  baseURL: https://app.clozd.com/public-api/v2
+  tags:
+  - win-loss-analysis
+  - customer-feedback
+  - decision-intelligence
+  properties:
+  - type: OpenAPI
+    url: openapi/clozd-data-api-v2-openapi.yml
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v2.0
+  - type: Overlay
+    url: overlays/clozd-data-api-v2-overlay.yaml
+- name: Clozd Data API v1.0
+  description: >-
+    Original version of the Clozd public Data API, limited to a single deal-and-participant import
+    operation for pushing CRM opportunity data into a Clozd program. Superseded by v2.0 and v3.0.
+    Authenticated with the x-api-token header.
+  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
+  baseURL: https://app.clozd.com/public-api/v1
+  tags:
+  - win-loss-analysis
+  - customer-feedback
+  - decision-intelligence
+  properties:
+  - type: OpenAPI
+    url: openapi/clozd-data-api-v1-openapi.yml
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
+  - type: Overlay
+    url: overlays/clozd-data-api-v1-overlay.yaml
+- name: Clozd MCP Server
+  description: >-
+    Hosted remote Model Context Protocol server exposing 19 documented read tools over Clozd win-loss data —
+    programs, deals, responses, response summaries, transcripts, decision drivers and categories, driver
+    quotes, win rates, competitors, competitor sentiment drivers, AWE (at-risk/win-back/expansion) deals,
+    tags, and the Gong-derived driver family. Authenticated with OAuth 2.0 authorization code + PKCE against
+    oauth.clozd.com, brokered to the customer's own identity provider (Okta, Google, Microsoft, SAML); no API
+    keys are stored client-side. Supported in Claude, ChatGPT Apps, Cursor, Microsoft Copilot Studio,
+    Windsurf, Antigravity, and Gemini CLI.
+  humanURL: https://help.clozd.com/hc/en-us/articles/49656607624987-Connecting-to-Clozd-via-MCP
+  baseURL: https://mcp.clozd.com/mcp
+  tags:
+  - mcp
+  - agent-native
+  - win-loss-analysis
+  - decision-intelligence
+  - voice-of-customer
+  properties:
+  - type: MCPServer
+    url: mcp/clozd-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/clozd-tool-crosswalk.yml
+  - type: MCP
+    url: https://mcp.clozd.com/mcp
+  - type: Documentation
+    url: https://help.clozd.com/hc/en-us/articles/49656607624987-Connecting-to-Clozd-via-MCP
+  - type: OAuthScopes
+    url: scopes/clozd-scopes.yml
+  - type: Authentication
+    url: authentication/clozd-authentication.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/clozd-agentic-access.yml
 - type: Website
-  url: https://forgeglobal.com/clozd_stock/
+  url: https://www.clozd.com/
+- type: DeveloperPortal
+  url: https://app.clozd.com/public-api/docs/
+- type: Documentation
+  url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+- type: APIReference
+  url: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+- type: GettingStarted
+  url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+- type: Support
+  url: https://help.clozd.com/hc/en-us
+- type: HelpCenter
+  url: https://help.clozd.com/hc/en-us
+- type: Blog
+  url: https://www.clozd.com/blog
+- type: GitHubOrganization
+  url: https://github.com/Clozd
+- type: SignUp
+  url: https://www.clozd.com/talk-with-us
+- type: Login
+  url: https://app.clozd.com/auth/login
+- type: TermsOfService
+  url: https://www.clozd.com/privacy/terms-of-use
+- type: PrivacyPolicy
+  url: https://www.clozd.com/privacy/policy
+- type: Compliance
+  url: https://www.clozd.com/privacy/gdpr
+- type: TrustCenter
+  url: https://trust.clozd.com
+- type: Integrations
+  url: https://www.clozd.com/product/platform/software-integrations
+- type: MCPServer
+  url: mcp/clozd-mcp.yml
+- type: LLMsTxt
+  url: llms/clozd-llms.txt
+- type: WellKnown
+  url: well-known/clozd-well-known.yml
+- type: Authentication
+  url: authentication/clozd-authentication.yml
+- type: OAuthScopes
+  url: scopes/clozd-scopes.yml
+- type: Conventions
+  url: conventions/clozd-conventions.yml
+- type: Lifecycle
+  url: lifecycle/clozd-lifecycle.yml
+- type: Conformance
+  url: conformance/clozd-conformance.yml
+- type: ErrorCatalog
+  url: errors/clozd-problem-types.yml
+- type: DataModel
+  url: data-model/clozd-data-model.yml
+- type: DomainSecurity
+  url: security/clozd-domain-security.yml
+- type: VulnerabilityDisclosure
+  url: security/clozd-vulnerability-disclosure.yml
+- type: Idempotency
+  url: conventions/clozd-conventions.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-08-04'
+  status: enriched
+  artifacts_added: 29
+  pass: local-v1

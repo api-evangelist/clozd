@@ -1,0 +1,175 @@
+generated: '2026-08-04'
+method: searched
+status: published
+source: https://help.clozd.com/hc/en-us/articles/49656607624987-Connecting-to-Clozd-via-MCP
+also_documented_at: https://www.clozd.com/product/platform/clozd-mcp
+server:
+  name: clozd
+  transport: http
+  url: https://mcp.clozd.com/mcp
+  protocol: Model Context Protocol (streamable HTTP)
+  auth:
+    type: oauth2
+    flow: authorization_code
+    pkce: S256
+    authorization_server: https://oauth.clozd.com
+    dynamic_client_registration: true
+    scopes:
+    - openid
+    - profile
+    - email
+    - offline_access
+    - api
+    identity_brokering:
+    - Okta
+    - Google
+    - Microsoft / Entra
+    - SAML
+    - OneLogin
+    - email + password
+    notes: >-
+      No API keys or tokens are placed in client configuration. The AI client opens a browser window and the
+      user signs in through their organization's identity provider. Role-based access control and program
+      scoping are enforced by the Clozd platform on the authenticated user.
+  live_probe:
+    fetched: '2026-08-04'
+    method: 'POST /mcp {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 401
+    body: '{"success":false,"message":"MCP authentication failed.","errorCode":"MCP001"}'
+    www_authenticate: >-
+      Bearer realm="Clozd MCP",
+      resource_metadata="https://mcp.clozd.com/.well-known/oauth-protected-resource/mcp"
+    conclusion: >-
+      tools/list is auth-gated, so live inputSchema introspection is not possible anonymously. The tool list
+      below is transcribed verbatim from Clozd's published help-center table and product page — names and
+      descriptions only. Input schemas require an authenticated introspection pass.
+supported_clients:
+- Claude (web, Desktop, Cowork) — custom connector
+- ChatGPT — Apps directory
+- Cursor
+- Microsoft Copilot Studio
+- Windsurf
+- Antigravity
+- Gemini CLI
+- any MCP-compatible client via URL or JSON config
+tool_count: 19
+tools:
+- name: get_programs
+  category: programs
+  description: >-
+    Lists the Clozd win-loss programs available to the authenticated user. Call this first to retrieve
+    program IDs needed by all other tools.
+- name: get_deals
+  category: deals
+  description: >-
+    Returns a paginated list of deals with fields like outcome, amount, industry, closed date, sales rep,
+    region, and segment. Use to browse or search deal records.
+- name: get_responses
+  category: feedback
+  description: >-
+    Returns a paginated list of win-loss interview and survey responses, including deal link, respondent
+    role, channel, and publish date.
+- name: get_response_summaries
+  category: feedback
+  description: >-
+    Returns AI-generated summaries of published win-loss feedback. Faster than loading full transcripts when
+    you need a quick read on a response.
+- name: get_transcripts
+  category: feedback
+  description: >-
+    Returns full-text transcripts of win-loss interviews or surveys. Best used when the complete conversation
+    content is needed; prefer summaries or quotes for most use cases.
+- name: get_decision_drivers
+  category: drivers
+  description: >-
+    Lists individual decision drivers ranked by mention count with sentiment breakdowns. Use to answer "What
+    are the most common reasons we win or lose?"
+- name: get_decision_driver_categories
+  category: drivers
+  description: >-
+    Lists high-level driver categories (e.g., Product, Pricing, Support) with aggregated sentiment. Use for
+    broad thematic questions like "Which category of feedback is most negative?"
+- name: get_decision_driver_category_counts
+  category: drivers
+  description: >-
+    Returns a frequency count of driver mentions by category. Use when you want a ranked summary of which
+    categories appear most.
+- name: get_driver_quotes
+  category: drivers
+  description: >-
+    Returns verbatim buyer quotes linked to a specific decision driver or theme, including respondent
+    context. Use for direct evidence (e.g., "Show me quotes about pricing.")
+- name: get_win_rates
+  category: analytics
+  description: >-
+    Calculates overall win-loss rates with optional breakdown by dimension (industry, product, sales rep,
+    deal size, etc.).
+- name: get_competitors
+  category: competitive
+  description: >-
+    Lists competitors encountered across deals with encounter counts and win-loss tallies per competitor.
+- name: get_competitor_sentiment_drivers
+  category: competitive
+  description: >-
+    Returns the decision drivers associated with a specific competitor filtered by positive or negative
+    sentiment. Use to answer "Why do we beat Competitor X?" or "Why do we lose to them?"
+- name: get_awe_deals
+  category: deals
+  description: >-
+    Returns deals flagged as At-risk, Win-back, or Expansion opportunities. Use to surface actionable
+    accounts for CS, sales, or revenue teams.
+- name: get_tags
+  category: metadata
+  description: >-
+    Lists user-defined tags applied to deals with usage counts. Optionally returns the deal IDs associated
+    with each tag.
+- name: get_gong_drivers
+  category: gong
+  description: >-
+    Lists AI-detected decision drivers surfaced from Gong call recordings, with sentiment distribution.
+    Distinct from interview-based drivers.
+- name: get_gong_driver_categories
+  category: gong
+  description: >-
+    Lists high-level category groupings of Gong-identified drivers with sentiment. Use for broad questions
+    about themes emerging in sales calls.
+- name: get_gong_driver_counts
+  category: gong
+  description: >-
+    Ranks Gong-identified drivers by frequency of mention. Use to find the most common themes across Gong
+    call data.
+- name: get_gong_driver_category_counts
+  category: gong
+  description: >-
+    Returns a frequency count of Gong driver mentions by category. Use for a ranked category-level view of
+    Gong call themes.
+- name: get_gong_driver_overlap
+  category: gong
+  description: >-
+    Compares Gong-identified drivers against Clozd interview drivers to show alignment and gaps between the
+    two data sources.
+tools_listed_on_product_page_only:
+- name: get_decision_driver_counts
+  note: >-
+    Listed on https://www.clozd.com/product/platform/clozd-mcp but absent from the help-center tool table
+    (which lists get_decision_driver_category_counts instead). Recorded as a discrepancy between the two
+    published sources, not asserted as a live tool.
+roadmap:
+  source: https://help.clozd.com/hc/en-us/articles/49656607624987-Connecting-to-Clozd-via-MCP
+  items:
+  - Native Clozd MCP connector submitted to the Claude.ai connector marketplace
+  - Native Clozd MCP listing submitted to the OpenAI plugin directory
+support:
+  email: support@clozd.com
+  help_center: https://help.clozd.com/hc/en-us
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+  - url: https://help.clozd.com/api/v2/help_center/en-us/articles/49656607624987.json
+    http_status: 200
+  - url: https://www.clozd.com/product/platform/clozd-mcp
+    http_status: 200
+  - url: https://mcp.clozd.com/mcp
+    http_status: 401
+  - url: https://mcp.clozd.com/.well-known/oauth-protected-resource/mcp
+    http_status: 200

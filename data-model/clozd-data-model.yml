@@ -1,0 +1,203 @@
+generated: '2026-08-04'
+method: derived
+source: openapi/clozd-data-api-v3-openapi.yml
+note: >-
+  Derived from the v3.0 OpenAPI components.schemas graph — $ref links plus id-reference fields. Clozd uses
+  bare UUIDs (36 chars) for every platform identifier; there are no typed id prefixes. Customer-owned
+  external ids (clozd_external_id) are the join key back to the source CRM.
+identifiers:
+  format: uuid
+  length: 36
+  prefixes: none
+  customer_owned: clozd_external_id
+entities:
+- name: Program
+  schema: Program
+  id: clozd_program_id
+  fields:
+  - clozd_program_id
+  - clozd_program_name
+  - clozd_program_type
+  description: >-
+    The top-level container. Every other resource path is scoped under /programs/{program_id}. Program type
+    distinguishes win-loss from other research programs (e.g. qualitative-research).
+  root: true
+- name: Deal
+  schema: Deal
+  id: clozd_deal_id
+  external_id: clozd_external_id
+  fields:
+  - clozd_deal_name
+  - clozd_external_id
+  - clozd_organization_domain
+  - clozd_organization_name
+  - clozd_deal_id
+  - clozd_amount
+  - clozd_closed_date
+  - clozd_created_date
+  - clozd_currency
+  - clozd_headcount
+  - clozd_industry
+  - clozd_lead_source
+  - clozd_outcome
+  - clozd_outcome_type
+  - clozd_region
+  - clozd_revenue
+  - clozd_sales_rep_email
+  - clozd_sales_rep_name
+  - clozd_products
+  description: A won or lost sales opportunity imported from the customer's CRM.
+  variants:
+  - DealWithParticipants
+  - DealWithResponses
+  - DealFull
+- name: Touchpoint
+  schema: Touchpoint
+  id: clozd_touchpoint_id
+  external_id: clozd_external_id
+  fields:
+  - clozd_touchpoint_name
+  - clozd_external_id
+  - clozd_organization_domain
+  - clozd_organization_name
+  - clozd_touchpoint_id
+  - clozd_created_date
+  - clozd_currency
+  - clozd_headcount
+  - clozd_industry
+  - clozd_region
+  - clozd_revenue
+  - clozd_owner_email
+  - clozd_owner_name
+  description: >-
+    The non-deal analogue of a Deal — a customer moment (implementation, renewal, churn, CX) that feedback
+    can be collected against. Introduced in v3.0.
+  variants:
+  - TouchpointWithParticipants
+  - TouchpointWithResponses
+  - TouchpointFull
+- name: Participant
+  schema: Participant
+  description: >-
+    A buyer-side person attached to a deal or touchpoint at import time, and the person a feedback response
+    is collected from.
+- name: Response
+  schema: Response
+  id: clozd_response_id
+  fields:
+  - clozd_response_id
+  - clozd_response_participant
+  - clozd_channel
+  - clozd_decision
+  - clozd_primary_competitor
+  - clozd_publish_date
+  - clozd_summary
+  - clozd_drivers
+  - clozd_update_date
+  - clozd_survey_questions
+  description: >-
+    A published piece of win-loss feedback — interview or survey — carrying the AI summary, the decision
+    drivers, and the channel it was collected through.
+  variants:
+  - ResponseWithTranscript
+  - ResponseWithAll
+  - TouchpointResponse
+  - TouchpointResponseWithTranscript
+  - TouchpointResponseWithAll
+- name: SurveyQuestion
+  schema: SurveyQuestion
+  fields:
+  - clozd_question
+  - clozd_answer
+  description: A single structured question/answer pair attached to a response.
+- name: Competitor
+  schema: Competitor
+  id: clozd_competitor_id
+  fields:
+  - clozd_competitor_name
+  - clozd_competitor_id
+  - clozd_competitor_domain
+  - clozd_update_date
+  description: A competitor encountered in the program's deals.
+  variants:
+  - CompetitorWithDeals
+relationships:
+- from: Program
+  to: Deal
+  type: has_many
+  via: path /programs/{program_id}/deals
+- from: Program
+  to: Touchpoint
+  type: has_many
+  via: path /programs/{program_id}/touchpoints
+- from: Program
+  to: Competitor
+  type: has_many
+  via: path /programs/{program_id}/competitors
+- from: Deal
+  to: Participant
+  type: has_many
+  via: DealWithParticipants (include=participants, single-deal only)
+- from: Deal
+  to: Response
+  type: has_many
+  via: DealWithResponses (include=feedback)
+- from: Deal
+  to: SurveyQuestion
+  type: has_many
+  via: include=surveyQuestions
+- from: Touchpoint
+  to: Participant
+  type: has_many
+  via: TouchpointWithParticipants (include=participants, single-touchpoint only)
+- from: Touchpoint
+  to: TouchpointResponse
+  type: has_many
+  via: TouchpointWithResponses (include=feedback)
+- from: Response
+  to: SurveyQuestion
+  type: has_many
+  via: clozd_survey_questions
+- from: Response
+  to: Competitor
+  type: has_one
+  via: clozd_primary_competitor
+- from: Competitor
+  to: Deal
+  type: has_many
+  via: CompetitorWithDeals (include=deals)
+- from: Deal
+  to: 'CRM opportunity (external)'
+  type: belongs_to
+  via: clozd_external_id
+- from: Touchpoint
+  to: 'CRM record (external)'
+  type: belongs_to
+  via: clozd_external_id
+envelopes:
+- name: PagedListResponse
+  wraps: any collection
+  fields:
+  - success
+  - message
+  - links{self,prev,next,first,last}
+  - count
+  - total
+  - data
+- name: ListOfPrograms
+- name: ListOfDealsWithResponses
+- name: ListOfTouchpointsWithResponses
+- name: ListOfCompetitorsWithDeals
+error_schemas:
+- BadRequest
+- Unauthorized
+- Forbidden
+- NotFound
+gaps:
+- >-
+  Participants, responses, transcripts and survey questions have no addressable URL of their own — they are
+  only reachable as expansions of a deal, touchpoint or competitor.
+- >-
+  Decision drivers are a string field on Response in REST, not a first-class entity, even though the MCP
+  server treats drivers, driver categories and driver quotes as first-class collections.
+- Products (clozd_products) is a field on Deal, not a modelled entity.
