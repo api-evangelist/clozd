@@ -31,83 +31,15 @@ tags:
 - mcp
 - agent-native
 apis:
-- name: Clozd Data API v3.0
-  description: >-
-    Current version of the Clozd public Data API. Read programs, competitors, deals (with participants,
-    products, published feedback responses and full transcripts), and touchpoints; import deals and
-    touchpoints. Offset/limit pagination with self/prev/next/first/last links. Authenticated with an
-    organization API token in the x-api-token header, created from the Settings screen of the Clozd
-    application.
-  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
-  baseURL: https://app.clozd.com/public-api/v3
-  tags:
-  - win-loss-analysis
-  - customer-feedback
-  - decision-intelligence
-  - competitive-intelligence
-  - voice-of-customer
-  properties:
-  - type: OpenAPI
-    url: openapi/clozd-data-api-v3-openapi.yml
-  - type: Documentation
-    url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
-  - type: APIReference
-    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
-  - type: Authentication
-    url: authentication/clozd-authentication.yml
-  - type: Conventions
-    url: conventions/clozd-conventions.yml
-  - type: ErrorCatalog
-    url: errors/clozd-problem-types.yml
-  - type: DataModel
-    url: data-model/clozd-data-model.yml
-  - type: Overlay
-    url: overlays/clozd-data-api-v3-overlay.yaml
-- name: Clozd Data API v2.0
-  description: >-
-    Prior version of the Clozd public Data API. Get a paged list of deals for a program, get a single deal
-    with details, and import deals with participants. Superseded by v3.0, which adds programs, competitors
-    and touchpoints. Authenticated with the x-api-token header.
-  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v2.0
-  baseURL: https://app.clozd.com/public-api/v2
-  tags:
-  - win-loss-analysis
-  - customer-feedback
-  - decision-intelligence
-  properties:
-  - type: OpenAPI
-    url: openapi/clozd-data-api-v2-openapi.yml
-  - type: APIReference
-    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v2.0
-  - type: Overlay
-    url: overlays/clozd-data-api-v2-overlay.yaml
-- name: Clozd Data API v1.0
-  description: >-
-    Original version of the Clozd public Data API, limited to a single deal-and-participant import
-    operation for pushing CRM opportunity data into a Clozd program. Superseded by v2.0 and v3.0.
-    Authenticated with the x-api-token header.
-  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
-  baseURL: https://app.clozd.com/public-api/v1
-  tags:
-  - win-loss-analysis
-  - customer-feedback
-  - decision-intelligence
-  properties:
-  - type: OpenAPI
-    url: openapi/clozd-data-api-v1-openapi.yml
-  - type: APIReference
-    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
-  - type: Overlay
-    url: overlays/clozd-data-api-v1-overlay.yaml
 - name: Clozd MCP Server
   description: >-
-    Hosted remote Model Context Protocol server exposing 19 documented read tools over Clozd win-loss data —
-    programs, deals, responses, response summaries, transcripts, decision drivers and categories, driver
-    quotes, win rates, competitors, competitor sentiment drivers, AWE (at-risk/win-back/expansion) deals,
-    tags, and the Gong-derived driver family. Authenticated with OAuth 2.0 authorization code + PKCE against
-    oauth.clozd.com, brokered to the customer's own identity provider (Okta, Google, Microsoft, SAML); no API
-    keys are stored client-side. Supported in Claude, ChatGPT Apps, Cursor, Microsoft Copilot Studio,
-    Windsurf, Antigravity, and Gemini CLI.
+    Hosted remote Model Context Protocol server exposing 19 documented read tools over Clozd win-loss
+    data — programs, deals, responses, response summaries, transcripts, decision drivers and categories,
+    driver quotes, win rates, competitors, competitor sentiment drivers, AWE (at-risk/win-back/expansion)
+    deals, tags, and the Gong-derived driver family. Authenticated with OAuth 2.0 authorization code +
+    PKCE against oauth.clozd.com, brokered to the customer's own identity provider (Okta, Google, Microsoft,
+    SAML); no API keys are stored client-side. Supported in Claude, ChatGPT Apps, Cursor, Microsoft Copilot
+    Studio, Windsurf, Antigravity, and Gemini CLI.
   humanURL: https://help.clozd.com/hc/en-us/articles/49656607624987-Connecting-to-Clozd-via-MCP
   baseURL: https://mcp.clozd.com/mcp
   tags:
@@ -129,12 +61,202 @@ apis:
     url: scopes/clozd-scopes.yml
   - type: Authentication
     url: authentication/clozd-authentication.yml
+- aid: clozd:clozd-programs-api
+  name: Clozd /programs API
+  description: The /programs API from Clozd — 1 operation(s) for /programs.
+  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  baseURL: https://app.clozd.com/public-api/v3
+  tags:
+  - /programs
+  properties:
+  - type: OpenAPI
+    url: openapi/clozd-programs-api-openapi.yml
+  - type: Documentation
+    url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  - type: Authentication
+    url: authentication/clozd-authentication.yml
+  - type: Conventions
+    url: conventions/clozd-conventions.yml
+  - type: ErrorCatalog
+    url: errors/clozd-problem-types.yml
+  - type: DataModel
+    url: data-model/clozd-data-model.yml
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v2.0
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
+- aid: clozd:clozd-programs-program-id-competitors-api
+  name: Clozd /programs/:program Id/competitors API
+  description: >-
+    The /programs/:program_id/competitors API from Clozd — 1 operation(s) for /programs/:program_id/competitors.
+  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  baseURL: https://app.clozd.com/public-api/v3
+  tags:
+  - /programs/:program_id/competitors
+  properties:
+  - type: OpenAPI
+    url: openapi/clozd-programs-program-id-competitors-api-openapi.yml
+  - type: Documentation
+    url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  - type: Authentication
+    url: authentication/clozd-authentication.yml
+  - type: Conventions
+    url: conventions/clozd-conventions.yml
+  - type: ErrorCatalog
+    url: errors/clozd-problem-types.yml
+  - type: DataModel
+    url: data-model/clozd-data-model.yml
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v2.0
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
+- aid: clozd:clozd-programs-program-id-deals-api
+  name: Clozd /programs/:program Id/deals API
+  description: >-
+    The /programs/:program_id/deals API from Clozd — 1 operation(s) for /programs/:program_id/deals.
+  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  baseURL: https://app.clozd.com/public-api/v3
+  tags:
+  - /programs/:program_id/deals
+  properties:
+  - type: OpenAPI
+    url: openapi/clozd-programs-program-id-deals-api-openapi.yml
+  - type: Documentation
+    url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  - type: Authentication
+    url: authentication/clozd-authentication.yml
+  - type: Conventions
+    url: conventions/clozd-conventions.yml
+  - type: ErrorCatalog
+    url: errors/clozd-problem-types.yml
+  - type: DataModel
+    url: data-model/clozd-data-model.yml
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v2.0
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
+- aid: clozd:clozd-programs-program-id-deals-deal-id-api
+  name: Clozd /programs/:program Id/deals/:deal ID API
+  description: >-
+    The /programs/:program_id/deals/:deal_id API from Clozd — 1 operation(s) for /programs/:program_id/deals/:deal_id.
+  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  baseURL: https://app.clozd.com/public-api/v3
+  tags:
+  - /programs/:program_id/deals/:deal_id
+  properties:
+  - type: OpenAPI
+    url: openapi/clozd-programs-program-id-deals-deal-id-api-openapi.yml
+  - type: Documentation
+    url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  - type: Authentication
+    url: authentication/clozd-authentication.yml
+  - type: Conventions
+    url: conventions/clozd-conventions.yml
+  - type: ErrorCatalog
+    url: errors/clozd-problem-types.yml
+  - type: DataModel
+    url: data-model/clozd-data-model.yml
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v2.0
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
+- aid: clozd:clozd-programs-program-id-deals-import-api
+  name: Clozd /programs/:program Id/deals/import API
+  description: >-
+    The /programs/:program_id/deals/import API from Clozd — 1 operation(s) for /programs/:program_id/deals/import.
+  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  baseURL: https://app.clozd.com/public-api/v3
+  tags:
+  - /programs/:program_id/deals/import
+  properties:
+  - type: OpenAPI
+    url: openapi/clozd-programs-program-id-deals-import-api-openapi.yml
+  - type: Documentation
+    url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  - type: Authentication
+    url: authentication/clozd-authentication.yml
+  - type: Conventions
+    url: conventions/clozd-conventions.yml
+  - type: ErrorCatalog
+    url: errors/clozd-problem-types.yml
+  - type: DataModel
+    url: data-model/clozd-data-model.yml
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v2.0
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
+- aid: clozd:clozd-programs-program-id-touchpoints-api
+  name: Clozd /programs/:program Id/touchpoints API
+  description: >-
+    The /programs/:program_id/touchpoints API from Clozd — 1 operation(s) for /programs/:program_id/touchpoints.
+  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  baseURL: https://app.clozd.com/public-api/v3
+  tags:
+  - /programs/:program_id/touchpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/clozd-programs-program-id-touchpoints-api-openapi.yml
+  - type: Documentation
+    url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  - type: Authentication
+    url: authentication/clozd-authentication.yml
+  - type: Conventions
+    url: conventions/clozd-conventions.yml
+  - type: ErrorCatalog
+    url: errors/clozd-problem-types.yml
+  - type: DataModel
+    url: data-model/clozd-data-model.yml
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v2.0
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
+- aid: clozd:clozd-programs-program-id-touchpoints-touchpoint-id-api
+  name: Clozd /programs/:program Id/touchpoints/:touchpoint ID API
+  description: >-
+    The /programs/:program_id/touchpoints/:touchpoint_id API from Clozd — 1 operation(s) for /programs/:program_id/touchpoints/:touchpoint_id.
+  humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  baseURL: https://app.clozd.com/public-api/v3
+  tags:
+  - /programs/:program_id/touchpoints/:touchpoint_id
+  properties:
+  - type: OpenAPI
+    url: openapi/clozd-programs-program-id-touchpoints-touchpoint-id-api-openapi.yml
+  - type: Documentation
+    url: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
+  - type: Authentication
+    url: authentication/clozd-authentication.yml
+  - type: Conventions
+    url: conventions/clozd-conventions.yml
+  - type: ErrorCatalog
+    url: errors/clozd-problem-types.yml
+  - type: DataModel
+    url: data-model/clozd-data-model.yml
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v2.0
+  - type: APIReference
+    url: https://app.clozd.com/public-api/docs/?urls.primaryName=v1.0
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/clozd-data-api-v1-overlay.yaml
 - type: AgenticAccess
   url: agentic-access/clozd-agentic-access.yml
 - type: Website
