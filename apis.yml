@@ -17,7 +17,7 @@ x-type: company
 x-source: harvest:secondary-market
 specificationVersion: '0.21'
 created: '2026-08-02'
-modified: '2026-08-04'
+modified: '2026-08-14'
 tags:
 - win-loss-analysis
 - customer-feedback
@@ -319,8 +319,22 @@ common:
   url: conventions/clozd-conventions.yml
 - type: AgentSkill
   url: skills/_index.yml
+- type: Packages
+  url: packages/clozd-packages.yml
+- type: Plans
+  url: plans/clozd-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/clozd-rate-limits.yml
+- type: Components
+  url: components/clozd-components.yml
+- type: TrustCenter
+  url: security/clozd-trust-center.yml
+- type: Overlay
+  url: overlays/clozd-data-api-v2-overlay.yaml
+- type: Overlay
+  url: overlays/clozd-data-api-v3-overlay.yaml
 x-enrichment:
-  date: '2026-08-04'
+  date: '2026-08-14'
   status: enriched
-  artifacts_added: 29
+  artifacts_added: 4
   pass: local-v1
