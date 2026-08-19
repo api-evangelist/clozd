@@ -1,0 +1,408 @@
+{
+  "item": [
+    {
+      "id": "cdc75b32-0d80-4354-b895-e2e44a7e3909",
+      "name": "/programs/:program_id/competitors",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a831bd5b-ea63-4ea5-99d1-35cfded09515",
+          "name": "Get list of competitors",
+          "request": {
+            "name": "Get list of competitors",
+            "description": {
+              "content": "Get a paginated list of competitors for a program (optionally with deals and responses referenced by competitors). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "programs",
+                ":program_id",
+                "competitors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "1000",
+                  "description": "Limit for paging (min:1, max:1000)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Offset for paging (min:0, max:100000)"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[competitor_updated_since]",
+                  "value": "<dateTime>",
+                  "description": "Returns only competitors updated since the date and time specified. Specifying this parameter will enable periodic query of incremental changes since the last pull (instead of always having to pull all competitors). (max:25 chars, ISO8601 date-time format)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "program_id",
+                  "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "08ec0f6e-167f-4cb1-8df3-4fe968728b82",
+              "name": "Successful get operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "competitors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "200"
+                    },
+                    {
+                      "key": "include",
+                      "value": "deals"
+                    },
+                    {
+                      "key": "include",
+                      "value": "responses"
+                    },
+                    {
+                      "key": "filter[competitor_updated_since]",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Successfully retrieved competitor data.\",\n  \"links\": {\n    \"self\": \"https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=4\",\n    \"prev\": \"https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=2\",\n    \"next\": \"https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=6\",\n    \"first\": \"https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=0\",\n    \"last\": \"https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=12\"\n  },\n  \"count\": 2,\n  \"total\": 13,\n  \"data\": [\n    {\n      \"clozd_competitor_id\": \"aef18e08-cbc0-4d86-9013-c74564de2960\",\n      \"clozd_competitor_name\": \"ACME, Inc.\",\n      \"clozd_competitor_domain\": \"acme.com\",\n      \"clozd_update_date\": \"2022-04-09T18:57:08.485Z\",\n      \"clozd_competitor_deals\": [\n        {\n          \"clozd_deal_id\": \"ec672b7a-f7c9-4d95-b6a0-82b562876a7f\",\n          \"clozd_competitor_responses\": [\n            \"08d86887-2cbf-4a54-a73b-4101bdd96aab\"\n          ]\n        },\n        {\n          \"clozd_deal_id\": \"fc41f67e-3050-492e-a0f2-957870ccfb18\",\n          \"clozd_competitor_responses\": [\n            \"b24619b4-0283-4b9b-9340-130fe7e2cead\",\n            \"8b1aa294-ee82-4264-a885-64521847b9d1\"\n          ]\n        }\n      ]\n    },\n    {\n      \"clozd_competitor_id\": \"934e1861-d942-41e9-98a2-b07f20af93aa\",\n      \"clozd_competitor_name\": \"FUNCO, Inc.\",\n      \"clozd_competitor_domain\": \"fun.co\",\n      \"clozd_update_date\": \"2022-04-08T18:57:08.485Z\",\n      \"clozd_competitor_deals\": [\n        {\n          \"clozd_deal_id\": \"7d0b27cf-e6d4-495b-b0c7-e46110976c85\",\n          \"clozd_competitor_responses\": [\n            \"39e0e3ae-cde5-4043-be09-7fa2d329337f\"\n          ]\n        }\n      ]\n    },\n    {\n      \"clozd_competitor_id\": \"934e1861-d942-41e9-98a2-b07f20af93aa\",\n      \"clozd_competitor_name\": \"DONECO, Inc.\",\n      \"clozd_competitor_domain\": \"done.co\",\n      \"clozd_update_date\": \"2022-04-07T18:57:08.485Z\",\n      \"clozd_competitor_deals\": []\n    },\n    {\n      \"clozd_competitor_name\": \"unknown\",\n      \"clozd_competitor_deals\": [\n        {\n          \"clozd_deal_id\": \"74d05a49-dcf8-4bf1-83eb-da97179f55e2\",\n          \"clozd_competitor_responses\": [\n            \"eb47fe87-fe31-4785-80a4-2d086c643d27\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e34f9487-1f77-4973-abd9-8aa87c6db4e3",
+              "name": "Failed operation (Bad Request)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "competitors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "200"
+                    },
+                    {
+                      "key": "include",
+                      "value": "deals"
+                    },
+                    {
+                      "key": "include",
+                      "value": "responses"
+                    },
+                    {
+                      "key": "filter[competitor_updated_since]",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Bad Request.\",\n  \"errorCode\": \"API009\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1d2c5712-becd-40b1-9b75-538ace1fd512",
+              "name": "Failed operation (Unauthorized)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "competitors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "200"
+                    },
+                    {
+                      "key": "include",
+                      "value": "deals"
+                    },
+                    {
+                      "key": "include",
+                      "value": "responses"
+                    },
+                    {
+                      "key": "filter[competitor_updated_since]",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Not authorized.\",\n  \"errorCode\": \"AUTH005\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d980fb91-c9d7-4bcf-8637-fc1a4fa03827",
+              "name": "Failed operation (Forbidden)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "competitors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "200"
+                    },
+                    {
+                      "key": "include",
+                      "value": "deals"
+                    },
+                    {
+                      "key": "include",
+                      "value": "responses"
+                    },
+                    {
+                      "key": "filter[competitor_updated_since]",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Forbidden.\",\n  \"errorCode\": \"AUTH006\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.clozd.com/public-api/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e98f5fb2-8fc8-488a-b0e0-773f35ef71e3",
+    "name": "Clozd Data /programs/:program Id/competitors /programs/:program Id/competitors API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Documentation on how to utilize the Clozd Data API.\n\nContact Support:\n Email: support@clozd.com",
+      "type": "text/plain"
+    }
+  }
+}

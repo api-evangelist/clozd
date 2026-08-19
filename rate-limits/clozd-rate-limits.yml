@@ -1,0 +1,105 @@
+generated: '2026-08-14'
+method: probed
+source: >-
+  live unauthenticated request to https://app.clozd.com/public-api/v3/programs and
+  https://mcp.clozd.com/mcp, plus openapi/_original/clozd-data-api-v3-openapi.yml and
+  https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+limit_count: 0
+documented: false
+limits: []
+note: >-
+  Clozd publishes no rate limit, quota, throttling or fair-use documentation for either the REST Data API
+  or the MCP server, and none of the three OpenAPI documents declares a 429 response on any operation. A
+  live unauthenticated request to the v3 collection endpoint returned 401 with no RateLimit-*,
+  X-RateLimit-*, Retry-After or RateLimit-Policy header on the response, so there is no runtime signal an
+  agent could read either. limit_count is 0 as a measured fact.
+response_headers:
+  rate_limit_headers_present: false
+  observed_on:
+  - request: GET https://app.clozd.com/public-api/v3/programs (no x-api-token)
+    http_status: 401
+    headers_returned:
+    - date
+    - content-type
+    - content-length
+    - cross-origin-opener-policy
+    - cross-origin-resource-policy
+    - origin-agent-cluster
+    - referrer-policy
+    - strict-transport-security
+    - x-content-type-options
+    - x-dns-prefetch-control
+    - x-download-options
+    - x-frame-options
+    - x-permitted-cross-domain-policies
+    - x-xss-protection
+    - etag
+    - set-cookie
+    rate_limit_headers: []
+  - request: POST https://mcp.clozd.com/mcp {"jsonrpc":"2.0","id":1,"method":"tools/list"}
+    http_status: 401
+    rate_limit_headers: []
+    www_authenticate: Bearer realm="Clozd MCP", resource_metadata="https://mcp.clozd.com/.well-known/oauth-protected-resource/mcp"
+  caveat: >-
+    Both observations are on unauthenticated 401 responses. An authenticated 2xx could in principle carry
+    rate-limit headers that a 401 does not; that cannot be verified without a customer token, and no
+    document claims such headers exist.
+exhaustion_status_code: not-published
+retry_guidance: not-published
+capacity_constraints:
+  note: >-
+    Not rate limits, but the only capacity ceilings the contract actually states. Recorded so a consumer
+    can size a full extract, since nothing else bounds request volume.
+  constraints:
+  - name: page size
+    param: limit
+    in: query
+    default: 1000
+    minimum: 1
+    maximum: 1000
+    applies_to: every collection operation in v3
+    source: openapi/_original/clozd-data-api-v3-openapi.yml
+  - name: pagination walk ceiling
+    param: offset
+    in: query
+    default: 0
+    minimum: 0
+    maximum: 100000
+    applies_to: every collection operation in v3
+    source: openapi/_original/clozd-data-api-v3-openapi.yml
+    effect: >-
+      A single collection cannot be walked past 100,000 records by offset alone; beyond that a consumer
+      must partition by filter[*_updated_since].
+  - name: include expansion cap
+    param: include
+    max_items_by_operation:
+      competitors: 2
+      deals: 5
+      deal: 7
+      touchpoints: 5
+      touchpoint: 6
+    source: conventions/clozd-conventions.yml
+recommended_client_posture: >-
+  With no published limit and no response headers, a client should self-throttle conservatively, use
+  filter[*_updated_since] for incremental pulls rather than repeated full walks (the pattern Clozd itself
+  documents), and treat any 5xx as backoff-worthy since no 429 contract exists.
+gaps:
+- No published rate limit or quota for the REST Data API.
+- No published rate limit or quota for the MCP server.
+- No RateLimit-* / X-RateLimit-* / Retry-After headers observed.
+- No 429 response declared in any of the three OpenAPI documents.
+cross_links:
+  conventions: conventions/clozd-conventions.yml
+  errors: errors/clozd-problem-types.yml
+  lifecycle: lifecycle/clozd-lifecycle.yml
+x-evidence:
+  fetched: '2026-08-14'
+  urls:
+  - url: https://app.clozd.com/public-api/v3/programs
+    http_status: 401
+    body: '{"success":false,"message":"''x-api-token'' header required","errorCode":"API009",...}'
+  - url: https://mcp.clozd.com/mcp
+    http_status: 401
+  - url: https://help.clozd.com/api/v2/help_center/articles/search.json?query=rate%20limit
+    http_status: 200
+    note: 15 loosely-matched articles, none documenting API rate limits

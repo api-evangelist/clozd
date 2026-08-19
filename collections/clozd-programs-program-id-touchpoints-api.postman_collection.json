@@ -1,0 +1,748 @@
+{
+  "item": [
+    {
+      "id": "869fafe1-5b9a-4d3b-9309-d02ec1014478",
+      "name": "/programs/:program_id/touchpoints",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f3035e04-3300-4695-af6a-c4143bfc1194",
+          "name": "Get list of Clozd program touchpoints",
+          "request": {
+            "name": "Get list of Clozd program touchpoints",
+            "description": {
+              "content": "Get a paginated list of touchpoints with basic fields and share link (if there is published feedback). See /programs/:program_id/touchpoints/:touchpoint_id endpoint to get a specific touchpoint with details. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app. \n\n**NOTE**: this endpoint is only usable for program types other than 'win-loss'.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "programs",
+                ":program_id",
+                "touchpoints"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "1000",
+                  "description": "Limit for paging (min:1, max:1000)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Offset for paging (min:0, max:100000)"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[feedback_published_since]",
+                  "value": "<dateTime>",
+                  "description": "Returns only touchpoints with published feedback that have been published or updated since the date and time specified. See clozd_publish_date and clozd_update_date. NOTE: Specifying this parameter will by definition filter out touchpoints which have no published feedback. It will also enable periodic query of incremental changes since last pull (instead of always having to pull all touchpoints). (max:25 chars, ISO8601 date-time format)"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[feedback_updated_since]",
+                  "value": "<dateTime>",
+                  "description": "Returns only touchpoints with published feedback that have been published or updated since the date and time specified. See clozd_publish_date and clozd_update_date. NOTE: Specifying this parameter will by definition filter out touchpoints which have no published feedback. It will also enable periodic query of incremental changes since last pull (instead of always having to pull all touchpoints). (max:25 chars, ISO8601 date-time format)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "program_id",
+                  "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fc768081-3d56-424a-ac52-ec1bbe3283c6",
+              "name": "Successful get operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "200"
+                    },
+                    {
+                      "key": "include",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include",
+                      "value": "feedback"
+                    },
+                    {
+                      "key": "filter[feedback_published_since]",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "filter[feedback_updated_since]",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Successfully retrieved touchpoint data.\",\n  \"links\": {\n    \"self\": \"https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/touchpoints?limit=2&offset=4\",\n    \"prev\": \"https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/touchpoints?limit=2&offset=2\",\n    \"next\": \"https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/touchpoints?limit=2&offset=6\",\n    \"first\": \"https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/touchpoints?limit=2&offset=0\",\n    \"last\": \"https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/touchpoints?limit=2&offset=12\"\n  },\n  \"count\": 2,\n  \"total\": 13,\n  \"data\": [\n    {\n      \"clozd_touchpoint_id\": \"aef18e08-cbc0-4d86-9013-c74564de2960\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_touchpoint_name\": \"ACME, Inc.\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_share_link\": \"https://app.clozd.com/share/deals/aef18e08-cbc0-4d86-9013-c74564de2960\",\n      \"clozd_industry\": \"SaaS\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_segment\": \"B2B\",\n      \"clozd_region\": \"East\",\n      \"clozd_headcount\": 12,\n      \"clozd_revenue\": 10000,\n      \"clozd_owner_name\": \"Sales Rep\",\n      \"clozd_owner_email\": \"rep@sales.com\",\n      \"clozd_responses\": [\n        {\n          \"clozd_response_id\": \"d2c7ffae-2be7-4d4c-b081-2c6153c105f5\",\n          \"clozd_response_participant\": {\n            \"clozd_participant_id\": \"7624ba11-291a-450b-9781-dda5977321ba\",\n            \"clozd_participant_external_id\": \"0000002\",\n            \"clozd_participant_first_name\": \"First\",\n            \"clozd_participant_last_name\": \"Last\",\n            \"clozd_participant_email\": \"participant@email.com\",\n            \"clozd_participant_type\": \"buyer\",\n            \"clozd_participant_is_primary\": true,\n            \"clozd_participant_phone\": \"888-111-2222\",\n            \"clozd_participant_title\": \"Chief Buyer\",\n            \"clozd_participant_role\": \"Buying Agent\"\n          },\n          \"clozd_channel\": \"buyer interview\",\n          \"clozd_publish_date\": \"2022-04-09T18:57:08.485Z\",\n          \"clozd_summary\": \"ACME chose BigCo over MyCo because they felt it offered totally comparable features for only one-third the cost. BigCo had the strongest sales experience and would have been the first choice, but was removed from consideration because the price was so much higher than competitors.\",\n          \"clozd_themes\": [\n            {\n              \"clozd_category_name\": \"Pricing, Value & Packaging\",\n              \"clozd_theme_name\": \"Perceived Value Relative to Price\",\n              \"clozd_theme_rating\": -1,\n              \"clozd_theme_quotes\": [\n                \"MyCo's pricing is just wildly higher than every [other vendor] I spoke to, with the exception of TheirCo. [HereCo] is maybe a third of what [MyCo] was quoting us . . . There was really just no way to justify that massive premium.\"\n              ]\n            },\n            {\n              \"clozd_category_name\": \"Sales\",\n              \"clozd_theme_name\": \"Trust & Professionalism\",\n              \"clozd_theme_rating\": 1,\n              \"clozd_theme_quotes\": [\n                \"[MyCo's biggest strength] was that the people I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to. Every scenario I posed, they had handled before. [MyCo's] website really gives you a good sense of security and that they know what they're doing. I mean, everybody I dealt with over there was fantastic.\"\n              ]\n            }\n          ],\n          \"clozd_survey_questions\": [\n            {\n              \"clozd_question\": \"What is MyCo's biggest strength that makes them stand out against their competitors?\",\n              \"clozd_answer\": \"Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.\"\n            },\n            {\n              \"clozd_question\": \"What areas would you like improved?\",\n              \"clozd_answer\": \"Support;Website;Pricing\"\n            }\n          ],\n          \"clozd_update_date\": \"2022-04-09T18:57:08.485Z\"\n        }\n      ]\n    },\n    {\n      \"clozd_touchpoint_id\": \"934e1861-d942-41e9-98a2-b07f20af93aa\",\n      \"clozd_external_id\": \"0000002\",\n      \"clozd_touchpoint_name\": \"FUNCO, Inc.\",\n      \"clozd_organization_name\": \"FUNCO, Inc.\",\n      \"clozd_organization_domain\": \"funco.com\",\n      \"clozd_industry\": \"SaaS\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_segment\": \"B2B\",\n      \"clozd_region\": \"West\",\n      \"clozd_headcount\": 44,\n      \"clozd_revenue\": 20000,\n      \"clozd_owner_name\": \"Sales Rep\",\n      \"clozd_owner_email\": \"rep@sales.com\",\n      \"clozd_responses\": [\n        {\n          \"clozd_response_id\": \"273039e7-f980-4348-ad62-cf819f97cdd4\",\n          \"clozd_response_participant\": {\n            \"clozd_participant_id\": \"8d29f492-eb16-4748-bd13-fae8118e27ab\",\n            \"clozd_participant_external_id\": \"0000003\",\n            \"clozd_participant_first_name\": \"First2\",\n            \"clozd_participant_last_name\": \"Last2\",\n            \"clozd_participant_email\": \"participant2@email.com\",\n            \"clozd_participant_type\": \"buyer\",\n            \"clozd_participant_is_primary\": true,\n            \"clozd_participant_phone\": \"888-111-2222\",\n            \"clozd_participant_title\": \"Chief Buyer\",\n            \"clozd_participant_role\": \"Buying Agent\"\n          },\n          \"clozd_channel\": \"buyer interview\",\n          \"clozd_publish_date\": \"2022-04-09T18:57:08.485Z\",\n          \"clozd_summary\": \"FUNCO chose SmallCo over TheirCo because they felt it offered totally comparable features for only one-third the cost. SmallCo had the strongest sales experience and would have been the first choice, but was removed from consideration because the price was so much higher than competitors.\",\n          \"clozd_themes\": [\n            {\n              \"clozd_category_name\": \"Pricing, Value & Packaging\",\n              \"clozd_theme_name\": \"Perceived Value Relative to Price\",\n              \"clozd_theme_rating\": 2,\n              \"clozd_theme_quotes\": [\n                \"TheirCo's pricing is just much lower than every [other vendor] I spoke to, with the exception of MyCo. [HereCo] is maybe twice of what [MyCo] was quoting us . . . It was really a no brainer.\"\n              ]\n            },\n            {\n              \"clozd_category_name\": \"Sales\",\n              \"clozd_theme_name\": \"Trust & Professionalism\",\n              \"clozd_theme_rating\": 1,\n              \"clozd_theme_quotes\": [\n                \"[TheirCo's biggest strength] was that the people I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to. Every scenario I posed, they had handled before. [TheirCo's] website really gives you a good sense of security and that they know what they're doing. I mean, everybody I dealt with over there was fantastic.\"\n              ]\n            }\n          ],\n          \"clozd_survey_questions\": [\n            {\n              \"clozd_question\": \"What is MyCo's biggest strength that makes them stand out against their competitors?\",\n              \"clozd_answer\": \"Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.\"\n            },\n            {\n              \"clozd_question\": \"What areas would you like improved?\",\n              \"clozd_answer\": \"Support;Website;Pricing\"\n            }\n          ],\n          \"clozd_update_date\": \"2022-04-09T18:57:08.485Z\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7790c9ff-c737-4c58-87c3-5cb492f277bc",
+              "name": "Failed operation (Bad Request)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "200"
+                    },
+                    {
+                      "key": "include",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include",
+                      "value": "feedback"
+                    },
+                    {
+                      "key": "filter[feedback_published_since]",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "filter[feedback_updated_since]",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Bad Request.\",\n  \"errorCode\": \"API009\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d0979e4-e376-484c-8cc9-ac905b68064f",
+              "name": "Failed operation (Unauthorized)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "200"
+                    },
+                    {
+                      "key": "include",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include",
+                      "value": "feedback"
+                    },
+                    {
+                      "key": "filter[feedback_published_since]",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "filter[feedback_updated_since]",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Not authorized.\",\n  \"errorCode\": \"AUTH005\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7995301-7fce-4521-8e23-98b541c8ac6c",
+              "name": "Failed operation (Forbidden)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "200"
+                    },
+                    {
+                      "key": "include",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include",
+                      "value": "feedback"
+                    },
+                    {
+                      "key": "filter[feedback_published_since]",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "filter[feedback_updated_since]",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Forbidden.\",\n  \"errorCode\": \"AUTH006\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "196a83e2-9334-4071-837e-c360a933b965",
+          "name": "Create or update Clozd touchpoint and participant data",
+          "request": {
+            "name": "Create or update Clozd touchpoint and participant data",
+            "description": {
+              "content": "Create or update 1 to many touchpoints and 0 to many participants associated with the touchpoint. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application). The body of the post request will follow the schema below. If an attribute is required or a wrong value type is provided the POST request will be rolled back and rejected. \n - Program id is required, you can get the program id from the settings page within the Clozd app. \n - Custom fields are acceptable. The key name must match the name of the field name created in Clozd app exactly. \n - Participants are included within the touchpoint object \n - Names of properties and display names are not always the same\n\n**NOTE**: this endpoint is only usable for program types other than 'win-loss'.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "programs",
+                ":program_id",
+                "touchpoints"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "program_id",
+                  "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"import_name\": \"<string>\",\n  \"touchpoints\": [\n    {\n      \"clozd_organization_name\": \"<string>\",\n      \"clozd_touchpoint_name\": \"<string>\",\n      \"clozd_external_id\": \"<string>\",\n      \"clozd_organization_domain\": \"<string>\",\n      \"clozd_touchpoint_id\": \"<uuid>\",\n      \"clozd_created_date\": \"<dateTime>\",\n      \"clozd_currency\": \"<string>\",\n      \"clozd_headcount\": \"<long>\",\n      \"clozd_industry\": \"<string>\",\n      \"clozd_region\": \"<string>\",\n      \"clozd_revenue\": \"<double>\",\n      \"clozd_owner_email\": \"<email>\",\n      \"clozd_owner_name\": \"<string>\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_first_name\": \"<string>\",\n          \"clozd_participant_last_name\": \"<string>\",\n          \"clozd_participant_email\": \"<email>\",\n          \"clozd_participant_type\": \"<string>\",\n          \"clozd_participant_id\": \"<uuid>\",\n          \"clozd_participant_external_id\": \"<string>\",\n          \"clozd_participant_is_primary\": \"<boolean>\",\n          \"clozd_participant_phone\": \"<string>\",\n          \"clozd_participant_title\": \"<string>\",\n          \"clozd_participant_role\": \"<string>\"\n        },\n        {\n          \"clozd_participant_first_name\": \"<string>\",\n          \"clozd_participant_last_name\": \"<string>\",\n          \"clozd_participant_email\": \"<email>\",\n          \"clozd_participant_type\": \"<string>\",\n          \"clozd_participant_id\": \"<uuid>\",\n          \"clozd_participant_external_id\": \"<string>\",\n          \"clozd_participant_is_primary\": \"<boolean>\",\n          \"clozd_participant_phone\": \"<string>\",\n          \"clozd_participant_title\": \"<string>\",\n          \"clozd_participant_role\": \"<string>\"\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9a18e8c2-efa1-445e-a4f2-471d0db1afae",
+              "name": "Successful create or update operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"import_name\": \"2022 Touchpoints Import\",\n  \"touchpoints\": [\n    {\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_touchpoint_name\": \"ACME, Inc.\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_headcount\": 12,\n      \"clozd_industry\": \"SAAS\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_region\": \"East\",\n      \"clozd_revenue\": 10000,\n      \"clozd_owner_email\": \"rep@sales.com\",\n      \"clozd_owner_name\": \"Sales Rep\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_external_id\": \"0000002\",\n          \"clozd_participant_first_name\": \"First\",\n          \"clozd_participant_last_name\": \"Last\",\n          \"clozd_participant_email\": \"participant@email.com\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"888-111-2222\",\n          \"clozd_participant_title\": \"Chief Buyer\",\n          \"clozd_participant_role\": \"Buying Agent\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Successfully imported touchpoint data.\",\n  \"data\": {\n    \"result\": \"Created Touchpoints: 1 Updated Touchpoints: 0\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b230a9ec-a114-415e-af23-e07c06e81559",
+              "name": "Failed operation (Bad Request)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"import_name\": \"2022 Touchpoints Import\",\n  \"touchpoints\": [\n    {\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_touchpoint_name\": \"ACME, Inc.\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_headcount\": 12,\n      \"clozd_industry\": \"SAAS\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_region\": \"East\",\n      \"clozd_revenue\": 10000,\n      \"clozd_owner_email\": \"rep@sales.com\",\n      \"clozd_owner_name\": \"Sales Rep\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_external_id\": \"0000002\",\n          \"clozd_participant_first_name\": \"First\",\n          \"clozd_participant_last_name\": \"Last\",\n          \"clozd_participant_email\": \"participant@email.com\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"888-111-2222\",\n          \"clozd_participant_title\": \"Chief Buyer\",\n          \"clozd_participant_role\": \"Buying Agent\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Bad Request.\",\n  \"errorCode\": \"API009\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "baa17980-1254-4ff4-ac24-0951f701e879",
+              "name": "Failed operation (Unauthorized)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"import_name\": \"2022 Touchpoints Import\",\n  \"touchpoints\": [\n    {\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_touchpoint_name\": \"ACME, Inc.\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_headcount\": 12,\n      \"clozd_industry\": \"SAAS\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_region\": \"East\",\n      \"clozd_revenue\": 10000,\n      \"clozd_owner_email\": \"rep@sales.com\",\n      \"clozd_owner_name\": \"Sales Rep\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_external_id\": \"0000002\",\n          \"clozd_participant_first_name\": \"First\",\n          \"clozd_participant_last_name\": \"Last\",\n          \"clozd_participant_email\": \"participant@email.com\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"888-111-2222\",\n          \"clozd_participant_title\": \"Chief Buyer\",\n          \"clozd_participant_role\": \"Buying Agent\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Not authorized.\",\n  \"errorCode\": \"AUTH005\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b060438a-b388-4033-80ce-2d3304f8e374",
+              "name": "Failed operation (Forbidden)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"import_name\": \"2022 Touchpoints Import\",\n  \"touchpoints\": [\n    {\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_touchpoint_name\": \"ACME, Inc.\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_headcount\": 12,\n      \"clozd_industry\": \"SAAS\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_region\": \"East\",\n      \"clozd_revenue\": 10000,\n      \"clozd_owner_email\": \"rep@sales.com\",\n      \"clozd_owner_name\": \"Sales Rep\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_external_id\": \"0000002\",\n          \"clozd_participant_first_name\": \"First\",\n          \"clozd_participant_last_name\": \"Last\",\n          \"clozd_participant_email\": \"participant@email.com\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"888-111-2222\",\n          \"clozd_participant_title\": \"Chief Buyer\",\n          \"clozd_participant_role\": \"Buying Agent\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Forbidden.\",\n  \"errorCode\": \"AUTH006\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.clozd.com/public-api/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c854d3c0-b233-4de9-9cf8-2f5688e8f5bc",
+    "name": "Clozd Data /programs/:program Id/touchpoints /programs/:program Id/touchpoints API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Documentation on how to utilize the Clozd Data API.\n\nContact Support:\n Email: support@clozd.com",
+      "type": "text/plain"
+    }
+  }
+}

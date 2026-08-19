@@ -27,22 +27,18 @@ server:
     - SAML
     - OneLogin
     - email + password
-    notes: >-
-      No API keys or tokens are placed in client configuration. The AI client opens a browser window and the
-      user signs in through their organization's identity provider. Role-based access control and program
-      scoping are enforced by the Clozd platform on the authenticated user.
+    notes: No API keys or tokens are placed in client configuration. The AI client opens a browser window
+      and the user signs in through their organization's identity provider. Role-based access control
+      and program scoping are enforced by the Clozd platform on the authenticated user.
   live_probe:
     fetched: '2026-08-04'
-    method: 'POST /mcp {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    method: POST /mcp {"jsonrpc":"2.0","id":1,"method":"tools/list"}
     http_status: 401
     body: '{"success":false,"message":"MCP authentication failed.","errorCode":"MCP001"}'
-    www_authenticate: >-
-      Bearer realm="Clozd MCP",
-      resource_metadata="https://mcp.clozd.com/.well-known/oauth-protected-resource/mcp"
-    conclusion: >-
-      tools/list is auth-gated, so live inputSchema introspection is not possible anonymously. The tool list
-      below is transcribed verbatim from Clozd's published help-center table and product page — names and
-      descriptions only. Input schemas require an authenticated introspection pass.
+    www_authenticate: Bearer realm="Clozd MCP", resource_metadata="https://mcp.clozd.com/.well-known/oauth-protected-resource/mcp"
+    conclusion: tools/list is auth-gated, so live inputSchema introspection is not possible anonymously.
+      The tool list below is transcribed verbatim from Clozd's published help-center table and product
+      page — names and descriptions only. Input schemas require an authenticated introspection pass.
 supported_clients:
 - Claude (web, Desktop, Cowork) — custom connector
 - ChatGPT — Apps directory
@@ -56,104 +52,85 @@ tool_count: 19
 tools:
 - name: get_programs
   category: programs
-  description: >-
-    Lists the Clozd win-loss programs available to the authenticated user. Call this first to retrieve
-    program IDs needed by all other tools.
+  description: Lists the Clozd win-loss programs available to the authenticated user. Call this first
+    to retrieve program IDs needed by all other tools.
 - name: get_deals
   category: deals
-  description: >-
-    Returns a paginated list of deals with fields like outcome, amount, industry, closed date, sales rep,
-    region, and segment. Use to browse or search deal records.
+  description: Returns a paginated list of deals with fields like outcome, amount, industry, closed date,
+    sales rep, region, and segment. Use to browse or search deal records.
 - name: get_responses
   category: feedback
-  description: >-
-    Returns a paginated list of win-loss interview and survey responses, including deal link, respondent
-    role, channel, and publish date.
+  description: Returns a paginated list of win-loss interview and survey responses, including deal link,
+    respondent role, channel, and publish date.
 - name: get_response_summaries
   category: feedback
-  description: >-
-    Returns AI-generated summaries of published win-loss feedback. Faster than loading full transcripts when
-    you need a quick read on a response.
+  description: Returns AI-generated summaries of published win-loss feedback. Faster than loading full
+    transcripts when you need a quick read on a response.
 - name: get_transcripts
   category: feedback
-  description: >-
-    Returns full-text transcripts of win-loss interviews or surveys. Best used when the complete conversation
-    content is needed; prefer summaries or quotes for most use cases.
+  description: Returns full-text transcripts of win-loss interviews or surveys. Best used when the complete
+    conversation content is needed; prefer summaries or quotes for most use cases.
 - name: get_decision_drivers
   category: drivers
-  description: >-
-    Lists individual decision drivers ranked by mention count with sentiment breakdowns. Use to answer "What
-    are the most common reasons we win or lose?"
+  description: Lists individual decision drivers ranked by mention count with sentiment breakdowns. Use
+    to answer "What are the most common reasons we win or lose?"
 - name: get_decision_driver_categories
   category: drivers
-  description: >-
-    Lists high-level driver categories (e.g., Product, Pricing, Support) with aggregated sentiment. Use for
-    broad thematic questions like "Which category of feedback is most negative?"
+  description: Lists high-level driver categories (e.g., Product, Pricing, Support) with aggregated sentiment.
+    Use for broad thematic questions like "Which category of feedback is most negative?"
 - name: get_decision_driver_category_counts
   category: drivers
-  description: >-
-    Returns a frequency count of driver mentions by category. Use when you want a ranked summary of which
-    categories appear most.
+  description: Returns a frequency count of driver mentions by category. Use when you want a ranked summary
+    of which categories appear most.
 - name: get_driver_quotes
   category: drivers
-  description: >-
-    Returns verbatim buyer quotes linked to a specific decision driver or theme, including respondent
-    context. Use for direct evidence (e.g., "Show me quotes about pricing.")
+  description: Returns verbatim buyer quotes linked to a specific decision driver or theme, including
+    respondent context. Use for direct evidence (e.g., "Show me quotes about pricing.")
 - name: get_win_rates
   category: analytics
-  description: >-
-    Calculates overall win-loss rates with optional breakdown by dimension (industry, product, sales rep,
-    deal size, etc.).
+  description: Calculates overall win-loss rates with optional breakdown by dimension (industry, product,
+    sales rep, deal size, etc.).
 - name: get_competitors
   category: competitive
-  description: >-
-    Lists competitors encountered across deals with encounter counts and win-loss tallies per competitor.
+  description: Lists competitors encountered across deals with encounter counts and win-loss tallies per
+    competitor.
 - name: get_competitor_sentiment_drivers
   category: competitive
-  description: >-
-    Returns the decision drivers associated with a specific competitor filtered by positive or negative
-    sentiment. Use to answer "Why do we beat Competitor X?" or "Why do we lose to them?"
+  description: Returns the decision drivers associated with a specific competitor filtered by positive
+    or negative sentiment. Use to answer "Why do we beat Competitor X?" or "Why do we lose to them?"
 - name: get_awe_deals
   category: deals
-  description: >-
-    Returns deals flagged as At-risk, Win-back, or Expansion opportunities. Use to surface actionable
-    accounts for CS, sales, or revenue teams.
+  description: Returns deals flagged as At-risk, Win-back, or Expansion opportunities. Use to surface
+    actionable accounts for CS, sales, or revenue teams.
 - name: get_tags
   category: metadata
-  description: >-
-    Lists user-defined tags applied to deals with usage counts. Optionally returns the deal IDs associated
-    with each tag.
+  description: Lists user-defined tags applied to deals with usage counts. Optionally returns the deal
+    IDs associated with each tag.
 - name: get_gong_drivers
   category: gong
-  description: >-
-    Lists AI-detected decision drivers surfaced from Gong call recordings, with sentiment distribution.
+  description: Lists AI-detected decision drivers surfaced from Gong call recordings, with sentiment distribution.
     Distinct from interview-based drivers.
 - name: get_gong_driver_categories
   category: gong
-  description: >-
-    Lists high-level category groupings of Gong-identified drivers with sentiment. Use for broad questions
-    about themes emerging in sales calls.
+  description: Lists high-level category groupings of Gong-identified drivers with sentiment. Use for
+    broad questions about themes emerging in sales calls.
 - name: get_gong_driver_counts
   category: gong
-  description: >-
-    Ranks Gong-identified drivers by frequency of mention. Use to find the most common themes across Gong
-    call data.
+  description: Ranks Gong-identified drivers by frequency of mention. Use to find the most common themes
+    across Gong call data.
 - name: get_gong_driver_category_counts
   category: gong
-  description: >-
-    Returns a frequency count of Gong driver mentions by category. Use for a ranked category-level view of
-    Gong call themes.
+  description: Returns a frequency count of Gong driver mentions by category. Use for a ranked category-level
+    view of Gong call themes.
 - name: get_gong_driver_overlap
   category: gong
-  description: >-
-    Compares Gong-identified drivers against Clozd interview drivers to show alignment and gaps between the
-    two data sources.
+  description: Compares Gong-identified drivers against Clozd interview drivers to show alignment and
+    gaps between the two data sources.
 tools_listed_on_product_page_only:
 - name: get_decision_driver_counts
-  note: >-
-    Listed on https://www.clozd.com/product/platform/clozd-mcp but absent from the help-center tool table
-    (which lists get_decision_driver_category_counts instead). Recorded as a discrepancy between the two
-    published sources, not asserted as a live tool.
+  note: Listed on https://www.clozd.com/product/platform/clozd-mcp but absent from the help-center tool
+    table (which lists get_decision_driver_category_counts instead). Recorded as a discrepancy between
+    the two published sources, not asserted as a live tool.
 roadmap:
   source: https://help.clozd.com/hc/en-us/articles/49656607624987-Connecting-to-Clozd-via-MCP
   items:
@@ -173,3 +150,10 @@ x-evidence:
     http_status: 401
   - url: https://mcp.clozd.com/.well-known/oauth-protected-resource/mcp
     http_status: 200
+deployment:
+  mode: remote
+  endpoint: https://mcp.clozd.com/mcp
+  verified: probed
+  probe: gated
+  checked: '2026-08-12'
+  source: catalog MCP census

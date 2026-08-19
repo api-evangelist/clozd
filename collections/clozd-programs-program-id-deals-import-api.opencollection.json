@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clozd Data /programs/:program Id/deals/import /programs/:program Id/deals/import API",
+    "version": "v1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "/programs/:program_id/deals/import",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Public API to import Clozd deal and participant data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.clozd.com/public-api/v1/programs/:program_id/deals/import",
+            "params": [
+              {
+                "name": "program_id",
+                "value": "2427ee0e-fc37-4537-ae83-b648d5a7c7f5",
+                "type": "path",
+                "description": "Clozd program ID (min:36 chars, max:36 chars)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-token",
+              "value": "{{x-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Public API to import 1 or many deals and 0 or many participants associated with the deal. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application). The body of the post request will follow the schema below. If an attribute is required or a wrong value type is provided the POST request will be rolled back and rejected. \n - Program id is required, you can get the program id from the settings page wit"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

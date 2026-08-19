@@ -1,4 +1,4 @@
-generated: '2026-08-04'
+generated: '2026-08-14'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
@@ -6,82 +6,29 @@ hosts:
   https: true
   tls_version: TLSv1.3
   cert_expires: Oct  1 23:41:30 2026 GMT
-  http_status: 200
   hsts: true
   hsts_max_age: 31536000
-  hsts_include_subdomains: true
-  hsts_preload: true
-- host: app.clozd.com
-  https: true
-  tls_version: TLSv1.3
-  cert_expires: Nov 29 23:59:59 2026 GMT
-  http_status: 200
-  hsts: true
-  hsts_max_age: 31536000
-  hsts_include_subdomains: true
-  hsts_preload: false
-  note: API host — serves /public-api/v1|v2|v3 and the Swagger UI at /public-api/docs/.
-- host: mcp.clozd.com
-  https: true
-  tls_version: TLSv1.3
-  cert_expires: Mar  4 23:59:59 2027 GMT
-  http_status: 404
-  hsts: false
-  hsts_on_mcp_path: true
-  hsts_max_age_on_mcp_path: 31536000
-  note: >-
-    The host root returns 404 with no HSTS header; the MCP endpoint itself (POST /mcp) does return
-    Strict-Transport-Security max-age=31536000; includeSubDomains along with nosniff, X-Frame-Options
-    SAMEORIGIN, a restrictive CSP (default-src 'none'), COOP and CORP.
-- host: oauth.clozd.com
-  https: true
-  tls_version: TLSv1.3
-  cert_expires: Oct 31 23:59:59 2026 GMT
-  http_status: 404
-  hsts: true
-  hsts_max_age: 63072000
-  hsts_include_subdomains: true
-  hsts_preload: true
-  note: Strongest HSTS posture of any Clozd host (2 years, preload).
 - host: help.clozd.com
   https: true
   tls_version: TLSv1.3
   cert_expires: Oct  2 00:00:49 2026 GMT
-  http_status: 302
   hsts: true
   hsts_max_age: 259200
-  hsts_include_subdomains: true
-  hsts_preload: false
-  note: Zendesk-hosted help center; blocks non-browser user agents with 403.
-- host: trust.clozd.com
+- host: mcp.clozd.com
   https: true
-  http_status: 200
-  hsts: true
-  hsts_max_age: 31536000
-  hsts_include_subdomains: true
-  hsts_preload: false
-  note: Vanta-hosted trust center.
+  tls_version: TLSv1.3
+  cert_expires: Mar  4 23:59:59 2027 GMT
+  hsts: null
 domains:
 - domain: clozd.com
   dnssec: false
   caa:
-  - 0 issue "sectigo.com"
-  - 0 issuewild "amazon.com"
   - 0 issuewild "sectigo.com"
   - 0 iodef "mailto:security@clozd.com"
   - 0 issue "amazon.com"
   - 0 issue "letsencrypt.org"
-  caa_iodef: mailto:security@clozd.com
+  - 0 issue "pki.goog"
+  - 0 issue "sectigo.com"
   spf: true
   dmarc: true
   dmarc_policy: quarantine
-findings:
-- CAA is configured on the apex, including an iodef reporting address — above average for this catalog.
-- DMARC is published at p=quarantine rather than p=reject.
-- DNSSEC is not enabled on clozd.com.
-- HSTS is present on every host that serves content; mcp.clozd.com omits it on the host root.
-x-evidence:
-  fetched: '2026-08-04'
-  method_detail: >-
-    dig for CAA/SPF/DMARC/DNSSEC, openssl s_client for TLS version and certificate expiry, and curl -I for
-    HTTP status and Strict-Transport-Security per host.

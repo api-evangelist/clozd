@@ -1,0 +1,88 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  https://help.clozd.com/hc/en-us/articles/14159831657371-iFrame-Competitors-tab-to-Salesforce-Instance,
+  https://help.clozd.com/hc/en-us/articles/46451896461723-Salesforce-Integration-Automation
+component_count: 1
+note: >-
+  Clozd ships no web-component library, no JS element library and no embeddable widget loader for
+  arbitrary web pages. The one client-side embeddable surface it publishes is host-application-specific:
+  a Visualforce component, delivered inside a Salesforce managed package, that iframes the Clozd
+  Competitors tab into a Salesforce opportunity record page. It is authenticated with the same
+  organization API token as the REST Data API, which is what makes it a client-side surface of the API
+  rather than a separate product.
+families:
+- family: salesforce-embedded
+  description: >-
+    Embeds live Clozd win-loss content inside Salesforce for users who have no Clozd Platform login.
+  host_application: Salesforce (Lightning / opportunity record pages)
+  delivery: Salesforce managed package
+  package: packages/clozd-packages.yml
+  components:
+  - name: ClozdCompetitors
+    type: visualforce-iframe
+    surface: Clozd Competitors tab
+    placement: Salesforce opportunity record page (added via Edit Page)
+    recommended_height: 1200px
+    purpose: >-
+      Lets sales reps and other Salesforce users who do not have Clozd Platform access view relevant
+      win-loss competitor information while working a live opportunity.
+    configuration:
+      metadata_type: Clozd_Competitor_Setting
+      required_fields:
+      - name: Base URL
+        value_default: https://app.clozd.com
+        value_subdomain_form: https://[subdomain].app.clozd.com
+        note: >-
+          A templated host. Orgs with a Clozd subdomain must use their own subdomain and must also
+          register it as a Salesforce Remote Site Setting; orgs without one use the shared app host.
+      - name: API Token
+        note: The same organization access token used by the REST Data API (x-api-token).
+      - name: Organization ID
+      - name: Program ID
+      source: >-
+        All four values are read from the API Token section of Clozd Platform Settings, which requires
+        the API Imports entitlement to be enabled for the organization.
+    access_control:
+      mechanism: Salesforce permission set
+      permission_set: Clozd Competitors
+      note: Users must be explicitly assigned before the tab renders.
+    install:
+      production: https://login.salesforce.com/packaging/installPackage.apexp?p0=04tDm000000tLM4
+      sandbox: https://test.salesforce.com/packaging/installPackage.apexp?p0=04tDm000000tLM4
+    docs: https://help.clozd.com/hc/en-us/articles/14159831657371-iFrame-Competitors-tab-to-Salesforce-Instance
+    docs_last_updated: '2023-11-17'
+loaders: []
+loader_note: >-
+  No JS loader, CDN bundle, npm element package or hosted script tag is published. The embed mechanism is
+  an iframe rendered by Salesforce Visualforce, so there is nothing to load from a Clozd CDN.
+not_components:
+  note: >-
+    Recorded so these are not miscounted as embeddable UI. Clozd's other integrations (Salesforce, HubSpot,
+    Microsoft Dynamics, Gong, Slack, Calendly, Outlook, Gmail) are server-to-server data syncs configured in
+    the Clozd app, not client-side components. The MCP server is an agent surface, not a UI component.
+  see:
+  - https://www.clozd.com/product/platform/software-integrations
+security_observations:
+  api_token_in_client_config: true
+  detail: >-
+    The organization API token is stored in Salesforce custom metadata so the embedded frame can call
+    Clozd. That is a long-lived organization-scoped credential placed in a second system's configuration,
+    with no scoping mechanism (the REST token has no scopes — see scopes/clozd-scopes.yml) and no
+    published rotation policy. Contrast with the MCP server, which deliberately stores no key material
+    client-side and brokers OAuth to the customer's own IdP.
+  cross_links:
+    authentication: authentication/clozd-authentication.yml
+    scopes: scopes/clozd-scopes.yml
+gaps:
+- No web components or JS element library for embedding Clozd outside Salesforce.
+- No embeddable dashboard or hosted report surface for arbitrary applications.
+- The component's help article has not been updated since 2023-11-17.
+x-evidence:
+  fetched: '2026-08-14'
+  urls:
+  - url: https://help.clozd.com/api/v2/help_center/en-us/articles/14159831657371.json
+    http_status: 200
+    note: source of the managed-package install URLs, metadata type and permission set
+  - url: https://www.clozd.com/product/platform/software-integrations
+    http_status: 200

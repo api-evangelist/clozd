@@ -1,0 +1,234 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@clozd.com
+  description: Documentation on how to utilize the Clozd Data API.
+  license:
+    name: Public API v3.0
+    url: ''
+  termsOfService: https://www.clozd.com/privacy/terms-of-use
+  title: Clozd Data /programs /programs API
+  version: v3.0
+servers:
+- description: Clozd API v3.0
+  url: https://app.clozd.com/public-api/v3
+tags:
+- name: /programs
+paths:
+  /programs:
+    get:
+      description: 'Get a paginated list of programs associated with the organization for the provided API token. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).'
+      summary: Get list of programs
+      operationId: get-programs-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful get operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfPrograms'
+              example:
+                success: true
+                message: Successfully retrieved program data.
+                links:
+                  self: https://app.clozd.com/public-api/v3/programs?limit=2&offset=0
+                  prev: null
+                  next: https://app.clozd.com/public-api/v3/programs?limit=2&offset=2
+                  first: https://app.clozd.com/public-api/v3/programs?limit=2&offset=0
+                  last: https://app.clozd.com/public-api/v3/programs?limit=2&offset=2
+                count: 2
+                total: 4
+                data:
+                - clozd_program_id: c0cc3cd8-4566-4ffd-8125-bec22cf06e47
+                  clozd_program_name: Enterprise Win-Loss Program
+                  clozd_program_type: win-loss
+                - clozd_program_id: 2427ee0e-fc37-4537-ae83-b648d5a7c7f5
+                  clozd_program_name: Customer Experience Research
+                  clozd_program_type: qualitative-research
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: Failed operation (Forbidden)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+      tags:
+      - /programs
+      parameters:
+      - description: Limit for paging (min:1, max:1000)
+        in: query
+        name: limit
+        required: false
+        schema:
+          description: Limit for paging (min:1, max:1000)
+          default: 1000
+          example: 100
+          minimum: 1
+          maximum: 1000
+          format: int64
+          type: integer
+        example: 100
+      - description: Offset for paging (min:0, max:100000)
+        in: query
+        name: offset
+        required: false
+        schema:
+          description: Offset for paging (min:0, max:100000)
+          default: 0
+          example: 100
+          minimum: 0
+          maximum: 100000
+          format: int64
+          type: integer
+        example: 200
+components:
+  schemas:
+    Unauthorized:
+      description: Unauthorized response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not authorized.
+        errorCode: AUTH005
+        data: {}
+    PagedListResponse:
+      description: Success response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Success message
+          type: string
+        links:
+          description: Absolute path links to paged results
+          type: object
+          properties:
+            self:
+              description: Current page of results
+              type: string
+            prev:
+              description: Previous page of results
+              type: string
+            next:
+              description: Next page of results
+              type: string
+            first:
+              description: First page of results
+              type: string
+            last:
+              description: Last page of results
+              type: string
+        count:
+          description: Number of deals in current page of results
+          format: int64
+          type: integer
+        total:
+          description: Number of total deals in all pages of results
+          format: int64
+          type: integer
+    Program:
+      description: Program
+      type: object
+      properties:
+        clozd_program_id:
+          description: Clozd generated program id (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_program_name:
+          description: Program name
+          type: string
+        clozd_program_type:
+          description: Program type
+          type: string
+          enum:
+          - win-loss
+          - qualitative-research
+    Forbidden:
+      description: Forbidden response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Forbidden.
+        errorCode: AUTH006
+        data: {}
+    BadRequest:
+      description: Bad Request response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          additionalProperties: true
+      example:
+        success: false
+        message: Bad Request.
+        errorCode: API009
+        data: {}
+    ListOfPrograms:
+      allOf:
+      - $ref: '#/components/schemas/PagedListResponse'
+      - description: Programs
+        type: object
+        properties:
+          data:
+            description: List of programs
+            type: array
+            items:
+              $ref: '#/components/schemas/Program'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-token

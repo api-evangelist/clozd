@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clozd Data /programs/:program Id/touchpoints/:touchpoint ID /programs/:program Id/touchpoints/:touchpoint ID API",
+    "version": "v3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "/programs/:program_id/touchpoints/:touchpoint_id",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get touchpoint with details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.clozd.com/public-api/v3/programs/:program_id/touchpoints/:touchpoint_id",
+            "params": [
+              {
+                "name": "include",
+                "value": "customFields,participants",
+                "type": "query",
+                "description": "Specifies type of data to include with touchpoint. NOTE: Cannot include 'transcripts', 'surveyQuestions, or 'tags' without also including 'feedback' (maxItems:6)"
+              },
+              {
+                "name": "program_id",
+                "value": "760c040c-5dda-41e8-85ff-ef8f411d39d5",
+                "type": "path",
+                "description": "Clozd program ID (min:36 chars, max:36 chars)"
+              },
+              {
+                "name": "touchpoint_id",
+                "value": "f9437462-7e03-4bcc-a4db-84fc0dba4d01",
+                "type": "path",
+                "description": "Clozd touchpoint ID (min:36 chars, max:36 chars)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-token",
+              "value": "{{x-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a specific touchpoint with details (basic fields, extra fields, optional custom metadata fields, participants, published feedback responses, and full feedback transcript). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app. \n - :touchpoint_id is required, see /programs/:program_id/touchpoin"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

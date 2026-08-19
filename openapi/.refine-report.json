@@ -1,0 +1,35 @@
+{
+  "provider": "clozd",
+  "sources": [
+    "clozd-programs-api-openapi.yml",
+    "clozd-programs-program-id-competitors-api-openapi.yml",
+    "clozd-programs-program-id-deals-api-openapi.yml",
+    "clozd-programs-program-id-deals-deal-id-api-openapi.yml",
+    "clozd-programs-program-id-deals-import-api-openapi.yml",
+    "clozd-programs-program-id-touchpoints-api-openapi.yml",
+    "clozd-programs-program-id-touchpoints-touchpoint-id-api-openapi.yml"
+  ],
+  "outputs": [
+    "clozd-programs-api-openapi.yml",
+    "clozd-programs-program-id-competitors-api-openapi.yml",
+    "clozd-programs-program-id-deals-api-openapi.yml",
+    "clozd-programs-program-id-deals-deal-id-api-openapi.yml",
+    "clozd-programs-program-id-deals-import-api-openapi.yml",
+    "clozd-programs-program-id-touchpoints-api-openapi.yml",
+    "clozd-programs-program-id-touchpoints-touchpoint-id-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "clozd-programs-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "clozd-programs-program-id-competitors-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "clozd-programs-program-id-deals-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "clozd-programs-program-id-deals-deal-id-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "clozd-programs-program-id-deals-import-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "clozd-programs-program-id-touchpoints-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "clozd-programs-program-id-touchpoints-touchpoint-id-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}

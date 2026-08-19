@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clozd Data /programs /programs API",
+    "version": "v3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "/programs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get list of programs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.clozd.com/public-api/v3/programs",
+            "params": [
+              {
+                "name": "limit",
+                "value": "100",
+                "type": "query",
+                "description": "Limit for paging (min:1, max:1000)"
+              },
+              {
+                "name": "offset",
+                "value": "200",
+                "type": "query",
+                "description": "Offset for paging (min:0, max:100000)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-token",
+              "value": "{{x-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a paginated list of programs associated with the organization for the provided API token. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

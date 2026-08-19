@@ -1,0 +1,586 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@clozd.com
+  description: Documentation on how to utilize the Clozd Data API.
+  license:
+    name: Public API v3.0
+    url: ''
+  termsOfService: https://www.clozd.com/privacy/terms-of-use
+  title: Clozd Data /programs/:program Id/touchpoints/:touchpoint ID /programs/:program Id/touchpoints/:touchpoint ID API
+  version: v3.0
+servers:
+- description: Clozd API v3.0
+  url: https://app.clozd.com/public-api/v3
+tags:
+- name: /programs/:program_id/touchpoints/:touchpoint_id
+paths:
+  /programs/{program_id}/touchpoints/{touchpoint_id}:
+    get:
+      description: "Get a specific touchpoint with details (basic fields, extra fields, optional custom metadata fields, participants, published feedback responses, and full feedback transcript). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app. \n - :touchpoint_id is required, see /programs/:program_id/touchpoints to get a paginated list of program touchpoints. \n\n**NOTE**: this endpoint is only usable for program types other than 'win-loss'."
+      summary: Get touchpoint with details
+      operationId: get-touchpoint-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful get operation
+          content:
+            application/json:
+              schema:
+                description: Success response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Success message
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/TouchpointFull'
+                example:
+                  success: true
+                  message: Successfully retrieved touchpoint details
+                  data:
+                    clozd_touchpoint_id: f9437462-7e03-4bcc-a4db-84fc0dba4d01
+                    clozd_share_link: https://app.clozd.com/share/deals/f9437462-7e03-4bcc-a4db-84fc0dba4d01
+                    clozd_external_id: '0000001'
+                    clozd_organization_domain: acme.com
+                    clozd_organization_name: ACME, Inc.
+                    clozd_touchpoint_name: ACME, Inc.
+                    clozd_industry: SaaS
+                    clozd_currency: USD
+                    clozd_closed_date: '2022-01-09T18:57:08.485Z'
+                    clozd_created_date: '2022-03-09T18:57:08.485Z'
+                    clozd_segment: B2B
+                    clozd_region: East
+                    clozd_headcount: 12
+                    clozd_revenue: 10000
+                    clozd_owner_name: Sales Rep
+                    clozd_owner_email: rep@sales.com
+                    clozd_participants:
+                    - clozd_participant_id: 7624ba11-291a-450b-9781-dda5977321ba
+                      clozd_participant_external_id: '0000002'
+                      clozd_participant_first_name: First
+                      clozd_participant_last_name: Last
+                      clozd_participant_email: participant@email.com
+                      clozd_participant_type: buyer
+                      clozd_participant_is_primary: true
+                      clozd_participant_phone: 888-111-2222
+                      clozd_participant_title: Chief Buyer
+                      clozd_participant_role: Buying Agent
+                    clozd_responses:
+                    - clozd_response_id: d2c7ffae-2be7-4d4c-b081-2c6153c105f5
+                      clozd_response_participant:
+                        clozd_participant_id: 7624ba11-291a-450b-9781-dda5977321ba
+                        clozd_participant_external_id: '0000002'
+                        clozd_participant_first_name: First
+                        clozd_participant_last_name: Last
+                        clozd_participant_email: participant@email.com
+                        clozd_participant_type: buyer
+                        clozd_participant_is_primary: true
+                        clozd_participant_phone: 888-111-2222
+                        clozd_participant_title: Chief Buyer
+                        clozd_participant_role: Buying Agent
+                      clozd_channel: buyer interview
+                      clozd_publish_date: '2022-04-09T18:57:08.485Z'
+                      clozd_summary: ACME chose BigCo over MyCo because they felt it offered totally comparable features for only one-third the cost. BigCo had the strongest sales experience and would have been the first choice, but was removed from consideration because the price was so much higher than competitors.
+                      clozd_themes:
+                      - clozd_category_name: Pricing, Value & Packaging
+                        clozd_theme_name: Perceived Value Relative to Price
+                        clozd_theme_rating: -1
+                        clozd_theme_quotes:
+                        - MyCo's pricing is just wildly higher than every [other vendor] I spoke to, with the exception of TheirCo. [HereCo] is maybe a third of what [MyCo] was quoting us . . . There was really just no way to justify that massive premium.
+                      - clozd_category_name: Sales
+                        clozd_theme_name: Trust & Professionalism
+                        clozd_theme_rating: 1
+                        clozd_theme_quotes:
+                        - '[MyCo''s biggest strength] was that the people I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to. Every scenario I posed, they had handled before. [MyCo''s] website really gives you a good sense of security and that they know what they''re doing. I mean, everybody I dealt with over there was fantastic.'
+                      clozd_tags:
+                      - tag_category_id: a9c27012-cef4-4655-8a8a-08a1dec87171
+                        tag_category: User Interface
+                        tag_id: 74bee386-4198-42ef-8af1-6334d303362a
+                        tag_name: Feedback
+                        tag_type: manual
+                        thread_id: c60de976-53e0-4232-bad4-e1ab87ba61e6
+                        quote: not very user friendly.
+                      - tag_category_id: a9c27012-cef4-4655-8a8a-08a1dec87171
+                        tag_category: Business Strategy
+                        tag_id: 74bee386-4198-42ef-8af1-6334d303362a
+                        tag_name: Direction
+                        tag_type: manual
+                        thread_id: 45601e8d-7367-4fe5-a533-08cf8b2395eb
+                        quote: we did not want to go the direction of a PEO
+                      - tag_category_id: 923e9fbe-2830-45a7-8b0b-ae2f05cb28d7
+                        tag_category: Feature Capability
+                        tag_id: ab753b8c-ba60-4532-8e08-f414a9a7d64c
+                        tag_name: Expertise
+                        tag_type: manual
+                        thread_id: 03ff92e1-af06-4a44-abab-b780107e8135
+                        quote: ' their specialty is really that PEO side, which if we really needed it, that''s that would be the direction we would have gone in.'
+                      clozd_update_date: '2022-04-09T18:57:08.485Z'
+                      clozd_transcript:
+                      - clozd_section: Overview & Origination
+                        clozd_dialogue:
+                        - clozd_question: What was your company's final decision?
+                          clozd_answer: We decided not to purchase MyCo.
+                        - clozd_question: How did you first hear about MyCo?
+                          clozd_answer: I'm pretty sure I just Googled for secure hosting providers, service providers, those sorts of terms.
+                      - clozd_section: Product Offering
+                        clozd_dialogue:
+                        - clozd_question: Did MyCo's service justify any type of premium compared to other vendors?
+                          clozd_answer: I definitely have confidence, just based on who I spoke to and all the stuff that they laid out that they do, but I wouldn't say that they're markedly better than their competitors.
+                        - clozd_question: Did MyCo offer any outsourcing in terms of who manages your service?
+                          clozd_answer: So, MyCo basically is the same exact thing except it's their own infrastructure. So, they're not using AWS. They have their own data centers and their own servers.
+                      - clozd_section: Conclusion
+                        clozd_dialogue:
+                        - clozd_question: What is MyCo's biggest strength that makes them stand out against their competitors?
+                          clozd_answer: Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.
+                        - clozd_question: Is there anything else MyCo should know about your experience?
+                          clozd_answer: No, I think that is all. I hope this was helpful.
+                      clozd_survey_questions:
+                      - clozd_question: What is MyCo's biggest strength that makes them stand out against their competitors?
+                        clozd_answer: Honestly, it was just the people that I interacted with in the process were all very knowledgeable, very authoritative. Every question I asked, they had an answer to, every scenario I posed, they had handled before.
+                      - clozd_question: What areas would you like improved?
+                        clozd_answer: Support;Website;Pricing
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: Failed operation (Forbidden)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        '404':
+          description: Failed operation (Not Found)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+      tags:
+      - /programs/:program_id/touchpoints/:touchpoint_id
+      parameters:
+      - description: 'Specifies type of data to include with touchpoint. NOTE: Cannot include ''transcripts'', ''surveyQuestions, or ''tags'' without also including ''feedback'' (maxItems:6)'
+        in: query
+        name: include
+        required: false
+        explode: true
+        schema:
+          description: 'Specifies type of data to include with touchpoint. NOTE: Cannot include ''transcripts'', ''surveyQuestions'', or ''tags'' without also including ''feedback'' (maxItems:6)'
+          default:
+          - customFields
+          - participants
+          - feedback
+          maxItems: 6
+          type:
+          - array
+          - 'null'
+          items:
+            description: Parameter without description.
+            enum:
+            - customFields
+            - participants
+            - feedback
+            - transcripts
+            - tags
+            - surveyQuestions
+            - ''
+            type: string
+        example:
+        - customFields
+        - participants
+      - description: Clozd program ID (min:36 chars, max:36 chars)
+        in: path
+        name: program_id
+        required: true
+        schema:
+          description: Clozd program ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: 760c040c-5dda-41e8-85ff-ef8f411d39d5
+      - description: Clozd touchpoint ID (min:36 chars, max:36 chars)
+        in: path
+        name: touchpoint_id
+        required: true
+        schema:
+          description: Clozd touchpoint ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: f9437462-7e03-4bcc-a4db-84fc0dba4d01
+components:
+  schemas:
+    TouchpointWithParticipants:
+      allOf:
+      - $ref: '#/components/schemas/Touchpoint'
+      - description: Touchpoint object with response
+        type: object
+        properties:
+          clozd_participants:
+            description: List of participants that belong to the touchpoint (maxItems:1000)
+            maxItems: 1000
+            type: array
+            items:
+              $ref: '#/components/schemas/Participant'
+    Unauthorized:
+      description: Unauthorized response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not authorized.
+        errorCode: AUTH005
+        data: {}
+    TouchpointResponse:
+      description: Touchpoint feedback response from interview or survey
+      type: object
+      properties:
+        clozd_response_id:
+          description: Clozd generated feedback response identifier (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_response_participant:
+          description: Parameter without description.
+          type: object
+          properties:
+            clozd_participant_id:
+              description: Clozd generated participant id (min:36 chars, max:36 chars)
+              type: string
+              format: uuid
+            clozd_participant_external_id:
+              description: Your id for this participant. This is not generated by Clozd. If you have existing participants with the same external id, they will be updated with the import
+              type: string
+            clozd_participant_first_name:
+              description: First name of participant
+              type: string
+            clozd_participant_last_name:
+              description: Last name of participant
+              type: string
+            clozd_participant_email:
+              description: The email for the participant of the deal
+              format: email
+              type: string
+            clozd_participant_type:
+              description: Specifying if the person is a buyer or an internal participant values are 'buyer' or 'internal'
+              enum:
+              - buyer
+              - internal
+              type: string
+            clozd_participant_is_primary:
+              description: Is the participant the primary participant for the deal
+              type: boolean
+            clozd_participant_phone:
+              description: Phone number for the participant
+              type: string
+            clozd_participant_title:
+              description: Job title of the participant
+              type: string
+            clozd_participant_role:
+              description: The role the participant had in the deal
+              type: string
+        clozd_channel:
+          description: Feedback channel
+          enum:
+          - buyer interview
+          - buyer survey
+          - rep interview
+          - rep survey
+          type: string
+        clozd_publish_date:
+          description: Date and time the feedback interview or survey was published (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_summary:
+          description: Summary of feedback response
+          type: string
+        clozd_themes:
+          description: List of themes
+          type: array
+          items:
+            description: Key theme
+            type: object
+            properties:
+              clozd_category_name:
+                description: Name of theme category
+                type: string
+              clozd_theme_name:
+                description: Name of theme
+                type: string
+              clozd_theme_rating:
+                description: 'Theme rating (2: Strong Positive, 1: Positive, -1: Negative, -2: Strong Negative)'
+                enum:
+                - 2
+                - 1
+                - -1
+                - -2
+                format: int64
+                type: integer
+              clozd_theme_quotes:
+                description: List of quotes associated with this theme
+                type: array
+                items:
+                  description: Buyer or rep quote associated with this theme
+                  type: string
+        clozd_update_date:
+          description: Date and time the feedback interview or survey was last updated (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_survey_questions:
+          description: Survey questions
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyQuestion'
+    TouchpointFull:
+      allOf:
+      - $ref: '#/components/schemas/TouchpointWithParticipants'
+      - description: Touchpoint object with response
+        type: object
+        properties:
+          clozd_responses:
+            description: List of touchpoint feedback responses
+            type: array
+            items:
+              $ref: '#/components/schemas/TouchpointResponseWithAll'
+    NotFound:
+      description: NotFound response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not Found.
+        errorCode: AUTH007
+        data: {}
+    Forbidden:
+      description: Forbidden response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Forbidden.
+        errorCode: AUTH006
+        data: {}
+    SurveyQuestion:
+      description: Survey question
+      type: object
+      properties:
+        clozd_question:
+          description: Survey question
+          type: string
+        clozd_answer:
+          description: Participant answer
+          type: string
+    Touchpoint:
+      description: Touchpoint object
+      type: object
+      properties:
+        clozd_touchpoint_name:
+          description: The name of the touchpoint
+          type: string
+        clozd_external_id:
+          description: Your id for this touchpoint. This is not generated by Clozd. If you have existing touchpoints with the same external id, they will be updated with the import
+          type: string
+        clozd_organization_domain:
+          description: 'Touchpoint domain example: clozd.com'
+          type: string
+        clozd_organization_name:
+          description: Clozd organization name (max:250 chars)
+          type: string
+        clozd_touchpoint_id:
+          description: Clozd generated touchpoint id (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_created_date:
+          description: When the touchpoint was created (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_currency:
+          description: The type of currency used in this touchpoint
+          type: string
+        clozd_headcount:
+          description: Head count for the touchpoint's organization
+          format: int64
+          type: integer
+        clozd_industry:
+          description: Industry from a picklist of values in the Clozd app
+          type: string
+        clozd_region:
+          description: Region for the touchpoint, must be a value from the picklist in Clozd app
+          type: string
+        clozd_revenue:
+          description: This is the revenue for the touchpoint's organization
+          format: double
+          type: number
+        clozd_owner_email:
+          description: The email for the internal owner of the touchpoint
+          format: email
+          type: string
+        clozd_owner_name:
+          description: The name of the internal owner of the touchpoint
+          type: string
+      required:
+      - clozd_organization_name
+    BadRequest:
+      description: Bad Request response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          additionalProperties: true
+      example:
+        success: false
+        message: Bad Request.
+        errorCode: API009
+        data: {}
+    TouchpointResponseWithAll:
+      allOf:
+      - $ref: '#/components/schemas/TouchpointResponseWithTranscript'
+      - description: Response with survey questions
+        type: object
+        properties:
+          clozd_survey_questions:
+            description: Survey questions
+            type: array
+            items:
+              $ref: '#/components/schemas/SurveyQuestion'
+    TouchpointResponseWithTranscript:
+      allOf:
+      - $ref: '#/components/schemas/TouchpointResponse'
+      - description: Response with transcript
+        type: object
+        properties:
+          clozd_transcript:
+            description: List of interview transcript sections in sequence
+            type: array
+            items:
+              description: Section of interview transcript
+              type: object
+              properties:
+                clozd_section:
+                  description: Section name
+                  type: string
+                clozd_dialogue:
+                  description: List of question and answer pairs in sequence
+                  type: array
+                  items:
+                    description: Question and answer pair
+                    type: object
+                    properties:
+                      clozd_question:
+                        description: Interview
+                        type: string
+                      clozd_answer:
+                        description: Participant answer
+                        type: string
+    Participant:
+      description: An array of participant objects included in the deal under the clozd_participants attribute
+      type: object
+      properties:
+        clozd_participant_id:
+          description: Clozd generated participant id (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_participant_external_id:
+          description: Your id for this participant. This is not generated by Clozd. If you have existing participants with the same external id, they will be updated with the import
+          type: string
+        clozd_participant_first_name:
+          description: First name of participant
+          type: string
+        clozd_participant_last_name:
+          description: Last name of participant
+          type: string
+        clozd_participant_email:
+          description: The email for the participant of the deal
+          format: email
+          type: string
+        clozd_participant_type:
+          description: Specifying if the person is a buyer or a sales participant values are 'buyer' or 'sales'
+          enum:
+          - buyer
+          - sales
+          - internal
+          type: string
+        clozd_participant_is_primary:
+          description: Is the participant the primary participant for the deal
+          type: boolean
+        clozd_participant_phone:
+          description: Phone number for the pariticipant
+          type: string
+        clozd_participant_title:
+          description: Job title of the participant
+          type: string
+        clozd_participant_role:
+          description: The role the participant had in the deal
+          type: string
+      required:
+      - clozd_participant_first_name
+      - clozd_participant_last_name
+      - clozd_participant_email
+      - clozd_participant_type
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-token

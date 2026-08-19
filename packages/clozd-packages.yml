@@ -1,0 +1,116 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  registry searches (npm, PyPI, RubyGems, NuGet, Maven Central, pkg.go.dev, Packagist, crates.io),
+  https://github.com/Clozd, and
+  https://help.clozd.com/hc/en-us/articles/14159831657371-iFrame-Competitors-tab-to-Salesforce-Instance
+package_count: 1
+sdk_count: 0
+note: >-
+  Clozd ships NO first-party client library in any public package registry, in any language. Every
+  registry below was queried directly and returned no Clozd-published package. The Clozd GitHub
+  organization has exactly one public repository (`coding-tests`, a JavaScript hiring exercise, last
+  updated 2025-12-03) and contains no SDK. The one real first-party distributable Clozd publishes is a
+  Salesforce managed package, distributed by install URL rather than a language registry. Because there
+  is no client library, NO `SDKs` pointer is emitted in apis.yml — the ergonomics sdk_count check must
+  read a genuine zero here.
+packages:
+- name: Clozd Competitors (Salesforce managed package)
+  language: apex
+  registry: salesforce-managed-package
+  official: true
+  distribution: install-url
+  package_version_id: 04tDm000000tLM4
+  install:
+    production: https://login.salesforce.com/packaging/installPackage.apexp?p0=04tDm000000tLM4
+    sandbox: https://test.salesforce.com/packaging/installPackage.apexp?p0=04tDm000000tLM4
+  version: null
+  published: null
+  version_note: >-
+    Salesforce `04t` IDs are package VERSION ids, so the install link is pinned to one specific version —
+    but Clozd publishes no version string and no release date for it, and Salesforce exposes no
+    unauthenticated metadata endpoint for a package version id. Recorded as checked-and-unavailable
+    rather than guessed. The install URL has been unchanged in the help article since 2023-11-17, which
+    is the only dating signal available and is a currency concern in its own right.
+  provides:
+  - Clozd_Competitor_Setting custom metadata type (Base URL, API Token, Organization ID, Program ID)
+  - ClozdCompetitors Visualforce component
+  - Clozd Competitors permission set
+  requires:
+  - A Clozd API token, Organization ID and Program ID (API Imports must be enabled for the org)
+  - A Salesforce Remote Site Setting for https://[subdomain].app.clozd.com when the org uses a subdomain
+  surface: components/clozd-components.yml
+  docs: https://help.clozd.com/hc/en-us/articles/14159831657371-iFrame-Competitors-tab-to-Salesforce-Instance
+  listed_on_appexchange: unknown
+  appexchange_note: >-
+    appexchange.salesforce.com returns a client-rendered shell to an unauthenticated search, so a public
+    AppExchange listing could not be confirmed or denied. The install URLs above are published by Clozd
+    directly and are the verified distribution path.
+registries_checked:
+- registry: npm
+  endpoint: https://registry.npmjs.org/-/v1/search?text=clozd
+  http_status: 200
+  result: 0 packages
+- registry: pypi
+  endpoint: https://pypi.org/pypi/clozd/json
+  http_status: 404
+  result: not published
+- registry: rubygems
+  endpoint: https://rubygems.org/api/v1/gems/clozd.json
+  http_status: 404
+  result: not published
+- registry: nuget
+  endpoint: https://api.nuget.org/v3/registration5-semver1/clozd/index.json
+  http_status: 404
+  result: not published
+- registry: maven-central
+  endpoint: https://search.maven.org/solrsearch/select?q=clozd
+  http_status: 200
+  result: no Clozd-published artifact
+- registry: go-modules
+  endpoint: https://proxy.golang.org/github.com/clozd/@v/list
+  http_status: 404
+  result: not published
+- registry: packagist
+  endpoint: https://packagist.org/search.json?q=clozd
+  http_status: 200
+  result: no Clozd-published package (query fell through to unrelated results)
+- registry: crates.io
+  endpoint: https://crates.io/api/v1/crates?q=clozd
+  http_status: 403
+  result: >-
+    crates.io refused the unauthenticated query under its data-access policy. Not a hit and not a
+    confirmed miss — an honest gap. Rust is an implausible target for this product category.
+source_control:
+  github_org: https://github.com/Clozd
+  type: Organization
+  public_repos: 1
+  repos:
+  - name: coding-tests
+    language: JavaScript
+    description: null
+    updated: '2025-12-03'
+    stars: 0
+    relevance: hiring exercise; not an SDK, not a client library, not API-related
+integration_alternative: >-
+  Clozd's own answer to "no SDK" is the collections/ directory in this repo — API Evangelist generated
+  Postman and OpenCollection collections from the three published OpenAPI documents. Those are ours, not
+  Clozd's, and are not counted in package_count or sdk_count.
+gaps:
+- No client library for any language.
+- No published version string or release date for the one distributable that exists.
+- No public Postman workspace or collection published by Clozd.
+x-evidence:
+  fetched: '2026-08-14'
+  urls:
+  - url: https://registry.npmjs.org/-/v1/search?text=clozd
+    http_status: 200
+  - url: https://pypi.org/pypi/clozd/json
+    http_status: 404
+  - url: https://rubygems.org/api/v1/gems/clozd.json
+    http_status: 404
+  - url: https://api.github.com/orgs/Clozd/repos
+    http_status: 200
+    note: fetched via gh CLI; 1 public repo
+  - url: https://help.clozd.com/api/v2/help_center/en-us/articles/14159831657371.json
+    http_status: 200

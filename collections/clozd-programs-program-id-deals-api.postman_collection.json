@@ -1,0 +1,834 @@
+{
+  "item": [
+    {
+      "id": "742fb43a-e6d7-42fc-9cc0-01f408ecb56f",
+      "name": "/programs/:program_id/deals",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3db0036b-5398-4679-a62d-4fae58f1ea3f",
+          "name": "Get list of Clozd program deals",
+          "request": {
+            "name": "Get list of Clozd program deals",
+            "description": {
+              "content": "Get a paged list of deals with basic fields and share link for deals with published feedback. See /programs/:program_id/deals/:deal_id endpoint to get a specific deal with details. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "programs",
+                ":program_id",
+                "deals"
+              ],
+              "host": [
+                "{{programs-program_id-deals-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "1000",
+                  "description": "Limit for paging (min:1, max:1000)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Offset for paging (min:0, max:100000)"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[feedback_published_since]",
+                  "value": "<dateTime>",
+                  "description": "Returns only deals with feedback published since the date and time specified. See GET public-api/v2/programs/:program_id/deals/:deal_id response schema, data.clozd_reponses[].clozd_publish_date. NOTE: Specifying this parameter will by definition filter out deals which have no published feedback. It will also enable periodic query of incremental changes since last pull (instead of always having to pull all deals). (max:25 chars, ISO8601 date-time format)"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[clozd_insight_gems]",
+                  "value": "<string>",
+                  "description": "Comma-separated list of insight gem (AWE flag) types to filter by. Returns only deals that have at least one active flag matching any of the specified values. Valid values: at_risk, win_back, expansion. Available on API v3+."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "program_id",
+                  "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8d288ec3-7449-4578-a1fe-7721412370a5",
+              "name": "Successful get operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "100"
+                    },
+                    {
+                      "key": "filter[feedback_published_since]",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "filter[clozd_insight_gems]",
+                      "value": "win_back,expansion"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Successfully retrieved deal data.\",\n  \"links\": {\n    \"self\": \"https://app.clozd.com/public-api/v2/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/deals/export?limit=2&offset=4\",\n    \"prev\": \"https://app.clozd.com/public-api/v2/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/deals/export?limit=2&offset=2\",\n    \"next\": \"https://app.clozd.com/public-api/v2/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/deals/export?limit=2&offset=6\",\n    \"first\": \"https://app.clozd.com/public-api/v2/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/deals/export?limit=2&offset=0\",\n    \"last\": \"https://app.clozd.com/public-api/v2/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/deals/export?limit=2&offset=12\"\n  },\n  \"count\": 2,\n  \"total\": 13,\n  \"data\": [\n    {\n      \"clozd_deal_id\": \"aef18e08-cbc0-4d86-9013-c74564de2960\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_deal_name\": \"ACME, Inc.\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_share_link\": \"https://app.clozd.com/share/deals/aef18e08-cbc0-4d86-9013-c74564de2960\",\n      \"clozd_insight_gems\": [\n        {\n          \"type\": \"at_risk\",\n          \"created_by_type\": \"ai\",\n          \"reason\": \"No buyer engagement in the last 30 days.\",\n          \"created_at\": \"2026-07-01T12:00:00.000Z\",\n          \"notification_date\": \"2026-07-01T12:00:00.000Z\"\n        }\n      ]\n    },\n    {\n      \"clozd_deal_id\": \"934e1861-d942-41e9-98a2-b07f20af93aa\",\n      \"clozd_external_id\": \"0000002\",\n      \"clozd_deal_name\": \"FUNCO, Inc.\",\n      \"clozd_organization_name\": \"FUNCO, Inc.\",\n      \"clozd_organization_domain\": \"funco.com\",\n      \"clozd_insight_gems\": []\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b5124ae-2272-46b1-8b28-c1303f8e7933",
+              "name": "Failed operation (Bad Request)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "100"
+                    },
+                    {
+                      "key": "filter[feedback_published_since]",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "filter[clozd_insight_gems]",
+                      "value": "win_back,expansion"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Bad Request.\",\n  \"errorCode\": \"API009\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fdd5d6d4-8c93-442f-8a55-3cb1578b2c9b",
+              "name": "Failed operation (Unauthorized)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "100"
+                    },
+                    {
+                      "key": "filter[feedback_published_since]",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "filter[clozd_insight_gems]",
+                      "value": "win_back,expansion"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Not authorized.\",\n  \"errorCode\": \"AUTH005\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fc03cc02-6345-48cd-b1e0-18a2f960ff66",
+          "name": "Create or update Clozd deal and participant data",
+          "request": {
+            "name": "Create or update Clozd deal and participant data",
+            "description": {
+              "content": "Create or update 1 to many deals and 0 to many participants associated with the deal. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application). The body of the post request will follow the schema below. If an attribute is required or a wrong value type is provided the POST request will be rolled back and rejected. \n - Program id is required, you can get the program id from the settings page within the Clozd app. \n - Custom fields are acceptable. The key name must match the name of the field name created in Clozd app exactly. \n - Participants are included within the deal object \n - Names of properties and display names are not always the same",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "programs",
+                ":program_id",
+                "deals"
+              ],
+              "host": [
+                "{{programs-program_id-deals-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "program_id",
+                  "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"import_name\": \"<string>\",\n  \"all_deals\": [\n    {\n      \"clozd_deal_name\": \"<string>\",\n      \"clozd_external_id\": \"<string>\",\n      \"clozd_organization_domain\": \"<string>\",\n      \"clozd_organization_name\": \"<string>\",\n      \"clozd_deal_id\": \"<uuid>\",\n      \"clozd_amount\": \"<double>\",\n      \"clozd_closed_date\": \"<dateTime>\",\n      \"clozd_created_date\": \"<dateTime>\",\n      \"clozd_currency\": \"<string>\",\n      \"clozd_headcount\": \"<long>\",\n      \"clozd_industry\": \"<string>\",\n      \"clozd_lead_source\": \"<string>\",\n      \"clozd_outcome\": \"<string>\",\n      \"clozd_outcome_type\": \"<string>\",\n      \"clozd_region\": \"<string>\",\n      \"clozd_revenue\": \"<double>\",\n      \"clozd_sales_rep_email\": \"<email>\",\n      \"clozd_sales_rep_name\": \"<string>\",\n      \"clozd_products\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_id\": \"<uuid>\",\n          \"clozd_participant_external_id\": \"<string>\",\n          \"clozd_participant_first_name\": \"<string>\",\n          \"clozd_participant_last_name\": \"<string>\",\n          \"clozd_participant_email\": \"<email>\",\n          \"clozd_participant_type\": \"<string>\",\n          \"clozd_participant_is_primary\": \"<boolean>\",\n          \"clozd_participant_phone\": \"<string>\",\n          \"clozd_participant_title\": \"<string>\",\n          \"clozd_participant_role\": \"<string>\"\n        },\n        {\n          \"clozd_participant_id\": \"<uuid>\",\n          \"clozd_participant_external_id\": \"<string>\",\n          \"clozd_participant_first_name\": \"<string>\",\n          \"clozd_participant_last_name\": \"<string>\",\n          \"clozd_participant_email\": \"<email>\",\n          \"clozd_participant_type\": \"<string>\",\n          \"clozd_participant_is_primary\": \"<boolean>\",\n          \"clozd_participant_phone\": \"<string>\",\n          \"clozd_participant_title\": \"<string>\",\n          \"clozd_participant_role\": \"<string>\"\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a6fa9bea-6db7-4e86-9521-98df903bc2c8",
+              "name": "Successful create or update operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"import_name\": \"2022 Deals Import\",\n  \"all_deals\": [\n    {\n      \"clozd_amount\": 10000,\n      \"clozd_closed_date\": \"2022-01-09T18:57:08.485Z\",\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_deal_name\": \"ACME, Inc.\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_headcount\": 12,\n      \"clozd_industry\": \"SAAS\",\n      \"clozd_lead_source\": \"SDR\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_outcome\": \"win\",\n      \"clozd_outcome_type\": \"churn\",\n      \"clozd_products\": [\n        \"Flagship\"\n      ],\n      \"clozd_region\": \"East\",\n      \"clozd_revenue\": 10000,\n      \"clozd_sales_rep_email\": \"rep@sales.com\",\n      \"clozd_sales_rep_name\": \"Sales Rep\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_external_id\": \"0000002\",\n          \"clozd_participant_first_name\": \"First\",\n          \"clozd_participant_last_name\": \"Last\",\n          \"clozd_participant_email\": \"participant@email.com\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"888-111-2222\",\n          \"clozd_participant_title\": \"Chief Buyer\",\n          \"clozd_participant_role\": \"Buying Agent\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Successfully imported deal data.\",\n  \"data\": {\n    \"result\": \"Created Deals: 1 Updated Deals: 0\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac9e542c-9d26-47d6-b794-62d1cb375c79",
+              "name": "Failed operation (Bad Request)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"import_name\": \"2022 Deals Import\",\n  \"all_deals\": [\n    {\n      \"clozd_amount\": 10000,\n      \"clozd_closed_date\": \"2022-01-09T18:57:08.485Z\",\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_deal_name\": \"ACME, Inc.\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_headcount\": 12,\n      \"clozd_industry\": \"SAAS\",\n      \"clozd_lead_source\": \"SDR\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_outcome\": \"win\",\n      \"clozd_outcome_type\": \"churn\",\n      \"clozd_products\": [\n        \"Flagship\"\n      ],\n      \"clozd_region\": \"East\",\n      \"clozd_revenue\": 10000,\n      \"clozd_sales_rep_email\": \"rep@sales.com\",\n      \"clozd_sales_rep_name\": \"Sales Rep\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_external_id\": \"0000002\",\n          \"clozd_participant_first_name\": \"First\",\n          \"clozd_participant_last_name\": \"Last\",\n          \"clozd_participant_email\": \"participant@email.com\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"888-111-2222\",\n          \"clozd_participant_title\": \"Chief Buyer\",\n          \"clozd_participant_role\": \"Buying Agent\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Bad Request.\",\n  \"errorCode\": \"API009\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f60091d-eef9-45b1-a675-f2c7c027db1a",
+              "name": "Failed operation (Unauthorized)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"import_name\": \"2022 Deals Import\",\n  \"all_deals\": [\n    {\n      \"clozd_amount\": 10000,\n      \"clozd_closed_date\": \"2022-01-09T18:57:08.485Z\",\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_deal_name\": \"ACME, Inc.\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_headcount\": 12,\n      \"clozd_industry\": \"SAAS\",\n      \"clozd_lead_source\": \"SDR\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_outcome\": \"win\",\n      \"clozd_outcome_type\": \"churn\",\n      \"clozd_products\": [\n        \"Flagship\"\n      ],\n      \"clozd_region\": \"East\",\n      \"clozd_revenue\": 10000,\n      \"clozd_sales_rep_email\": \"rep@sales.com\",\n      \"clozd_sales_rep_name\": \"Sales Rep\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_external_id\": \"0000002\",\n          \"clozd_participant_first_name\": \"First\",\n          \"clozd_participant_last_name\": \"Last\",\n          \"clozd_participant_email\": \"participant@email.com\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"888-111-2222\",\n          \"clozd_participant_title\": \"Chief Buyer\",\n          \"clozd_participant_role\": \"Buying Agent\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Not authorized.\",\n  \"errorCode\": \"AUTH005\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "53afc243-9090-4e5e-b5dc-98bbf90d4901",
+              "name": "Failed operation (Missing or invalid API parameters)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"import_name\": \"2022 Deals Import\",\n  \"all_deals\": [\n    {\n      \"clozd_amount\": 10000,\n      \"clozd_closed_date\": \"2022-01-09T18:57:08.485Z\",\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_deal_name\": \"ACME, Inc.\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_headcount\": 12,\n      \"clozd_industry\": \"SAAS\",\n      \"clozd_lead_source\": \"SDR\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_outcome\": \"win\",\n      \"clozd_outcome_type\": \"churn\",\n      \"clozd_products\": [\n        \"Flagship\"\n      ],\n      \"clozd_region\": \"East\",\n      \"clozd_revenue\": 10000,\n      \"clozd_sales_rep_email\": \"rep@sales.com\",\n      \"clozd_sales_rep_name\": \"Sales Rep\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_external_id\": \"0000002\",\n          \"clozd_participant_first_name\": \"First\",\n          \"clozd_participant_last_name\": \"Last\",\n          \"clozd_participant_email\": \"participant@email.com\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"888-111-2222\",\n          \"clozd_participant_title\": \"Chief Buyer\",\n          \"clozd_participant_role\": \"Buying Agent\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Missing or invalid API parameters.\",\n  \"errorCode\": \"API009\",\n  \"data\": {\n    \"field\": \"clozd_outcome_type\",\n    \"value\": \"win\",\n    \"possibleValues\": \"\\\"new business win\\\", \\\"new business loss\\\", \\\"renewal\\\", \\\"churn\\\", \\\"expansion\\\", \\\"upsell\\\", \\\"customer experience\\\"\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9682f973-f417-42cc-87aa-f2d7fd80672c",
+              "name": "Failed operation (Clozd Id doesn't match)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"import_name\": \"2022 Deals Import\",\n  \"all_deals\": [\n    {\n      \"clozd_amount\": 10000,\n      \"clozd_closed_date\": \"2022-01-09T18:57:08.485Z\",\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_deal_name\": \"ACME, Inc.\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_headcount\": 12,\n      \"clozd_industry\": \"SAAS\",\n      \"clozd_lead_source\": \"SDR\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_outcome\": \"win\",\n      \"clozd_outcome_type\": \"churn\",\n      \"clozd_products\": [\n        \"Flagship\"\n      ],\n      \"clozd_region\": \"East\",\n      \"clozd_revenue\": 10000,\n      \"clozd_sales_rep_email\": \"rep@sales.com\",\n      \"clozd_sales_rep_name\": \"Sales Rep\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_external_id\": \"0000002\",\n          \"clozd_participant_first_name\": \"First\",\n          \"clozd_participant_last_name\": \"Last\",\n          \"clozd_participant_email\": \"participant@email.com\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"888-111-2222\",\n          \"clozd_participant_title\": \"Chief Buyer\",\n          \"clozd_participant_role\": \"Buying Agent\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"If a clozd generated id is provided, this indicates you are trying to update an existing record and the id must match an existing id. One of the provided id's does not have any matches.\",\n  \"errorCode\": \"API010\",\n  \"data\": {\n    \"deal_id\": \"a1bb3107-6909-43bd-a669-0ed5c399c783\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bbe570c8-635f-45d9-8e51-cdab4cb62206",
+              "name": "Failed operation (Attribute not a defined field)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"import_name\": \"2022 Deals Import\",\n  \"all_deals\": [\n    {\n      \"clozd_amount\": 10000,\n      \"clozd_closed_date\": \"2022-01-09T18:57:08.485Z\",\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_deal_name\": \"ACME, Inc.\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_headcount\": 12,\n      \"clozd_industry\": \"SAAS\",\n      \"clozd_lead_source\": \"SDR\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_outcome\": \"win\",\n      \"clozd_outcome_type\": \"churn\",\n      \"clozd_products\": [\n        \"Flagship\"\n      ],\n      \"clozd_region\": \"East\",\n      \"clozd_revenue\": 10000,\n      \"clozd_sales_rep_email\": \"rep@sales.com\",\n      \"clozd_sales_rep_name\": \"Sales Rep\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_external_id\": \"0000002\",\n          \"clozd_participant_first_name\": \"First\",\n          \"clozd_participant_last_name\": \"Last\",\n          \"clozd_participant_email\": \"participant@email.com\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"888-111-2222\",\n          \"clozd_participant_title\": \"Chief Buyer\",\n          \"clozd_participant_role\": \"Buying Agent\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"One of the attributes on the deal or participant object does not exist as a field, you can add a field in the app under the configurations section.\",\n  \"errorCode\": \"API011\",\n  \"data\": {\n    \"field\": \"clozd_not_a_field\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "698e1d99-0161-4844-8698-26f296c59ab2",
+              "name": "Failed operation (Required field missing)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"import_name\": \"2022 Deals Import\",\n  \"all_deals\": [\n    {\n      \"clozd_amount\": 10000,\n      \"clozd_closed_date\": \"2022-01-09T18:57:08.485Z\",\n      \"clozd_created_date\": \"2022-03-09T18:57:08.485Z\",\n      \"clozd_currency\": \"USD\",\n      \"clozd_deal_name\": \"ACME, Inc.\",\n      \"clozd_external_id\": \"0000001\",\n      \"clozd_headcount\": 12,\n      \"clozd_industry\": \"SAAS\",\n      \"clozd_lead_source\": \"SDR\",\n      \"clozd_organization_domain\": \"acme.com\",\n      \"clozd_organization_name\": \"ACME, Inc.\",\n      \"clozd_outcome\": \"win\",\n      \"clozd_outcome_type\": \"churn\",\n      \"clozd_products\": [\n        \"Flagship\"\n      ],\n      \"clozd_region\": \"East\",\n      \"clozd_revenue\": 10000,\n      \"clozd_sales_rep_email\": \"rep@sales.com\",\n      \"clozd_sales_rep_name\": \"Sales Rep\",\n      \"clozd_participants\": [\n        {\n          \"clozd_participant_external_id\": \"0000002\",\n          \"clozd_participant_first_name\": \"First\",\n          \"clozd_participant_last_name\": \"Last\",\n          \"clozd_participant_email\": \"participant@email.com\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"888-111-2222\",\n          \"clozd_participant_title\": \"Chief Buyer\",\n          \"clozd_participant_role\": \"Buying Agent\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"One of the fields that is configured as required is missing.\",\n  \"errorCode\": \"API012\",\n  \"data\": {\n    \"requiredField\": \"clozd_amount\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.clozd.com/public-api/v2",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://app.clozd.com/public-api/v2",
+      "key": "programs-program_id-deals-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "4a477fe5-b3fd-4526-91d3-164751626072",
+    "name": "Clozd /programs/:program Id/deals /programs/:program Id/deals API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Operations tagged /programs/:program_id/deals across 2 of this provider's published API definitions: clozd-data-api-v2-openapi.yml, clozd-data-api-v3-openapi.yml. Each path carries the servers of the definition it was published in.\n\nContact Support:\n Email: support@clozd.com",
+      "type": "text/plain"
+    }
+  }
+}

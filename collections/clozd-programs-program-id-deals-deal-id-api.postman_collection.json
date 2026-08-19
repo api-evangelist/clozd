@@ -1,0 +1,353 @@
+{
+  "item": [
+    {
+      "id": "c9f0c619-9d45-4e75-9daf-d21a33903fa6",
+      "name": "/programs/:program_id/deals/:deal_id",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c53c7ebc-4782-41ec-a27f-95e45b51023d",
+          "name": "Get deal with details",
+          "request": {
+            "name": "Get deal with details",
+            "description": {
+              "content": "Get a specific deal with details (basic fields, extra fields, (optionally) custom metadata fields, participants, products, published feedback responses, and full feedback transcript. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app. \n - :deal_id is required, see /programs/:program_id/deals to get a paged list of program deals.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "programs",
+                ":program_id",
+                "deals",
+                ":deal_id"
+              ],
+              "host": [
+                "{{programs-program_id-deals-deal_id-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include[]",
+                  "value": "customFields",
+                  "description": "Specifies type of data to include with deal. NOTE: Cannot include 'transcripts' without also including 'feedback' (maxItems:5)"
+                },
+                {
+                  "disabled": false,
+                  "key": "include[]",
+                  "value": "participants",
+                  "description": "Specifies type of data to include with deal. NOTE: Cannot include 'transcripts' without also including 'feedback' (maxItems:5)"
+                },
+                {
+                  "disabled": false,
+                  "key": "include[]",
+                  "value": "products",
+                  "description": "Specifies type of data to include with deal. NOTE: Cannot include 'transcripts' without also including 'feedback' (maxItems:5)"
+                },
+                {
+                  "disabled": false,
+                  "key": "include[]",
+                  "value": "feedback",
+                  "description": "Specifies type of data to include with deal. NOTE: Cannot include 'transcripts' without also including 'feedback' (maxItems:5)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "program_id",
+                  "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "deal_id",
+                  "description": "(Required) Clozd deal ID (min:36 chars, max:36 chars)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6d941a49-8a75-499b-9492-8c1cdb5480b4",
+              "name": "Successful get operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals",
+                    ":deal_id"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-deal_id-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include[]",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include[]",
+                      "value": "participants"
+                    },
+                    {
+                      "key": "include[]",
+                      "value": "products"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "deal_id",
+                      "description": "(Required) Clozd deal ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"data\": {\n    \"clozd_deal_name\": \"string\",\n    \"clozd_external_id\": \"string\",\n    \"clozd_organization_domain\": \"string\",\n    \"clozd_organization_name\": \"string\",\n    \"clozd_deal_id\": \"5b74af87-66c8-5f2a-7619-d69b74623b0a\",\n    \"clozd_amount\": 2015.392373880033,\n    \"clozd_closed_date\": \"1977-06-21T13:12:15.229Z\",\n    \"clozd_created_date\": \"2007-10-31T11:21:23.248Z\",\n    \"clozd_currency\": \"string\",\n    \"clozd_headcount\": 5694,\n    \"clozd_industry\": \"string\",\n    \"clozd_lead_source\": \"string\",\n    \"clozd_outcome\": \"win\",\n    \"clozd_outcome_type\": \"string\",\n    \"clozd_region\": \"string\",\n    \"clozd_revenue\": 7874.32749120083,\n    \"clozd_sales_rep_email\": \"MrWCegz-8@OUWvPVph.potu\",\n    \"clozd_sales_rep_name\": \"string\",\n    \"clozd_products\": [\n      \"string\",\n      \"string\"\n    ],\n    \"clozd_participants\": [\n      {\n        \"clozd_participant_id\": \"e072c5c0-c8fb-8b7d-f0ec-1377dd83ed34\",\n        \"clozd_participant_external_id\": \"string\",\n        \"clozd_participant_first_name\": \"string\",\n        \"clozd_participant_last_name\": \"string\",\n        \"clozd_participant_email\": \"rZuveGNAFg1e@QImewNMKcXenoEPknXBbTqQvjjXaITJrk.beu\",\n        \"clozd_participant_type\": \"buyer\",\n        \"clozd_participant_is_primary\": true,\n        \"clozd_participant_phone\": \"string\",\n        \"clozd_participant_title\": \"string\",\n        \"clozd_participant_role\": \"string\"\n      },\n      {\n        \"clozd_participant_id\": \"3c494366-7374-f97c-685d-cd9fb84a0b1b\",\n        \"clozd_participant_external_id\": \"string\",\n        \"clozd_participant_first_name\": \"string\",\n        \"clozd_participant_last_name\": \"string\",\n        \"clozd_participant_email\": \"fpcuyeb9N8@IItECAbOmHYAgWZgK.tij\",\n        \"clozd_participant_type\": \"sales\",\n        \"clozd_participant_is_primary\": false,\n        \"clozd_participant_phone\": \"string\",\n        \"clozd_participant_title\": \"string\",\n        \"clozd_participant_role\": \"string\"\n      }\n    ],\n    \"clozd_share_link\": \"string\",\n    \"clozd_insight_gems\": [\n      {\n        \"type\": \"win_back\",\n        \"created_by_type\": \"ai\",\n        \"reason\": \"string\",\n        \"created_at\": \"2017-04-04T06:48:18.342Z\",\n        \"notification_date\": \"1980-07-03T01:16:15.151Z\"\n      },\n      {\n        \"type\": \"win_back\",\n        \"created_by_type\": \"user\",\n        \"reason\": \"string\",\n        \"created_at\": \"1946-11-09T04:35:35.564Z\",\n        \"notification_date\": \"1997-06-26T12:53:09.216Z\"\n      }\n    ],\n    \"clozd_responses\": [\n      {\n        \"clozd_response_id\": \"fe2e6e32-83e9-1c0e-3753-6e9a3091495b\",\n        \"clozd_response_participant\": {\n          \"clozd_participant_id\": \"197ce21a-f2f2-2514-b9d7-0a90ae9b9c53\",\n          \"clozd_participant_external_id\": \"string\",\n          \"clozd_participant_first_name\": \"string\",\n          \"clozd_participant_last_name\": \"string\",\n          \"clozd_participant_email\": \"dm1clJWRabpUc@zVhrNJQcDsNynOrNzllfSwYBbE.nh\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"string\",\n          \"clozd_participant_title\": \"string\",\n          \"clozd_participant_role\": \"string\"\n        },\n        \"clozd_channel\": \"rep survey\",\n        \"clozd_decision\": \"lost to competitor\",\n        \"clozd_primary_competitor\": \"string\",\n        \"clozd_publish_date\": \"1954-05-10T08:11:34.946Z\",\n        \"clozd_summary\": \"string\",\n        \"clozd_drivers\": [\n          {\n            \"clozd_driver_name\": \"string\",\n            \"clozd_driver_rating\": 2,\n            \"clozd_driver_quotes\": [\n              \"string\",\n              \"string\"\n            ]\n          },\n          {\n            \"clozd_driver_name\": \"string\",\n            \"clozd_driver_rating\": 2,\n            \"clozd_driver_quotes\": [\n              \"string\",\n              \"string\"\n            ]\n          }\n        ],\n        \"clozd_tags\": [\n          {\n            \"tag_cateogry_id\": \"string\",\n            \"tag_category\": \"string\",\n            \"tag_id\": \"string\",\n            \"tag_name\": \"string\",\n            \"tag_type\": \"string\",\n            \"thread_id\": \"string\",\n            \"quote\": \"string\"\n          },\n          {\n            \"tag_cateogry_id\": \"string\",\n            \"tag_category\": \"string\",\n            \"tag_id\": \"string\",\n            \"tag_name\": \"string\",\n            \"tag_type\": \"string\",\n            \"thread_id\": \"string\",\n            \"quote\": \"string\"\n          }\n        ],\n        \"clozd_transcript\": [\n          {\n            \"clozd_section\": \"string\",\n            \"clozd_dialogue\": [\n              {\n                \"clozd_question\": \"string\",\n                \"clozd_answer\": \"string\"\n              },\n              {\n                \"clozd_question\": \"string\",\n                \"clozd_answer\": \"string\"\n              }\n            ]\n          },\n          {\n            \"clozd_section\": \"string\",\n            \"clozd_dialogue\": [\n              {\n                \"clozd_question\": \"string\",\n                \"clozd_answer\": \"string\"\n              },\n              {\n                \"clozd_question\": \"string\",\n                \"clozd_answer\": \"string\"\n              }\n            ]\n          }\n        ]\n      },\n      {\n        \"clozd_response_id\": \"5f9a9d66-fe6f-23b4-c957-54a1eaa4f113\",\n        \"clozd_response_participant\": {\n          \"clozd_participant_id\": \"c44842af-02fb-17cc-fe61-7a68e29c3a0a\",\n          \"clozd_participant_external_id\": \"string\",\n          \"clozd_participant_first_name\": \"string\",\n          \"clozd_participant_last_name\": \"string\",\n          \"clozd_participant_email\": \"BhVynLUTvPv@FBow.btvv\",\n          \"clozd_participant_type\": \"buyer\",\n          \"clozd_participant_is_primary\": true,\n          \"clozd_participant_phone\": \"string\",\n          \"clozd_participant_title\": \"string\",\n          \"clozd_participant_role\": \"string\"\n        },\n        \"clozd_channel\": \"rep survey\",\n        \"clozd_decision\": \"lost to no decision\",\n        \"clozd_primary_competitor\": \"string\",\n        \"clozd_publish_date\": \"1951-10-05T02:14:39.763Z\",\n        \"clozd_summary\": \"string\",\n        \"clozd_drivers\": [\n          {\n            \"clozd_driver_name\": \"string\",\n            \"clozd_driver_rating\": 2,\n            \"clozd_driver_quotes\": [\n              \"string\",\n              \"string\"\n            ]\n          },\n          {\n            \"clozd_driver_name\": \"string\",\n            \"clozd_driver_rating\": 1,\n            \"clozd_driver_quotes\": [\n              \"string\",\n              \"string\"\n            ]\n          }\n        ],\n        \"clozd_tags\": [\n          {\n            \"tag_cateogry_id\": \"string\",\n            \"tag_category\": \"string\",\n            \"tag_id\": \"string\",\n            \"tag_name\": \"string\",\n            \"tag_type\": \"string\",\n            \"thread_id\": \"string\",\n            \"quote\": \"string\"\n          },\n          {\n            \"tag_cateogry_id\": \"string\",\n            \"tag_category\": \"string\",\n            \"tag_id\": \"string\",\n            \"tag_name\": \"string\",\n            \"tag_type\": \"string\",\n            \"thread_id\": \"string\",\n            \"quote\": \"string\"\n          }\n        ],\n        \"clozd_transcript\": [\n          {\n            \"clozd_section\": \"string\",\n            \"clozd_dialogue\": [\n              {\n                \"clozd_question\": \"string\",\n                \"clozd_answer\": \"string\"\n              },\n              {\n                \"clozd_question\": \"string\",\n                \"clozd_answer\": \"string\"\n              }\n            ]\n          },\n          {\n            \"clozd_section\": \"string\",\n            \"clozd_dialogue\": [\n              {\n                \"clozd_question\": \"string\",\n                \"clozd_answer\": \"string\"\n              },\n              {\n                \"clozd_question\": \"string\",\n                \"clozd_answer\": \"string\"\n              }\n            ]\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1582c0dd-9491-4981-ab48-e912ec3944dc",
+              "name": "Failed operation (Bad Request)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals",
+                    ":deal_id"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-deal_id-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include[]",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include[]",
+                      "value": "participants"
+                    },
+                    {
+                      "key": "include[]",
+                      "value": "products"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "deal_id",
+                      "description": "(Required) Clozd deal ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Bad Request.\",\n  \"errorCode\": \"API009\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1fb80b6-5358-4961-8732-f65f88f9103a",
+              "name": "Failed operation (Unauthorized)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "deals",
+                    ":deal_id"
+                  ],
+                  "host": [
+                    "{{programs-program_id-deals-deal_id-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include[]",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include[]",
+                      "value": "participants"
+                    },
+                    {
+                      "key": "include[]",
+                      "value": "products"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "deal_id",
+                      "description": "(Required) Clozd deal ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Not authorized.\",\n  \"errorCode\": \"AUTH005\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.clozd.com/public-api/v2",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://app.clozd.com/public-api/v2",
+      "key": "programs-program_id-deals-deal_id-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "40b0d3ef-d509-4be4-b783-16d7d2c598f7",
+    "name": "Clozd /programs/:program Id/deals/:deal ID /programs/:program Id/deals/:deal ID API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Operations tagged /programs/:program_id/deals/:deal_id across 2 of this provider's published API definitions: clozd-data-api-v2-openapi.yml, clozd-data-api-v3-openapi.yml. Each path carries the servers of the definition it was published in.\n\nContact Support:\n Email: support@clozd.com",
+      "type": "text/plain"
+    }
+  }
+}

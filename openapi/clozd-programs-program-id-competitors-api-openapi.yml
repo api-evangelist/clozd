@@ -1,0 +1,331 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@clozd.com
+  description: Documentation on how to utilize the Clozd Data API.
+  license:
+    name: Public API v3.0
+    url: ''
+  termsOfService: https://www.clozd.com/privacy/terms-of-use
+  title: Clozd Data /programs/:program Id/competitors /programs/:program Id/competitors API
+  version: v3.0
+servers:
+- description: Clozd API v3.0
+  url: https://app.clozd.com/public-api/v3
+tags:
+- name: /programs/:program_id/competitors
+paths:
+  /programs/{program_id}/competitors:
+    get:
+      description: "Get a paginated list of competitors for a program (optionally with deals and responses referenced by competitors). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app."
+      summary: Get list of competitors
+      operationId: get-competitors-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful get operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfCompetitorsWithDeals'
+              example:
+                success: true
+                message: Successfully retrieved competitor data.
+                links:
+                  self: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=4
+                  prev: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=2
+                  next: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=6
+                  first: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=0
+                  last: https://app.clozd.com/public-api/v3/programs/c0cc3cd8-4566-4ffd-8125-bec22cf06e47/competitors?limit=2&offset=12
+                count: 2
+                total: 13
+                data:
+                - clozd_competitor_id: aef18e08-cbc0-4d86-9013-c74564de2960
+                  clozd_competitor_name: ACME, Inc.
+                  clozd_competitor_domain: acme.com
+                  clozd_update_date: '2022-04-09T18:57:08.485Z'
+                  clozd_competitor_deals:
+                  - clozd_deal_id: ec672b7a-f7c9-4d95-b6a0-82b562876a7f
+                    clozd_competitor_responses:
+                    - 08d86887-2cbf-4a54-a73b-4101bdd96aab
+                  - clozd_deal_id: fc41f67e-3050-492e-a0f2-957870ccfb18
+                    clozd_competitor_responses:
+                    - b24619b4-0283-4b9b-9340-130fe7e2cead
+                    - 8b1aa294-ee82-4264-a885-64521847b9d1
+                - clozd_competitor_id: 934e1861-d942-41e9-98a2-b07f20af93aa
+                  clozd_competitor_name: FUNCO, Inc.
+                  clozd_competitor_domain: fun.co
+                  clozd_update_date: '2022-04-08T18:57:08.485Z'
+                  clozd_competitor_deals:
+                  - clozd_deal_id: 7d0b27cf-e6d4-495b-b0c7-e46110976c85
+                    clozd_competitor_responses:
+                    - 39e0e3ae-cde5-4043-be09-7fa2d329337f
+                - clozd_competitor_id: 934e1861-d942-41e9-98a2-b07f20af93aa
+                  clozd_competitor_name: DONECO, Inc.
+                  clozd_competitor_domain: done.co
+                  clozd_update_date: '2022-04-07T18:57:08.485Z'
+                  clozd_competitor_deals: []
+                - clozd_competitor_name: unknown
+                  clozd_competitor_deals:
+                  - clozd_deal_id: 74d05a49-dcf8-4bf1-83eb-da97179f55e2
+                    clozd_competitor_responses:
+                    - eb47fe87-fe31-4785-80a4-2d086c643d27
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: Failed operation (Forbidden)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+      tags:
+      - /programs/:program_id/competitors
+      parameters:
+      - description: Limit for paging (min:1, max:1000)
+        in: query
+        name: limit
+        required: false
+        schema:
+          description: Limit for paging (min:1, max:1000)
+          default: 1000
+          example: 100
+          minimum: 1
+          maximum: 1000
+          format: int64
+          type: integer
+        example: 100
+      - description: Offset for paging (min:0, max:100000)
+        in: query
+        name: offset
+        required: false
+        schema:
+          description: Offset for paging (min:0, max:100000)
+          default: 0
+          example: 100
+          minimum: 0
+          maximum: 100000
+          format: int64
+          type: integer
+        example: 200
+      - description: 'Specifies type of data to include with competitor. NOTE: Cannot include ''responses'' without also including ''deals''. (maxItems:2)'
+        in: query
+        name: include
+        required: false
+        explode: true
+        schema:
+          description: 'Specifies type of data to include with competitor. NOTE: Cannot include ''responses'' without also including ''deals''. (maxItems:2)'
+          default: []
+          maxItems: 2
+          type:
+          - array
+          - 'null'
+          items:
+            description: Type of data to include with competitor.
+            enum:
+            - deals
+            - responses
+            - ''
+            type: string
+        example:
+        - deals
+        - responses
+      - description: Returns only competitors updated since the date and time specified. Specifying this parameter will enable periodic query of incremental changes since the last pull (instead of always having to pull all competitors). (max:25 chars, ISO8601 date-time format)
+        in: query
+        name: filter
+        required: false
+        style: deepObject
+        explode: true
+        schema:
+          description: 'Returns only competitors updated since the date and time specified. See clozd_update_date. NOTE: Specifying this parameter will enable periodic query of incremental changes since last pull (instead of always having to pull all competitors). (max:25 chars, ISO8601 date-time format)'
+          type: object
+          properties:
+            competitor_updated_since:
+              description: Updated since date
+              format: date-time
+              maxLength: 25
+              type: string
+              minLength: 16
+      - description: Clozd program ID (min:36 chars, max:36 chars)
+        in: path
+        name: program_id
+        required: true
+        schema:
+          description: Clozd program ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: 2427ee0e-fc37-4537-ae83-b648d5a7c7f5
+components:
+  schemas:
+    Unauthorized:
+      description: Unauthorized response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not authorized.
+        errorCode: AUTH005
+        data: {}
+    PagedListResponse:
+      description: Success response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Success message
+          type: string
+        links:
+          description: Absolute path links to paged results
+          type: object
+          properties:
+            self:
+              description: Current page of results
+              type: string
+            prev:
+              description: Previous page of results
+              type: string
+            next:
+              description: Next page of results
+              type: string
+            first:
+              description: First page of results
+              type: string
+            last:
+              description: Last page of results
+              type: string
+        count:
+          description: Number of deals in current page of results
+          format: int64
+          type: integer
+        total:
+          description: Number of total deals in all pages of results
+          format: int64
+          type: integer
+    Competitor:
+      description: Competitor
+      type: object
+      properties:
+        clozd_competitor_name:
+          description: Clozd competitor name (max:250 chars)
+          type: string
+        clozd_competitor_id:
+          description: Clozd generated competitor id. May be undefined when name is "unknown", "none", "other" or manually entered by a survey participant (not yet curated by an admin). (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_competitor_domain:
+          description: Clozd competitor domain
+          type: string
+        clozd_update_date:
+          description: Date and time the competitor was last updated (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+    Forbidden:
+      description: Forbidden response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Forbidden.
+        errorCode: AUTH006
+        data: {}
+    ListOfCompetitorsWithDeals:
+      allOf:
+      - $ref: '#/components/schemas/PagedListResponse'
+      - description: Competitors
+        type: object
+        properties:
+          data:
+            description: List of competitors
+            type: array
+            items:
+              $ref: '#/components/schemas/CompetitorWithDeals'
+    BadRequest:
+      description: Bad Request response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          additionalProperties: true
+      example:
+        success: false
+        message: Bad Request.
+        errorCode: API009
+        data: {}
+    CompetitorWithDeals:
+      allOf:
+      - $ref: '#/components/schemas/Competitor'
+      - description: Competitor with Deals
+        type: object
+        properties:
+          clozd_competitor_deals:
+            description: List of deal's with feedback referencing competitor
+            type: array
+            items:
+              description: Deal with feedback referencing competitor
+              type: object
+              properties:
+                clozd_deal_id:
+                  description: Clozd generated deal ID of deal with feedback referencing competitor
+                  type: string
+                  format: uuid
+                clozd_competitor_responses:
+                  description: List of Clozd generated response IDs of feedback from deal referencing competitor
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-token

@@ -1,0 +1,421 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@clozd.com
+  description: Documentation on how to utilize the Clozd Data API.
+  license:
+    name: Public API v1.0
+    url: ''
+  termsOfService: https://www.clozd.com/privacy/terms-of-use
+  title: Clozd Data /programs/:program Id/deals/import /programs/:program Id/deals/import API
+  version: v1.0
+servers:
+- description: Clozd API v1.0
+  url: https://app.clozd.com/public-api/v1
+tags:
+- name: /programs/:program_id/deals/import
+paths:
+  /programs/{program_id}/deals/import:
+    post:
+      description: "Public API to import 1 or many deals and 0 or many participants associated with the deal. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application). The body of the post request will follow the schema below. If an attribute is required or a wrong value type is provided the POST request will be rolled back and rejected. \n - Program id is required, you can get the program id from the settings page within the Clozd app. \n - Custom fields are acceptable. The key name must match the name of the field name created in Clozd app exactly. \n - Participants are included within the deal object \n - Names of properties and display names are not always the same"
+      summary: Public API to import Clozd deal and participant data
+      operationId: post-deals-op
+      security:
+      - apiKey: []
+      responses:
+        '200':
+          description: Successful import operation
+          content:
+            application/json:
+              schema:
+                description: Success response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Success message
+                    type: string
+                  data:
+                    description: Data
+                    type: object
+                    properties:
+                      result:
+                        description: Result
+                        type: string
+                example:
+                  success: true
+                  message: Successfully imported deal data.
+                  data:
+                    result: 'Created Deals: 1 Updated Deals: 0'
+        '400':
+          description: Failed operation (Bad Request)
+          content:
+            application/json:
+              schema:
+                description: Bad Request response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Error message
+                    type: string
+                  errorCode:
+                    description: Error code
+                    type: string
+                  data:
+                    description: Data
+                    type: object
+                    properties: {}
+                example:
+                  success: false
+                  message: Bad Request.
+                  errorCode: API009
+                  data: {}
+        '401':
+          description: Failed operation (Unauthorized)
+          content:
+            application/json:
+              schema:
+                description: Unauthorized response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Error message
+                    type: string
+                  errorCode:
+                    description: Error code
+                    type: string
+                  data:
+                    description: Data
+                    type: object
+                    properties: {}
+                example:
+                  success: false
+                  message: Not authorized.
+                  errorCode: AUTH005
+                  data: {}
+        400-API009:
+          description: Failed operation (Missing or invalid API parameters)
+          content:
+            application/json:
+              schema:
+                description: Missing or invalid API parameters response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Error message
+                    type: string
+                  errorCode:
+                    description: Error code
+                    type: string
+                  data:
+                    description: Data
+                    type: object
+                    properties:
+                      field:
+                        description: Missing or invalid field namne
+                        type: string
+                      value:
+                        description: Invalid value
+                        type: string
+                      possibleValues:
+                        description: Possible values
+                        type: string
+                example:
+                  success: false
+                  message: Missing or invalid API parameters.
+                  errorCode: API009
+                  data:
+                    field: clozd_outcome_type
+                    value: win
+                    possibleValues: '"new business win", "new business loss", "renewal", "churn", "expansion", "upsell", "customer experience"'
+        400-API010:
+          description: Failed operation (Clozd Id doesn't match)
+          content:
+            application/json:
+              schema:
+                description: Clozd Id doesn't match response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Error message
+                    type: string
+                  errorCode:
+                    description: Error code
+                    type: string
+                  data:
+                    description: Data
+                    type: object
+                    properties:
+                      deal_id:
+                        description: Non-matching Clozd Id
+                        type: string
+                example:
+                  success: false
+                  message: If a clozd generated id is provided, this indicates you are trying to update an existing record and the id must match an existing id. One of the provided id's does not have any matches.
+                  errorCode: API010
+                  data:
+                    deal_id: a1bb3107-6909-43bd-a669-0ed5c399c783
+        400-API011:
+          description: Failed operation (Attribute not a defined field)
+          content:
+            application/json:
+              schema:
+                description: Attribute not a defined field response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Error message
+                    type: string
+                  errorCode:
+                    description: Error code
+                    type: string
+                  data:
+                    description: Data
+                    type: object
+                    properties:
+                      field:
+                        description: Attribute name which is not a field
+                        type: string
+                example:
+                  success: false
+                  message: One of the attributes on the deal or participant object does not exist as a field, you can add a field in the app under the configurations section.
+                  errorCode: API011
+                  data:
+                    field: clozd_not_a_field
+        400-API012:
+          description: Failed operation (Required field missing)
+          content:
+            application/json:
+              schema:
+                description: Required field missing response
+                type: object
+                properties:
+                  success:
+                    description: Success flag
+                    type: boolean
+                  message:
+                    description: Error message
+                    type: string
+                  errorCode:
+                    description: Error code
+                    type: string
+                  data:
+                    description: Data
+                    type: object
+                    properties:
+                      requiredField:
+                        description: Name of missing required field
+                        type: string
+                example:
+                  success: false
+                  message: One of the fields that is configured as required is missing.
+                  errorCode: API012
+                  data:
+                    requiredField: clozd_amount
+      tags:
+      - /programs/:program_id/deals/import
+      parameters:
+      - description: Clozd program ID (min:36 chars, max:36 chars)
+        in: path
+        name: program_id
+        required: true
+        schema:
+          description: Clozd program ID (min:36 chars, max:36 chars)
+          minLength: 36
+          maxLength: 36
+          type: string
+          format: uuid
+        example: 2427ee0e-fc37-4537-ae83-b648d5a7c7f5
+      requestBody:
+        description: Deal data to import to Clozd Platform
+        content:
+          application/json:
+            schema:
+              description: Deal data to import to Clozd Platform
+              type: object
+              properties:
+                import_name:
+                  description: The name of your import, defaults to 'Clozd Data API' if nothing provided
+                  type: string
+                all_deals:
+                  description: Array of deal objects for importing (minItems:1, maxItems:1000)
+                  minItems: 1
+                  maxItems: 1000
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Deal'
+            example:
+              import_name: 2022 Deals Import
+              all_deals:
+              - clozd_amount: 10000
+                clozd_closed_date: '2022-01-09T18:57:08.485Z'
+                clozd_created_date: '2022-03-09T18:57:08.485Z'
+                clozd_currency: USD
+                clozd_deal_name: ACME, Inc.
+                clozd_external_id: '0000001'
+                clozd_headcount: 12
+                clozd_industry: SAAS
+                clozd_lead_source: SDR
+                clozd_organization_domain: acme.com
+                clozd_organization_name: ACME, Inc.
+                clozd_outcome: win
+                clozd_outcome_type: churn
+                clozd_products:
+                - Flagship
+                clozd_region: East
+                clozd_revenue: 10000
+                clozd_sales_rep_email: rep@sales.com
+                clozd_sales_rep_name: Sales Rep
+                clozd_participants:
+                - clozd_participant_external_id: '0000002'
+                  clozd_participant_first_name: First
+                  clozd_participant_last_name: Last
+                  clozd_participant_email: participant@email.com
+                  clozd_participant_type: buyer
+                  clozd_participant_is_primary: true
+                  clozd_participant_phone: 888-111-2222
+                  clozd_participant_title: Chief Buyer
+                  clozd_participant_role: Buying Agent
+components:
+  schemas:
+    Deal:
+      description: An array of deal objects
+      type: object
+      properties:
+        clozd_deal_name:
+          description: The name of the deal
+          type: string
+        clozd_external_id:
+          description: Your id for this deal. This is not generated by Clozd. If you have existing deals with the same external id, they will be updated with the import
+          type: string
+        clozd_organization_domain:
+          description: 'Deal domain example: www.clozd.com'
+          type: string
+        clozd_organization_name:
+          description: Clozd organization name (max:250 chars)
+          type: string
+        clozd_deal_id:
+          description: Clozd generated deal id (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_amount:
+          description: This reflects how much the deal was for
+          format: double
+          type: number
+        clozd_closed_date:
+          description: When the deal was closed (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_created_date:
+          description: When the deal was created (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_currency:
+          description: The type of currency used in this deal
+          type: string
+        clozd_headcount:
+          description: Head count for the deal
+          format: int64
+          type: integer
+        clozd_industry:
+          description: Industry from a picklist of values in the Clozd app
+          type: string
+        clozd_lead_source:
+          description: Lead source to the deal
+          type: string
+        clozd_outcome:
+          description: Reflects the outcome of the deal allowed values are 'win' or 'loss'
+          enum:
+          - win
+          - loss
+          type: string
+        clozd_outcome_type:
+          description: What type of deal was the outcome affecting
+          type: string
+        clozd_region:
+          description: Region for the deal, must be a value from the picklist in Clozd app
+          type: string
+        clozd_revenue:
+          description: This is the revenue for the deal
+          format: double
+          type: number
+        clozd_sales_rep_email:
+          description: The email for the sales rep for the deal
+          format: email
+          type: string
+        clozd_sales_rep_name:
+          description: The name of the sales rep for the deal
+          type: string
+        clozd_products:
+          description: 'An array of products, if there is only one product, an array of one ie: [''product'']'
+          type: array
+          items:
+            description: Parameter without description.
+            type: string
+        clozd_participants:
+          description: List of participants that belong to the deal (maxItems:1000)
+          maxItems: 1000
+          type: array
+          items:
+            $ref: '#/components/schemas/Participant'
+    Participant:
+      description: An array of participant objects included in the deal under the clozd_participants attribute
+      type: object
+      properties:
+        clozd_participant_id:
+          description: Clozd generated participant id (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_participant_external_id:
+          description: Your id for this participant. This is not generated by Clozd. If you have existing participants with the same external id, they will be updated with the import
+          type: string
+        clozd_participant_first_name:
+          description: First name of participant
+          type: string
+        clozd_participant_last_name:
+          description: Last name of participant
+          type: string
+        clozd_participant_email:
+          description: The email for the participant of the deal
+          format: email
+          type: string
+        clozd_participant_type:
+          description: Specifying if the person is a buyer or a sales participant values are 'buyer' or 'sales'
+          enum:
+          - buyer
+          - sales
+          type: string
+        clozd_participant_is_primary:
+          description: Is the participant the primary participant for the deal
+          type: boolean
+        clozd_participant_phone:
+          description: Phone number for the pariticipant
+          type: string
+        clozd_participant_title:
+          description: Job title of the participant
+          type: string
+        clozd_participant_role:
+          description: The role the participant had in the deal
+          type: string
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-token

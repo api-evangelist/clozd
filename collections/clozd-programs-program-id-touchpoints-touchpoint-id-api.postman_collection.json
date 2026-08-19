@@ -1,0 +1,470 @@
+{
+  "item": [
+    {
+      "id": "f436e30f-4fbd-454b-b03f-e39583318a38",
+      "name": "/programs/:program_id/touchpoints/:touchpoint_id",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bc5714d5-8e6e-4bd2-87eb-2176bb7a41d1",
+          "name": "Get touchpoint with details",
+          "request": {
+            "name": "Get touchpoint with details",
+            "description": {
+              "content": "Get a specific touchpoint with details (basic fields, extra fields, optional custom metadata fields, participants, published feedback responses, and full feedback transcript). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app. \n - :touchpoint_id is required, see /programs/:program_id/touchpoints to get a paginated list of program touchpoints. \n\n**NOTE**: this endpoint is only usable for program types other than 'win-loss'.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "programs",
+                ":program_id",
+                "touchpoints",
+                ":touchpoint_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "customFields",
+                  "description": "Specifies type of data to include with touchpoint. NOTE: Cannot include 'transcripts', 'surveyQuestions, or 'tags' without also including 'feedback' (maxItems:6)"
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "participants",
+                  "description": "Specifies type of data to include with touchpoint. NOTE: Cannot include 'transcripts', 'surveyQuestions, or 'tags' without also including 'feedback' (maxItems:6)"
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "feedback",
+                  "description": "Specifies type of data to include with touchpoint. NOTE: Cannot include 'transcripts', 'surveyQuestions, or 'tags' without also including 'feedback' (maxItems:6)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "program_id",
+                  "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "touchpoint_id",
+                  "description": "(Required) Clozd touchpoint ID (min:36 chars, max:36 chars)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bc86693b-310d-4c7c-896e-aa0e422f79cb",
+              "name": "Successful get operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints",
+                    ":touchpoint_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include",
+                      "value": "participants"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "touchpoint_id",
+                      "description": "(Required) Clozd touchpoint ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"string\",\n  \"data\": {\n    \"clozd_organization_name\": \"string\",\n    \"clozd_touchpoint_name\": \"string\",\n    \"clozd_external_id\": \"string\",\n    \"clozd_organization_domain\": \"string\",\n    \"clozd_touchpoint_id\": \"a41b90b2-1fc7-de3e-85c5-10e270ee2fea\",\n    \"clozd_created_date\": \"2007-11-25T23:50:47.541Z\",\n    \"clozd_currency\": \"string\",\n    \"clozd_headcount\": 8954,\n    \"clozd_industry\": \"string\",\n    \"clozd_region\": \"string\",\n    \"clozd_revenue\": 1931.9890982361144,\n    \"clozd_owner_email\": \"h3y9@EQiEZmNzUGha.pni\",\n    \"clozd_owner_name\": \"string\",\n    \"clozd_participants\": [\n      {\n        \"clozd_participant_first_name\": \"string\",\n        \"clozd_participant_last_name\": \"string\",\n        \"clozd_participant_email\": \"RnqxWGRCxwhM8p@x.xm\",\n        \"clozd_participant_type\": \"internal\",\n        \"clozd_participant_id\": \"b373a256-1321-556e-67cc-9f5689b2dc98\",\n        \"clozd_participant_external_id\": \"string\",\n        \"clozd_participant_is_primary\": true,\n        \"clozd_participant_phone\": \"string\",\n        \"clozd_participant_title\": \"string\",\n        \"clozd_participant_role\": \"string\"\n      },\n      {\n        \"clozd_participant_first_name\": \"string\",\n        \"clozd_participant_last_name\": \"string\",\n        \"clozd_participant_email\": \"MXPwE@tUcCY.ms\",\n        \"clozd_participant_type\": \"sales\",\n        \"clozd_participant_id\": \"6fa50053-dc9b-3eda-9d8e-1e3edd7a6abf\",\n        \"clozd_participant_external_id\": \"string\",\n        \"clozd_participant_is_primary\": false,\n        \"clozd_participant_phone\": \"string\",\n        \"clozd_participant_title\": \"string\",\n        \"clozd_participant_role\": \"string\"\n      }\n    ],\n    \"clozd_responses\": [\n      {\n        \"clozd_transcript\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"clozd_survey_questions\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      {\n        \"clozd_transcript\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"clozd_survey_questions\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9eb6b5a4-9f0f-492e-93f5-2001dd6d59e0",
+              "name": "Failed operation (Bad Request)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints",
+                    ":touchpoint_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include",
+                      "value": "participants"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "touchpoint_id",
+                      "description": "(Required) Clozd touchpoint ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Bad Request.\",\n  \"errorCode\": \"API009\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9973ee0a-c1b3-482d-afc8-461246b1aecb",
+              "name": "Failed operation (Unauthorized)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints",
+                    ":touchpoint_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include",
+                      "value": "participants"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "touchpoint_id",
+                      "description": "(Required) Clozd touchpoint ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Not authorized.\",\n  \"errorCode\": \"AUTH005\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2411124a-6e53-47dc-940c-e739767134a9",
+              "name": "Failed operation (Forbidden)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints",
+                    ":touchpoint_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include",
+                      "value": "participants"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "touchpoint_id",
+                      "description": "(Required) Clozd touchpoint ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Forbidden.\",\n  \"errorCode\": \"AUTH006\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c46bdb14-e2d6-44f5-81ae-1533abcf5f87",
+              "name": "Failed operation (Not Found)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":program_id",
+                    "touchpoints",
+                    ":touchpoint_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "customFields"
+                    },
+                    {
+                      "key": "include",
+                      "value": "participants"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "program_id",
+                      "description": "(Required) Clozd program ID (min:36 chars, max:36 chars)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "touchpoint_id",
+                      "description": "(Required) Clozd touchpoint ID (min:36 chars, max:36 chars)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Not Found.\",\n  \"errorCode\": \"AUTH007\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.clozd.com/public-api/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c0928731-2ad1-4e1d-a526-7ebbcf517d61",
+    "name": "Clozd Data /programs/:program Id/touchpoints/:touchpoint ID /programs/:program Id/touchpoints/:touchpoint ID API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Documentation on how to utilize the Clozd Data API.\n\nContact Support:\n Email: support@clozd.com",
+      "type": "text/plain"
+    }
+  }
+}

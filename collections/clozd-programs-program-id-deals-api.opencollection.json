@@ -1,0 +1,96 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clozd /programs/:program Id/deals /programs/:program Id/deals API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "/programs/:program_id/deals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get list of Clozd program deals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.clozd.com/public-api/v2/programs/:program_id/deals",
+            "params": [
+              {
+                "name": "limit",
+                "value": "100",
+                "type": "query",
+                "description": "Limit for paging (min:1, max:1000)"
+              },
+              {
+                "name": "offset",
+                "value": "100",
+                "type": "query",
+                "description": "Offset for paging (min:0, max:100000)"
+              },
+              {
+                "name": "filter[feedback_published_since]",
+                "value": "",
+                "type": "query",
+                "description": "Returns only deals with feedback published since the date and time specified. See GET public-api/v2/programs/:program_id/deals/:deal_id response schema, data.clozd_reponses[].clozd_publish_date. NOTE: Specifying this parameter will by definition filter out deals which have no published feedback. It will also enable periodic query of incremental changes since last pull (instead of always having to pull all deals). (max:25 chars, ISO8601 date-time format)"
+              },
+              {
+                "name": "filter[clozd_insight_gems]",
+                "value": "win_back,expansion",
+                "type": "query",
+                "description": "Comma-separated list of insight gem (AWE flag) types to filter by. Returns only deals that have at least one active flag matching any of the specified values. Valid values: at_risk, win_back, expansion. Available on API v3+."
+              },
+              {
+                "name": "program_id",
+                "value": "2427ee0e-fc37-4537-ae83-b648d5a7c7f5",
+                "type": "path",
+                "description": "Clozd program ID (min:36 chars, max:36 chars)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-token",
+              "value": "{{x-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a paged list of deals with basic fields and share link for deals with published feedback. See /programs/:program_id/deals/:deal_id endpoint to get a specific deal with details. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app."
+        },
+        {
+          "info": {
+            "name": "Create or update Clozd deal and participant data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.clozd.com/public-api/v2/programs/:program_id/deals",
+            "params": [
+              {
+                "name": "program_id",
+                "value": "2427ee0e-fc37-4537-ae83-b648d5a7c7f5",
+                "type": "path",
+                "description": "Clozd program ID (min:36 chars, max:36 chars)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-token",
+              "value": "{{x-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create or update 1 to many deals and 0 to many participants associated with the deal. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application). The body of the post request will follow the schema below. If an attribute is required or a wrong value type is provided the POST request will be rolled back and rejected. \n - Program id is required, you can get the program id from the settings page within "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

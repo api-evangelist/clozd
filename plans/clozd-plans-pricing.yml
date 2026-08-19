@@ -1,0 +1,52 @@
+generated: '2026-08-14'
+method: searched
+source: https://www.clozd.com/
+plan_count: 0
+published_pricing: false
+model: contact-sales
+note: >-
+  Clozd publishes no pricing page and no plan tiers. Every commercial path on www.clozd.com resolves to a
+  "Talk with us" contact form (https://www.clozd.com/talk-with-us) or a "Book a demo" call-to-action.
+  /pricing, /product/pricing and /plans all return HTTP 404 from the Webflow site. The help center
+  returns two loosely-matched articles for the query "pricing" and neither is a price list. The API is
+  not separately priced or metered: API Imports must be switched on for an organization by a Clozd
+  Program Manager or support@clozd.com, so programmatic access is an entitlement of an existing
+  enterprise contract rather than a purchasable plan. plan_count is 0 as a recorded fact, not a gap in
+  this pass.
+api_access:
+  self_serve: false
+  gating: >-
+    "In order to get API imports configured, reach out to your Clozd Program Manager or support@clozd.com
+    and they will enable that setting for you."
+  gating_source: https://help.clozd.com/hc/en-us/articles/9948957669659-API-Imports-Exports
+  mcp_gating: >-
+    The MCP server is added by an organization's AI admin and authorized through the customer's own
+    identity provider; program visibility is scoped by a Clozd admin. No self-serve signup exists.
+  mcp_gating_source: https://help.clozd.com/hc/en-us/articles/49656607624987-Connecting-to-Clozd-via-MCP
+plans: []
+related_commercial_pages:
+- url: https://www.clozd.com/talk-with-us
+  kind: contact-sales
+- url: https://www.clozd.com/resources/roi-calculator
+  kind: roi-calculator
+  note: A lead-capture ROI estimator, not a price list.
+third_party_estimates:
+  captured: false
+  note: >-
+    Resellers and comparison sites publish estimated contract ranges for Clozd. None of it is
+    provider-published, so no figure is recorded here. Only what Clozd states about its own pricing counts.
+x-evidence:
+  fetched: '2026-08-14'
+  urls:
+  - url: https://www.clozd.com/pricing
+    http_status: 404
+  - url: https://www.clozd.com/product/pricing
+    http_status: 404
+  - url: https://www.clozd.com/plans
+    http_status: 404
+  - url: https://www.clozd.com/
+    http_status: 200
+    note: navigation and footer carry "Talk with us" / "Book a demo"; no pricing link
+  - url: https://help.clozd.com/api/v2/help_center/articles/search.json?query=pricing
+    http_status: 200
+    note: 2 results, neither a price list

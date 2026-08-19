@@ -1,0 +1,96 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clozd Data /programs/:program Id/touchpoints /programs/:program Id/touchpoints API",
+    "version": "v3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "/programs/:program_id/touchpoints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get list of Clozd program touchpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.clozd.com/public-api/v3/programs/:program_id/touchpoints",
+            "params": [
+              {
+                "name": "limit",
+                "value": "100",
+                "type": "query",
+                "description": "Limit for paging (min:1, max:1000)"
+              },
+              {
+                "name": "offset",
+                "value": "200",
+                "type": "query",
+                "description": "Offset for paging (min:0, max:100000)"
+              },
+              {
+                "name": "include",
+                "value": "customFields,feedback",
+                "type": "query",
+                "description": "Specifies type of data to include with touchpoint. NOTE: Cannot include 'surveyQuestions' or 'tags' without also including 'feedback' (maxItems:5)"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "Returns only touchpoints with published feedback that have been published or updated since the date and time specified. See clozd_publish_date and clozd_update_date. NOTE: Specifying this parameter will by definition filter out touchpoints which have no published feedback. It will also enable periodic query of incremental changes since last pull (instead of always having to pull all touchpoints). (max:25 chars, ISO8601 date-time format)"
+              },
+              {
+                "name": "program_id",
+                "value": "2427ee0e-fc37-4537-ae83-b648d5a7c7f5",
+                "type": "path",
+                "description": "Clozd program ID (min:36 chars, max:36 chars)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-token",
+              "value": "{{x-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a paginated list of touchpoints with basic fields and share link (if there is published feedback). See /programs/:program_id/touchpoints/:touchpoint_id endpoint to get a specific touchpoint with details. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app. \n\n**NOTE**: this endpoint is only u"
+        },
+        {
+          "info": {
+            "name": "Create or update Clozd touchpoint and participant data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.clozd.com/public-api/v3/programs/:program_id/touchpoints",
+            "params": [
+              {
+                "name": "program_id",
+                "value": "2427ee0e-fc37-4537-ae83-b648d5a7c7f5",
+                "type": "path",
+                "description": "Clozd program ID (min:36 chars, max:36 chars)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-token",
+              "value": "{{x-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create or update 1 to many touchpoints and 0 to many participants associated with the touchpoint. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application). The body of the post request will follow the schema below. If an attribute is required or a wrong value type is provided the POST request will be rolled back and rejected. \n - Program id is required, you can get the program id from the settings "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
