@@ -19,6 +19,18 @@ specificationVersion: '0.23'
 created: '2026-08-02'
 modified: '2026-08-14'
 tags:
+- Win-Loss Analysis
+- Customer Feedback
+- Decision Intelligence
+- Sales Intelligence
+- Market Research
+- Competitive Intelligence
+- Voice of Customer
+- Revenue Intelligence
+- Software-as-a-Service
+- MCP
+- agent-native
+tags_raw:
 - win-loss-analysis
 - customer-feedback
 - decision-intelligence
@@ -43,6 +55,12 @@ apis:
   humanURL: https://help.clozd.com/hc/en-us/articles/49656607624987-Connecting-to-Clozd-via-MCP
   baseURL: https://mcp.clozd.com/mcp
   tags:
+  - MCP
+  - agent-native
+  - Win-Loss Analysis
+  - Decision Intelligence
+  - Voice of Customer
+  tags_raw:
   - mcp
   - agent-native
   - win-loss-analysis
@@ -67,6 +85,8 @@ apis:
   humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
   baseURL: https://app.clozd.com/public-api/v3
   tags:
+  - Programs
+  tags_raw:
   - /programs
   properties:
   - type: OpenAPI
@@ -93,7 +113,8 @@ apis:
     The /programs/:program_id/competitors API from Clozd — 1 operation(s) for /programs/:program_id/competitors.
   humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
   baseURL: https://app.clozd.com/public-api/v3
-  tags:
+  tags: []
+  tags_raw:
   - /programs/:program_id/competitors
   properties:
   - type: OpenAPI
@@ -120,7 +141,8 @@ apis:
     The /programs/:program_id/deals API from Clozd — 1 operation(s) for /programs/:program_id/deals.
   humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
   baseURL: https://app.clozd.com/public-api/v3
-  tags:
+  tags: []
+  tags_raw:
   - /programs/:program_id/deals
   properties:
   - type: OpenAPI
@@ -147,7 +169,8 @@ apis:
     The /programs/:program_id/deals/:deal_id API from Clozd — 1 operation(s) for /programs/:program_id/deals/:deal_id.
   humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
   baseURL: https://app.clozd.com/public-api/v3
-  tags:
+  tags: []
+  tags_raw:
   - /programs/:program_id/deals/:deal_id
   properties:
   - type: OpenAPI
@@ -174,7 +197,8 @@ apis:
     The /programs/:program_id/deals/import API from Clozd — 1 operation(s) for /programs/:program_id/deals/import.
   humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
   baseURL: https://app.clozd.com/public-api/v3
-  tags:
+  tags: []
+  tags_raw:
   - /programs/:program_id/deals/import
   properties:
   - type: OpenAPI
@@ -201,7 +225,8 @@ apis:
     The /programs/:program_id/touchpoints API from Clozd — 1 operation(s) for /programs/:program_id/touchpoints.
   humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
   baseURL: https://app.clozd.com/public-api/v3
-  tags:
+  tags: []
+  tags_raw:
   - /programs/:program_id/touchpoints
   properties:
   - type: OpenAPI
@@ -228,7 +253,8 @@ apis:
     The /programs/:program_id/touchpoints/:touchpoint_id API from Clozd — 1 operation(s) for /programs/:program_id/touchpoints/:touchpoint_id.
   humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
   baseURL: https://app.clozd.com/public-api/v3
-  tags:
+  tags: []
+  tags_raw:
   - /programs/:program_id/touchpoints/:touchpoint_id
   properties:
   - type: OpenAPI
