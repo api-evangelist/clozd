@@ -11,6 +11,18 @@ description: >-
   competitors; and a hosted, OAuth 2.0 protected Model Context Protocol server at mcp.clozd.com that gives
   Claude, ChatGPT, Cursor, Copilot, Windsurf, Antigravity, and Gemini CLI direct tool access to the same
   win-loss data.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://cdn.prod.website-files.com/602c29edc35660e6c913f956/65a18029f28b360a5bc33674_Group%2011337.png
 url: https://raw.githubusercontent.com/api-evangelist/clozd/refs/heads/main/apis.yml
 x-type: company
