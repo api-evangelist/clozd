@@ -31,15 +31,15 @@ specificationVersion: '0.23'
 created: '2026-08-02'
 modified: '2026-08-14'
 tags:
-- Win-Loss Analysis
-- Customer Feedback
-- Decision Intelligence
-- Sales Intelligence
-- Market Research
+- win-loss-analysis
+- customer-feedback
+- decision-intelligence
+- sales-intelligence
+- market-research
 - Competitive Intelligence
-- Voice of Customer
-- Revenue Intelligence
-- Software-as-a-Service
+- voice-of-customer
+- revenue-intelligence
+- saas
 - MCP
 - agent-native
 tags_raw:
@@ -69,9 +69,9 @@ apis:
   tags:
   - MCP
   - agent-native
-  - Win-Loss Analysis
-  - Decision Intelligence
-  - Voice of Customer
+  - win-loss-analysis
+  - decision-intelligence
+  - voice-of-customer
   tags_raw:
   - mcp
   - agent-native
@@ -96,8 +96,7 @@ apis:
   description: The /programs API from Clozd — 1 operation(s) for /programs.
   humanURL: https://app.clozd.com/public-api/docs/?urls.primaryName=v3.0
   baseURL: https://app.clozd.com/public-api/v3
-  tags:
-  - Programs
+  tags: []
   tags_raw:
   - /programs
   properties:
