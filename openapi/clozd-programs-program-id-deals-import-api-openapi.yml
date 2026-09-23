@@ -7,7 +7,7 @@ info:
     name: Public API v1.0
     url: ''
   termsOfService: https://www.clozd.com/privacy/terms-of-use
-  title: Clozd Data /programs/:program Id/deals/import /programs/:program Id/deals/import API
+  title: Clozd Data /programs/:program Id/deals/import API
   version: v1.0
 servers:
 - description: Clozd API v1.0
@@ -17,7 +17,15 @@ tags:
 paths:
   /programs/{program_id}/deals/import:
     post:
-      description: "Public API to import 1 or many deals and 0 or many participants associated with the deal. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application). The body of the post request will follow the schema below. If an attribute is required or a wrong value type is provided the POST request will be rolled back and rejected. \n - Program id is required, you can get the program id from the settings page within the Clozd app. \n - Custom fields are acceptable. The key name must match the name of the field name created in Clozd app exactly. \n - Participants are included within the deal object \n - Names of properties and display names are not always the same"
+      description: 'Public API to import 1 or many deals and 0 or many participants associated with the deal. Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application). The body of the post request will follow the schema below. If an attribute is required or a wrong value type is provided the POST request will be rolled back and rejected.
+
+        - Program id is required, you can get the program id from the settings page within the Clozd app.
+
+        - Custom fields are acceptable. The key name must match the name of the field name created in Clozd app exactly.
+
+        - Participants are included within the deal object
+
+        - Names of properties and display names are not always the same'
       summary: Public API to import Clozd deal and participant data
       operationId: post-deals-op
       security:

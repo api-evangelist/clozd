@@ -7,7 +7,7 @@ info:
     name: Public API v3.0
     url: ''
   termsOfService: https://www.clozd.com/privacy/terms-of-use
-  title: Clozd Data /programs/:program Id/competitors /programs/:program Id/competitors API
+  title: Clozd Data /programs/:program Id/competitors API
   version: v3.0
 servers:
 - description: Clozd API v3.0
@@ -17,7 +17,9 @@ tags:
 paths:
   /programs/{program_id}/competitors:
     get:
-      description: "Get a paginated list of competitors for a program (optionally with deals and responses referenced by competitors). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app."
+      description: 'Get a paginated list of competitors for a program (optionally with deals and responses referenced by competitors). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).
+
+        - :program_id is required, you can get the program id from the settings page within the Clozd app.'
       summary: Get list of competitors
       operationId: get-competitors-op
       security:
@@ -169,8 +171,8 @@ paths:
         example: 2427ee0e-fc37-4537-ae83-b648d5a7c7f5
 components:
   schemas:
-    Unauthorized:
-      description: Unauthorized response
+    BadRequest:
+      description: Bad Request response
       type: object
       properties:
         success:
@@ -185,11 +187,11 @@ components:
         data:
           description: Data
           type: object
-          properties: {}
+          additionalProperties: true
       example:
         success: false
-        message: Not authorized.
-        errorCode: AUTH005
+        message: Bad Request.
+        errorCode: API009
         data: {}
     PagedListResponse:
       description: Success response
@@ -228,79 +230,6 @@ components:
           description: Number of total deals in all pages of results
           format: int64
           type: integer
-    Competitor:
-      description: Competitor
-      type: object
-      properties:
-        clozd_competitor_name:
-          description: Clozd competitor name (max:250 chars)
-          type: string
-        clozd_competitor_id:
-          description: Clozd generated competitor id. May be undefined when name is "unknown", "none", "other" or manually entered by a survey participant (not yet curated by an admin). (min:36 chars, max:36 chars)
-          type: string
-          format: uuid
-        clozd_competitor_domain:
-          description: Clozd competitor domain
-          type: string
-        clozd_update_date:
-          description: Date and time the competitor was last updated (max:25 chars, ISO8601 date-time format)
-          format: date-time
-          type: string
-    Forbidden:
-      description: Forbidden response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          properties: {}
-      example:
-        success: false
-        message: Forbidden.
-        errorCode: AUTH006
-        data: {}
-    ListOfCompetitorsWithDeals:
-      allOf:
-      - $ref: '#/components/schemas/PagedListResponse'
-      - description: Competitors
-        type: object
-        properties:
-          data:
-            description: List of competitors
-            type: array
-            items:
-              $ref: '#/components/schemas/CompetitorWithDeals'
-    BadRequest:
-      description: Bad Request response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          additionalProperties: true
-      example:
-        success: false
-        message: Bad Request.
-        errorCode: API009
-        data: {}
     CompetitorWithDeals:
       allOf:
       - $ref: '#/components/schemas/Competitor'
@@ -324,6 +253,79 @@ components:
                   items:
                     type: string
                     format: uuid
+    ListOfCompetitorsWithDeals:
+      allOf:
+      - $ref: '#/components/schemas/PagedListResponse'
+      - description: Competitors
+        type: object
+        properties:
+          data:
+            description: List of competitors
+            type: array
+            items:
+              $ref: '#/components/schemas/CompetitorWithDeals'
+    Unauthorized:
+      description: Unauthorized response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not authorized.
+        errorCode: AUTH005
+        data: {}
+    Forbidden:
+      description: Forbidden response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Forbidden.
+        errorCode: AUTH006
+        data: {}
+    Competitor:
+      description: Competitor
+      type: object
+      properties:
+        clozd_competitor_name:
+          description: Clozd competitor name (max:250 chars)
+          type: string
+        clozd_competitor_id:
+          description: Clozd generated competitor id. May be undefined when name is "unknown", "none", "other" or manually entered by a survey participant (not yet curated by an admin). (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_competitor_domain:
+          description: Clozd competitor domain
+          type: string
+        clozd_update_date:
+          description: Date and time the competitor was last updated (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
   securitySchemes:
     apiKey:
       type: apiKey

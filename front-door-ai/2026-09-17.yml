@@ -1,0 +1,29 @@
+# Front Door AI Index — clozd — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: clozd
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.clozd.com
+  final_host: www.clozd.com
+  ownership: own
+  owner: clozd
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 8
+  host_score: 8
+  density: 7.64
+  words: 1047
+  tiers:
+    agentic: 3
+    core: 5
+    model: 0
+  ambiguous: 6
+  top_terms:
+    AI: 5
+    intelligence: 4
+    AI agent: 2
+    agent: 2
+    prompts: 1

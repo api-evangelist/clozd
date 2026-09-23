@@ -1,20 +1,15 @@
 {
   "provider": "clozd",
   "sources": [
-    "clozd-programs-api-openapi.yml",
-    "clozd-programs-program-id-competitors-api-openapi.yml",
-    "clozd-programs-program-id-deals-api-openapi.yml",
-    "clozd-programs-program-id-deals-deal-id-api-openapi.yml",
-    "clozd-programs-program-id-deals-import-api-openapi.yml",
-    "clozd-programs-program-id-touchpoints-api-openapi.yml",
-    "clozd-programs-program-id-touchpoints-touchpoint-id-api-openapi.yml"
+    "_original/clozd-data-api-v1-openapi.yml",
+    "_original/clozd-data-api-v3-openapi.yml"
   ],
   "outputs": [
+    "clozd-programs-program-id-deals-import-api-openapi.yml",
     "clozd-programs-api-openapi.yml",
     "clozd-programs-program-id-competitors-api-openapi.yml",
     "clozd-programs-program-id-deals-api-openapi.yml",
     "clozd-programs-program-id-deals-deal-id-api-openapi.yml",
-    "clozd-programs-program-id-deals-import-api-openapi.yml",
     "clozd-programs-program-id-touchpoints-api-openapi.yml",
     "clozd-programs-program-id-touchpoints-touchpoint-id-api-openapi.yml"
   ],
@@ -22,14 +17,30 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "clozd-programs-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "clozd-programs-program-id-competitors-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "clozd-programs-program-id-deals-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "clozd-programs-program-id-deals-deal-id-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "clozd-programs-program-id-deals-import-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "clozd-programs-program-id-touchpoints-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "clozd-programs-program-id-touchpoints-touchpoint-id-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "4 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "clozd-data-api-v1-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "clozd-data-api-v1-openapi.yml: declared missing tag: /programs/:program_id/deals/import",
+    "clozd-data-api-v3-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "clozd-data-api-v3-openapi.yml: declared missing tag: /programs",
+    "clozd-data-api-v3-openapi.yml: declared missing tag: /programs/:program_id/competitors",
+    "clozd-data-api-v3-openapi.yml: declared missing tag: /programs/:program_id/deals",
+    "clozd-data-api-v3-openapi.yml: declared missing tag: /programs/:program_id/deals/:deal_id",
+    "clozd-data-api-v3-openapi.yml: declared missing tag: /programs/:program_id/touchpoints",
+    "clozd-data-api-v3-openapi.yml: declared missing tag: /programs/:program_id/touchpoints/:touchpoint_id",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "_original/clozd-public-api-v3.0-openapi-original.json: archived document superseded by a larger archived document",
+    "_original/clozd-public-api-v2.0-openapi-original.json: archived document superseded by a larger archived document",
+    "_original/clozd-public-api-v1.0-openapi-original.json: archived document superseded by a larger archived document",
+    "_original/clozd-data-api-v2-openapi.yml: archived document superseded by a larger archived document",
+    "clozd-programs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "clozd-programs-program-id-competitors-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "clozd-programs-program-id-deals-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "clozd-programs-program-id-deals-deal-id-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "clozd-programs-program-id-deals-import-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "clozd-programs-program-id-touchpoints-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "clozd-programs-program-id-touchpoints-touchpoint-id-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

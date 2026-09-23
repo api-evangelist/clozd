@@ -7,7 +7,7 @@ info:
     name: Public API v3.0
     url: ''
   termsOfService: https://www.clozd.com/privacy/terms-of-use
-  title: Clozd Data /programs/:program Id/touchpoints/:touchpoint ID /programs/:program Id/touchpoints/:touchpoint ID API
+  title: Clozd Data /programs/:program Id/touchpoints/:touchpoint ID…
   version: v3.0
 servers:
 - description: Clozd API v3.0
@@ -17,7 +17,14 @@ tags:
 paths:
   /programs/{program_id}/touchpoints/{touchpoint_id}:
     get:
-      description: "Get a specific touchpoint with details (basic fields, extra fields, optional custom metadata fields, participants, published feedback responses, and full feedback transcript). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).\n - :program_id is required, you can get the program id from the settings page within the Clozd app. \n - :touchpoint_id is required, see /programs/:program_id/touchpoints to get a paginated list of program touchpoints. \n\n**NOTE**: this endpoint is only usable for program types other than 'win-loss'."
+      description: 'Get a specific touchpoint with details (basic fields, extra fields, optional custom metadata fields, participants, published feedback responses, and full feedback transcript). Make sure the header is set with a key value pair being Key: x-api-token Value: (api token provided from the settings section within the Clozd application).
+
+        - :program_id is required, you can get the program id from the settings page within the Clozd app.
+
+        - :touchpoint_id is required, see /programs/:program_id/touchpoints to get a paginated list of program touchpoints.
+
+
+        **NOTE**: this endpoint is only usable for program types other than ''win-loss''.'
       summary: Get touchpoint with details
       operationId: get-touchpoint-op
       security:
@@ -236,8 +243,30 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Participant'
-    Unauthorized:
-      description: Unauthorized response
+    BadRequest:
+      description: Bad Request response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          additionalProperties: true
+      example:
+        success: false
+        message: Bad Request.
+        errorCode: API009
+        data: {}
+    NotFound:
+      description: NotFound response
       type: object
       properties:
         success:
@@ -255,9 +284,30 @@ components:
           properties: {}
       example:
         success: false
-        message: Not authorized.
-        errorCode: AUTH005
+        message: Not Found.
+        errorCode: AUTH007
         data: {}
+    SurveyQuestion:
+      description: Survey question
+      type: object
+      properties:
+        clozd_question:
+          description: Survey question
+          type: string
+        clozd_answer:
+          description: Participant answer
+          type: string
+    TouchpointFull:
+      allOf:
+      - $ref: '#/components/schemas/TouchpointWithParticipants'
+      - description: Touchpoint object with response
+        type: object
+        properties:
+          clozd_responses:
+            description: List of touchpoint feedback responses
+            type: array
+            items:
+              $ref: '#/components/schemas/TouchpointResponseWithAll'
     TouchpointResponse:
       description: Touchpoint feedback response from interview or survey
       type: object
@@ -357,143 +407,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SurveyQuestion'
-    TouchpointFull:
-      allOf:
-      - $ref: '#/components/schemas/TouchpointWithParticipants'
-      - description: Touchpoint object with response
-        type: object
-        properties:
-          clozd_responses:
-            description: List of touchpoint feedback responses
-            type: array
-            items:
-              $ref: '#/components/schemas/TouchpointResponseWithAll'
-    NotFound:
-      description: NotFound response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          properties: {}
-      example:
-        success: false
-        message: Not Found.
-        errorCode: AUTH007
-        data: {}
-    Forbidden:
-      description: Forbidden response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          properties: {}
-      example:
-        success: false
-        message: Forbidden.
-        errorCode: AUTH006
-        data: {}
-    SurveyQuestion:
-      description: Survey question
-      type: object
-      properties:
-        clozd_question:
-          description: Survey question
-          type: string
-        clozd_answer:
-          description: Participant answer
-          type: string
-    Touchpoint:
-      description: Touchpoint object
-      type: object
-      properties:
-        clozd_touchpoint_name:
-          description: The name of the touchpoint
-          type: string
-        clozd_external_id:
-          description: Your id for this touchpoint. This is not generated by Clozd. If you have existing touchpoints with the same external id, they will be updated with the import
-          type: string
-        clozd_organization_domain:
-          description: 'Touchpoint domain example: clozd.com'
-          type: string
-        clozd_organization_name:
-          description: Clozd organization name (max:250 chars)
-          type: string
-        clozd_touchpoint_id:
-          description: Clozd generated touchpoint id (min:36 chars, max:36 chars)
-          type: string
-          format: uuid
-        clozd_created_date:
-          description: When the touchpoint was created (max:25 chars, ISO8601 date-time format)
-          format: date-time
-          type: string
-        clozd_currency:
-          description: The type of currency used in this touchpoint
-          type: string
-        clozd_headcount:
-          description: Head count for the touchpoint's organization
-          format: int64
-          type: integer
-        clozd_industry:
-          description: Industry from a picklist of values in the Clozd app
-          type: string
-        clozd_region:
-          description: Region for the touchpoint, must be a value from the picklist in Clozd app
-          type: string
-        clozd_revenue:
-          description: This is the revenue for the touchpoint's organization
-          format: double
-          type: number
-        clozd_owner_email:
-          description: The email for the internal owner of the touchpoint
-          format: email
-          type: string
-        clozd_owner_name:
-          description: The name of the internal owner of the touchpoint
-          type: string
-      required:
-      - clozd_organization_name
-    BadRequest:
-      description: Bad Request response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          additionalProperties: true
-      example:
-        success: false
-        message: Bad Request.
-        errorCode: API009
-        data: {}
     TouchpointResponseWithAll:
       allOf:
       - $ref: '#/components/schemas/TouchpointResponseWithTranscript'
@@ -579,6 +492,100 @@ components:
       - clozd_participant_last_name
       - clozd_participant_email
       - clozd_participant_type
+    Unauthorized:
+      description: Unauthorized response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not authorized.
+        errorCode: AUTH005
+        data: {}
+    Forbidden:
+      description: Forbidden response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Forbidden.
+        errorCode: AUTH006
+        data: {}
+    Touchpoint:
+      description: Touchpoint object
+      type: object
+      properties:
+        clozd_touchpoint_name:
+          description: The name of the touchpoint
+          type: string
+        clozd_external_id:
+          description: Your id for this touchpoint. This is not generated by Clozd. If you have existing touchpoints with the same external id, they will be updated with the import
+          type: string
+        clozd_organization_domain:
+          description: 'Touchpoint domain example: clozd.com'
+          type: string
+        clozd_organization_name:
+          description: Clozd organization name (max:250 chars)
+          type: string
+        clozd_touchpoint_id:
+          description: Clozd generated touchpoint id (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_created_date:
+          description: When the touchpoint was created (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
+        clozd_currency:
+          description: The type of currency used in this touchpoint
+          type: string
+        clozd_headcount:
+          description: Head count for the touchpoint's organization
+          format: int64
+          type: integer
+        clozd_industry:
+          description: Industry from a picklist of values in the Clozd app
+          type: string
+        clozd_region:
+          description: Region for the touchpoint, must be a value from the picklist in Clozd app
+          type: string
+        clozd_revenue:
+          description: This is the revenue for the touchpoint's organization
+          format: double
+          type: number
+        clozd_owner_email:
+          description: The email for the internal owner of the touchpoint
+          format: email
+          type: string
+        clozd_owner_name:
+          description: The name of the internal owner of the touchpoint
+          type: string
+      required:
+      - clozd_organization_name
   securitySchemes:
     apiKey:
       type: apiKey
