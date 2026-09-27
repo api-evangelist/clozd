@@ -57,7 +57,7 @@ tags:
 - Revenue Intelligence
 - Software-as-a-Service
 - MCP
-- agent-native
+- Agent-Native
 tags_raw:
 - win-loss-analysis
 - customer-feedback
@@ -84,7 +84,7 @@ apis:
   baseURL: https://mcp.clozd.com/mcp
   tags:
   - MCP
-  - agent-native
+  - Agent-Native
   - Win-Loss Analysis
   - Decision Intelligence
   - Voice of Customer
