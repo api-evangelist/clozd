@@ -171,65 +171,6 @@ paths:
         example: 2427ee0e-fc37-4537-ae83-b648d5a7c7f5
 components:
   schemas:
-    Unauthorized:
-      description: Unauthorized response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          properties: {}
-      example:
-        success: false
-        message: Not authorized.
-        errorCode: AUTH005
-        data: {}
-    PagedListResponse:
-      description: Success response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Success message
-          type: string
-        links:
-          description: Absolute path links to paged results
-          type: object
-          properties:
-            self:
-              description: Current page of results
-              type: string
-            prev:
-              description: Previous page of results
-              type: string
-            next:
-              description: Next page of results
-              type: string
-            first:
-              description: First page of results
-              type: string
-            last:
-              description: Last page of results
-              type: string
-        count:
-          description: Number of deals in current page of results
-          format: int64
-          type: integer
-        total:
-          description: Number of total deals in all pages of results
-          format: int64
-          type: integer
     CompetitorWithDeals:
       allOf:
       - $ref: '#/components/schemas/Competitor'
@@ -271,8 +212,45 @@ components:
           description: Date and time the competitor was last updated (max:25 chars, ISO8601 date-time format)
           format: date-time
           type: string
-    BadRequest:
-      description: Bad Request response
+    PagedListResponse:
+      description: Success response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Success message
+          type: string
+        links:
+          description: Absolute path links to paged results
+          type: object
+          properties:
+            self:
+              description: Current page of results
+              type: string
+            prev:
+              description: Previous page of results
+              type: string
+            next:
+              description: Next page of results
+              type: string
+            first:
+              description: First page of results
+              type: string
+            last:
+              description: Last page of results
+              type: string
+        count:
+          description: Number of deals in current page of results
+          format: int64
+          type: integer
+        total:
+          description: Number of total deals in all pages of results
+          format: int64
+          type: integer
+    Unauthorized:
+      description: Unauthorized response
       type: object
       properties:
         success:
@@ -287,11 +265,11 @@ components:
         data:
           description: Data
           type: object
-          additionalProperties: true
+          properties: {}
       example:
         success: false
-        message: Bad Request.
-        errorCode: API009
+        message: Not authorized.
+        errorCode: AUTH005
         data: {}
     Forbidden:
       description: Forbidden response
@@ -326,6 +304,28 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/CompetitorWithDeals'
+    BadRequest:
+      description: Bad Request response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          additionalProperties: true
+      example:
+        success: false
+        message: Bad Request.
+        errorCode: API009
+        data: {}
   securitySchemes:
     apiKey:
       type: apiKey

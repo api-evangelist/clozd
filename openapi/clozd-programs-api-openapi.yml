@@ -96,23 +96,6 @@ paths:
         example: 200
 components:
   schemas:
-    Program:
-      description: Program
-      type: object
-      properties:
-        clozd_program_id:
-          description: Clozd generated program id (min:36 chars, max:36 chars)
-          type: string
-          format: uuid
-        clozd_program_name:
-          description: Program name
-          type: string
-        clozd_program_type:
-          description: Program type
-          type: string
-          enum:
-          - win-loss
-          - qualitative-research
     ListOfPrograms:
       allOf:
       - $ref: '#/components/schemas/PagedListResponse'
@@ -124,28 +107,6 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Program'
-    Unauthorized:
-      description: Unauthorized response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          properties: {}
-      example:
-        success: false
-        message: Not authorized.
-        errorCode: AUTH005
-        data: {}
     PagedListResponse:
       description: Success response
       type: object
@@ -183,8 +144,25 @@ components:
           description: Number of total deals in all pages of results
           format: int64
           type: integer
-    BadRequest:
-      description: Bad Request response
+    Program:
+      description: Program
+      type: object
+      properties:
+        clozd_program_id:
+          description: Clozd generated program id (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_program_name:
+          description: Program name
+          type: string
+        clozd_program_type:
+          description: Program type
+          type: string
+          enum:
+          - win-loss
+          - qualitative-research
+    Unauthorized:
+      description: Unauthorized response
       type: object
       properties:
         success:
@@ -199,11 +177,11 @@ components:
         data:
           description: Data
           type: object
-          additionalProperties: true
+          properties: {}
       example:
         success: false
-        message: Bad Request.
-        errorCode: API009
+        message: Not authorized.
+        errorCode: AUTH005
         data: {}
     Forbidden:
       description: Forbidden response
@@ -226,6 +204,28 @@ components:
         success: false
         message: Forbidden.
         errorCode: AUTH006
+        data: {}
+    BadRequest:
+      description: Bad Request response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          additionalProperties: true
+      example:
+        success: false
+        message: Bad Request.
+        errorCode: API009
         data: {}
   securitySchemes:
     apiKey:
