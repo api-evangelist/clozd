@@ -309,6 +309,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/clozd-capability-edges.yml
+  name: Clozd Business Capability Map
 - type: Overlay
   url: overlays/clozd-data-api-v1-overlay.yaml
 - type: AgenticAccess
