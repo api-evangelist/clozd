@@ -249,50 +249,6 @@ components:
           description: Number of total deals in all pages of results
           format: int64
           type: integer
-    Unauthorized:
-      description: Unauthorized response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          properties: {}
-      example:
-        success: false
-        message: Not authorized.
-        errorCode: AUTH005
-        data: {}
-    Forbidden:
-      description: Forbidden response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          properties: {}
-      example:
-        success: false
-        message: Forbidden.
-        errorCode: AUTH006
-        data: {}
     ListOfCompetitorsWithDeals:
       allOf:
       - $ref: '#/components/schemas/PagedListResponse'
@@ -325,6 +281,50 @@ components:
         success: false
         message: Bad Request.
         errorCode: API009
+        data: {}
+    Forbidden:
+      description: Forbidden response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Forbidden.
+        errorCode: AUTH006
+        data: {}
+    Unauthorized:
+      description: Unauthorized response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not authorized.
+        errorCode: AUTH005
         data: {}
   securitySchemes:
     apiKey:
