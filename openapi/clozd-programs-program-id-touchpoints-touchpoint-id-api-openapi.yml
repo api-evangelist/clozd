@@ -231,17 +231,6 @@ paths:
         example: f9437462-7e03-4bcc-a4db-84fc0dba4d01
 components:
   schemas:
-    TouchpointResponseWithAll:
-      allOf:
-      - $ref: '#/components/schemas/TouchpointResponseWithTranscript'
-      - description: Response with survey questions
-        type: object
-        properties:
-          clozd_survey_questions:
-            description: Survey questions
-            type: array
-            items:
-              $ref: '#/components/schemas/SurveyQuestion'
     Touchpoint:
       description: Touchpoint object
       type: object
@@ -292,6 +281,40 @@ components:
           type: string
       required:
       - clozd_organization_name
+    TouchpointWithParticipants:
+      allOf:
+      - $ref: '#/components/schemas/Touchpoint'
+      - description: Touchpoint object with response
+        type: object
+        properties:
+          clozd_participants:
+            description: List of participants that belong to the touchpoint (maxItems:1000)
+            maxItems: 1000
+            type: array
+            items:
+              $ref: '#/components/schemas/Participant'
+    BadRequest:
+      description: Bad Request response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          additionalProperties: true
+      example:
+        success: false
+        message: Bad Request.
+        errorCode: API009
+        data: {}
     TouchpointResponse:
       description: Touchpoint feedback response from interview or survey
       type: object
@@ -391,28 +414,72 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SurveyQuestion'
-    TouchpointWithParticipants:
-      allOf:
-      - $ref: '#/components/schemas/Touchpoint'
-      - description: Touchpoint object with response
-        type: object
-        properties:
-          clozd_participants:
-            description: List of participants that belong to the touchpoint (maxItems:1000)
-            maxItems: 1000
-            type: array
-            items:
-              $ref: '#/components/schemas/Participant'
-    SurveyQuestion:
-      description: Survey question
+    NotFound:
+      description: NotFound response
       type: object
       properties:
-        clozd_question:
-          description: Survey question
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
           type: string
-        clozd_answer:
-          description: Participant answer
+        errorCode:
+          description: Error code
           type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not Found.
+        errorCode: AUTH007
+        data: {}
+    Forbidden:
+      description: Forbidden response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Forbidden.
+        errorCode: AUTH006
+        data: {}
+    Unauthorized:
+      description: Unauthorized response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not authorized.
+        errorCode: AUTH005
+        data: {}
     TouchpointResponseWithTranscript:
       allOf:
       - $ref: '#/components/schemas/TouchpointResponse'
@@ -442,6 +509,28 @@ components:
                       clozd_answer:
                         description: Participant answer
                         type: string
+    TouchpointFull:
+      allOf:
+      - $ref: '#/components/schemas/TouchpointWithParticipants'
+      - description: Touchpoint object with response
+        type: object
+        properties:
+          clozd_responses:
+            description: List of touchpoint feedback responses
+            type: array
+            items:
+              $ref: '#/components/schemas/TouchpointResponseWithAll'
+    TouchpointResponseWithAll:
+      allOf:
+      - $ref: '#/components/schemas/TouchpointResponseWithTranscript'
+      - description: Response with survey questions
+        type: object
+        properties:
+          clozd_survey_questions:
+            description: Survey questions
+            type: array
+            items:
+              $ref: '#/components/schemas/SurveyQuestion'
     Participant:
       description: An array of participant objects included in the deal under the clozd_participants attribute
       type: object
@@ -487,105 +576,16 @@ components:
       - clozd_participant_last_name
       - clozd_participant_email
       - clozd_participant_type
-    Forbidden:
-      description: Forbidden response
+    SurveyQuestion:
+      description: Survey question
       type: object
       properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
+        clozd_question:
+          description: Survey question
           type: string
-        errorCode:
-          description: Error code
+        clozd_answer:
+          description: Participant answer
           type: string
-        data:
-          description: Data
-          type: object
-          properties: {}
-      example:
-        success: false
-        message: Forbidden.
-        errorCode: AUTH006
-        data: {}
-    BadRequest:
-      description: Bad Request response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          additionalProperties: true
-      example:
-        success: false
-        message: Bad Request.
-        errorCode: API009
-        data: {}
-    TouchpointFull:
-      allOf:
-      - $ref: '#/components/schemas/TouchpointWithParticipants'
-      - description: Touchpoint object with response
-        type: object
-        properties:
-          clozd_responses:
-            description: List of touchpoint feedback responses
-            type: array
-            items:
-              $ref: '#/components/schemas/TouchpointResponseWithAll'
-    NotFound:
-      description: NotFound response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          properties: {}
-      example:
-        success: false
-        message: Not Found.
-        errorCode: AUTH007
-        data: {}
-    Unauthorized:
-      description: Unauthorized response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          properties: {}
-      example:
-        success: false
-        message: Not authorized.
-        errorCode: AUTH005
-        data: {}
   securitySchemes:
     apiKey:
       type: apiKey

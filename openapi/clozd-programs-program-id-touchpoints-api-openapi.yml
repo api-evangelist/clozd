@@ -378,23 +378,15 @@ paths:
                   clozd_participant_role: Buying Agent
 components:
   schemas:
-    Competitor:
-      description: Competitor
+    SurveyQuestion:
+      description: Survey question
       type: object
       properties:
-        clozd_competitor_name:
-          description: Clozd competitor name (max:250 chars)
+        clozd_question:
+          description: Survey question
           type: string
-        clozd_competitor_id:
-          description: Clozd generated competitor id. May be undefined when name is "unknown", "none", "other" or manually entered by a survey participant (not yet curated by an admin). (min:36 chars, max:36 chars)
-          type: string
-          format: uuid
-        clozd_competitor_domain:
-          description: Clozd competitor domain
-          type: string
-        clozd_update_date:
-          description: Date and time the competitor was last updated (max:25 chars, ISO8601 date-time format)
-          format: date-time
+        clozd_answer:
+          description: Participant answer
           type: string
     Touchpoint:
       description: Touchpoint object
@@ -446,6 +438,121 @@ components:
           type: string
       required:
       - clozd_organization_name
+    TouchpointWithParticipants:
+      allOf:
+      - $ref: '#/components/schemas/Touchpoint'
+      - description: Touchpoint object with response
+        type: object
+        properties:
+          clozd_participants:
+            description: List of participants that belong to the touchpoint (maxItems:1000)
+            maxItems: 1000
+            type: array
+            items:
+              $ref: '#/components/schemas/Participant'
+    BadRequest:
+      description: Bad Request response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          additionalProperties: true
+      example:
+        success: false
+        message: Bad Request.
+        errorCode: API009
+        data: {}
+    ListOfTouchpointsWithResponses:
+      allOf:
+      - $ref: '#/components/schemas/PagedListResponse'
+      - description: Touchpoints
+        type: object
+        properties:
+          data:
+            description: List of touchpoints
+            type: array
+            items:
+              $ref: '#/components/schemas/TouchpointWithResponses'
+    TouchpointWithResponses:
+      allOf:
+      - $ref: '#/components/schemas/Touchpoint'
+      - description: Touchpoint object with response
+        type: object
+        properties:
+          clozd_responses:
+            description: List of touchpoint feedback responses
+            type: array
+            items:
+              $ref: '#/components/schemas/Response'
+    PagedListResponse:
+      description: Success response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Success message
+          type: string
+        links:
+          description: Absolute path links to paged results
+          type: object
+          properties:
+            self:
+              description: Current page of results
+              type: string
+            prev:
+              description: Previous page of results
+              type: string
+            next:
+              description: Next page of results
+              type: string
+            first:
+              description: First page of results
+              type: string
+            last:
+              description: Last page of results
+              type: string
+        count:
+          description: Number of deals in current page of results
+          format: int64
+          type: integer
+        total:
+          description: Number of total deals in all pages of results
+          format: int64
+          type: integer
+    Unauthorized:
+      description: Unauthorized response
+      type: object
+      properties:
+        success:
+          description: Success flag
+          type: boolean
+        message:
+          description: Error message
+          type: string
+        errorCode:
+          description: Error code
+          type: string
+        data:
+          description: Data
+          type: object
+          properties: {}
+      example:
+        success: false
+        message: Not authorized.
+        errorCode: AUTH005
+        data: {}
     Response:
       description: Deal feedback response from interview or survey
       type: object
@@ -555,120 +662,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SurveyQuestion'
-    PagedListResponse:
-      description: Success response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Success message
-          type: string
-        links:
-          description: Absolute path links to paged results
-          type: object
-          properties:
-            self:
-              description: Current page of results
-              type: string
-            prev:
-              description: Previous page of results
-              type: string
-            next:
-              description: Next page of results
-              type: string
-            first:
-              description: First page of results
-              type: string
-            last:
-              description: Last page of results
-              type: string
-        count:
-          description: Number of deals in current page of results
-          format: int64
-          type: integer
-        total:
-          description: Number of total deals in all pages of results
-          format: int64
-          type: integer
-    ListOfTouchpointsWithResponses:
-      allOf:
-      - $ref: '#/components/schemas/PagedListResponse'
-      - description: Touchpoints
-        type: object
-        properties:
-          data:
-            description: List of touchpoints
-            type: array
-            items:
-              $ref: '#/components/schemas/TouchpointWithResponses'
-    TouchpointWithParticipants:
-      allOf:
-      - $ref: '#/components/schemas/Touchpoint'
-      - description: Touchpoint object with response
-        type: object
-        properties:
-          clozd_participants:
-            description: List of participants that belong to the touchpoint (maxItems:1000)
-            maxItems: 1000
-            type: array
-            items:
-              $ref: '#/components/schemas/Participant'
-    SurveyQuestion:
-      description: Survey question
-      type: object
-      properties:
-        clozd_question:
-          description: Survey question
-          type: string
-        clozd_answer:
-          description: Participant answer
-          type: string
-    BadRequest:
-      description: Bad Request response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          additionalProperties: true
-      example:
-        success: false
-        message: Bad Request.
-        errorCode: API009
-        data: {}
-    Forbidden:
-      description: Forbidden response
-      type: object
-      properties:
-        success:
-          description: Success flag
-          type: boolean
-        message:
-          description: Error message
-          type: string
-        errorCode:
-          description: Error code
-          type: string
-        data:
-          description: Data
-          type: object
-          properties: {}
-      example:
-        success: false
-        message: Forbidden.
-        errorCode: AUTH006
-        data: {}
     Participant:
       description: An array of participant objects included in the deal under the clozd_participants attribute
       type: object
@@ -714,19 +707,8 @@ components:
       - clozd_participant_last_name
       - clozd_participant_email
       - clozd_participant_type
-    TouchpointWithResponses:
-      allOf:
-      - $ref: '#/components/schemas/Touchpoint'
-      - description: Touchpoint object with response
-        type: object
-        properties:
-          clozd_responses:
-            description: List of touchpoint feedback responses
-            type: array
-            items:
-              $ref: '#/components/schemas/Response'
-    Unauthorized:
-      description: Unauthorized response
+    Forbidden:
+      description: Forbidden response
       type: object
       properties:
         success:
@@ -744,10 +726,35 @@ components:
           properties: {}
       example:
         success: false
-        message: Not authorized.
-        errorCode: AUTH005
+        message: Forbidden.
+        errorCode: AUTH006
         data: {}
+    Competitor:
+      description: Competitor
+      type: object
+      properties:
+        clozd_competitor_name:
+          description: Clozd competitor name (max:250 chars)
+          type: string
+        clozd_competitor_id:
+          description: Clozd generated competitor id. May be undefined when name is "unknown", "none", "other" or manually entered by a survey participant (not yet curated by an admin). (min:36 chars, max:36 chars)
+          type: string
+          format: uuid
+        clozd_competitor_domain:
+          description: Clozd competitor domain
+          type: string
+        clozd_update_date:
+          description: Date and time the competitor was last updated (max:25 chars, ISO8601 date-time format)
+          format: date-time
+          type: string
   examples:
+    IdNotMatch:
+      value:
+        success: false
+        message: If a clozd generated id is provided, this indicates you are trying to update an existing record and the id must match an existing id. One of the provided id's does not have any matches.
+        errorCode: API010
+        data:
+          deal_id: a1bb3107-6909-43bd-a669-0ed5c399c783
     MissingParameters:
       value:
         success: false
@@ -757,6 +764,12 @@ components:
           field: clozd_outcome_type
           value: win
           possibleValues: '"new business win", "new business loss", "renewal", "churn", "expansion", "upsell", "customer experience"'
+    BadRequest:
+      value:
+        success: false
+        message: Bad Request.
+        errorCode: API009
+        data: {}
     RequiredFieldMissing:
       value:
         success: false
@@ -764,19 +777,6 @@ components:
         errorCode: API012
         data:
           requiredField: clozd_outcome
-    BadRequest:
-      value:
-        success: false
-        message: Bad Request.
-        errorCode: API009
-        data: {}
-    IdNotMatch:
-      value:
-        success: false
-        message: If a clozd generated id is provided, this indicates you are trying to update an existing record and the id must match an existing id. One of the provided id's does not have any matches.
-        errorCode: API010
-        data:
-          deal_id: a1bb3107-6909-43bd-a669-0ed5c399c783
     NotDefinedField:
       value:
         success: false
