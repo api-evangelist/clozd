@@ -29,3 +29,16 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: clozd-hubspot-own
+  label: HubSpot (own)
+  partner: hubspot
+  partner_name: HubSpot (own)
+  category: SALES_ENABLEMENT
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://ecosystem.hubspot.com/marketplace/listing/win-loss-analysis-clozd
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
